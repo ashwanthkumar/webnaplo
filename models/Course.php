@@ -1,7 +1,6 @@
 <?php
 
 class Course{
-
 	public $idcourse;
 	public $coursecode;
 	public $coursename;
