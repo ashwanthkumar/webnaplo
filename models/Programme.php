@@ -9,14 +9,14 @@ class Programme{
 	public function save($db) {
 		return $db->insert("programme", array(
 				"name" => $this->name,
-				"dept_iddept" -> $this->dept_iddept
+				"dept_iddept" => $this->dept_iddept
 			));
 	}
 	
 	public function update($db) {
-		return $db->update("programme", arrary(
+		return $db->update("programme", array(
 				"name" => $this->name,
-				"dept_iddept" -> $this->dept_iddept
+				"dept_iddept" => $this->dept_iddept
 			), "idprogramme = :pid", array(":pid" => $this->idprogramme));
 	}
 

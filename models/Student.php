@@ -98,7 +98,7 @@ class Student {
 	public static function getTimetable($reg_no, $db)  {
 		$query = "select cs.course_name,t.days_of_week,t.hour_of_day from student s,class c,programme p,course cs,course_profile c_p,timetable t where s.idstudent=:reg and s.class_idclass=c.idclass and c.programme_idprogramme=p.idprogramme and cs.programme_idprogramme=p.idprogramme and cp.course_idcourse=c.idcourse and t.cp_id=c_p.idcp;";
 		
-		return $db->run($query, array(":reg" => $reg_no);
+		return $db->run($query, array(":reg" => $reg_no));
 	}
 	
 	public static function getProfile($reg_no, $db)  {
@@ -113,7 +113,7 @@ class Student {
 	}
 	
 	public function getBlockStatus($db) {
-		$query = "select s.is_blocked from student s where s.idstudent = :reg;"
+		$query = "select s.is_blocked from student s where s.idstudent = :reg;";
 		
 		return $db->run($query, array(":reg" => $this->idstudent));
 	}

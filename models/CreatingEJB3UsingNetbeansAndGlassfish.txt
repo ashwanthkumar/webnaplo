@@ -1,0 +1,216 @@
+CreatingEJB3UsingNetbeansAndGlassfish
+
+Creating EJB3 Sessions Beans using Netbeans 6.1 and Glassfish
+Contributed By Jair Rillo Junior
+Netbeans 6.x brought nice features and let the web development much easier. You can create many things in a ".VS-style", in other words, drag-and-drop components on the User Interface. A good example of this it is the Visual Java Server Faces features from NetBeans 6 and the Web Service module.
+Netbeans also brought Glassfish Application Server as its official server. Glassfish is the the RI (Reference Implementation) from JEE 5, therefore it is the better choice when you want to work with EJB 3.
+[[{TableOfContentsTitle=TableOfContents} | {TableOfContents title='Table of Contents'}]]
+Using Glassfish within Netbeans 6.1
+When you are installing Netbeans, you will be asked about extra-programs. One of them is the Glassfish. If you choose the Glassfish in the installation process, it will be installed/configured automatically within NetBean 6.1
+To check out if Glassfish was installed successfully, open the Netbeans and go to the tab Services (left window). Expand Servers option and you should see the Glassfish there.
+
+If you want, you can start the server in this way: right mouse click on Glassfish -> Start.
+Creating an Enterprise Application Project
+Let's get started the code itself. The first thing to do is to create the Enterprise Application Project, or simply, EAR.
+To do that, back to the tab Projects and right mouse click and select option New Project. On the new screen, select the Category Enterprise and then the project Enterprise Application, click next to go to the next screen.
+On the next screen select the Project name and the Project Location. (In my example, I am going to use the name Test), click next again.
+On the third screen, select the server (by default Netbeans brings Glasshfish), choose the Java Version (Java EE 5 by default), and select the EJB and Web module.  Note: By default, the EJB module's name is "EAR name" plus "-ejb". The Web module's name is "EAR name" plus "-war". However you are free to change these names.
+When the projects are created, they will be shown on the Projects tab.
+Creating our first EJB component (Stateless Session Beans)
+On the Projects tab, expand the EJB module (in my case called "Test-ejb"). You will see some options, such as: Enterprise Beans, Configuration Files, Server Resources and so on. We will work around the Enterprise Beans, therefore right mouse click on Enterprise Beans -> New -> Session Bean.
+On the screen that will come up, choose the EJB Name, Package, Session Type and Interface. For my example, I am using "TestEJB","stateless","Stateless","Remote". Click finish when your fields are filled. 
+After the Session Bean is created, you will see the class (and the interface) in the Source Packages section, as well as the Bean in the Enterprise Beans section. In the main tab, the TestEJBBean.java will be opened automatically. 
+Our Stateless Session Bean was created into the stateless package, but now we have to implement it. Open it (if it is closed) with double click on the TestEJBBean from Enterprise Beans section (you can open the file directly from the Source Package as well).
+In the body of the class there is a comment " // Add business logic below. (Right-click in editor and choose // "EJB Methods > Add Business Method" or "Web Service > Add Operation")"
+So right mouse click in the editor and choose EJB Methods > Add Business Method. A new screen will come up. In your example, we will have only one method (called getMessage()) with String return. Hence, put in the field name getMessage and return type: String. 
+Done, our first EJB3 Session Bean object has been created. To verify the code it has created, you can open the class TestEJBBean (implementation) and the interface TestEJBRemote (remote interface). Different than Eclipse, where we put ourself the interface and the class name, Netbeans uses the pattern Object Name plus Remote or Local. Of couse you can change it yourself
+The last thing to do is to implement the business method we just added. It is simple, only return a string message: Hello EJB World. The code looks like below:
+package stateless;
+
+import javax.ejb.Stateless;
+
+@Stateless
+public class TestEJBBean implements TestEJBRemote {
+    public String getMessage() {
+        return "Hello EJB World";
+    }
+}
+Simple, huh?
+Using the Web Module as EJB Client
+We have already created the Web Module previously when the EAR has been created, so let’s use it as EJB Client.
+When the Web module is created, by default Netbeans already creates a file called index.jsp in the Web Pages section. Open this file to add a call to the servlet. The code looks like below:
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h2>Hello World!</h2>
+        <a href="TestServlet">Click here to call the EJB component</a>
+    </body>
+</html>
+As you can see, we must create a servlet called TestServlet. it will call the EJB component when the link from User Interface is clicked.
+To create the servlet itself, right click on Web project (in my case Test-web), New -> Servlet.
+On the new screen, select the Class Name and the Package. On next screen, you can keep all options and click on Finish button. The Servlet will be created and its code will appear on the Main tab.
+Much easier than JBoss, in Glassfish there is the annotation @EJB. When the container sees this annotation, is inject the component directly in the Servlet, Java Class, Managed Bean, whatever. (In JBoss this annotation has not been implemented yet, so you must use JNDI to call a remote component).
+The @EJB annotation gets inside the attribute and can be used directly in the code. The code from Servlet looks like below:
+package servlets;
+
+import java.io.*;
+
+import javax.ejb.EJB;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import stateless.TestEJBRemote;
+
+public class TestServlet extends HttpServlet {
+
+    //This annotation INJECTS the TestEJBRemove object from EJB 
+    //into this attribute
+    @EJB
+    private TestEJBRemote testEJB;
+
+    @Override
+    protected void doGet(HttpServletRequest request, 
+	HttpServletResponse response) throws ServletException,
+	IOException {
+	         response.setContentType("text/html;charset=UTF-8");
+                 PrintWriter out = response.getWriter();
+                 out.println("<html>");
+                 out.println("<head>");
+                 out.println("<title>Servlet TestServlet</title>");
+                 out.println("</head>");
+                 out.println("<body>");
+                 out.println(testEJB.getMessage());
+                 out.println("</body>");
+                 out.println("</html>");
+         	 }
+	
+}
+
+Look at the line #13. It has the @EJB annotation. Also, look at the body of doGet method. No JNDI method was used, no code to call the EJB object was used, thus the code gets much clear than JNDI (Point to Glassfish over JBoss :) )
+Running the code
+You can run the application right click on EAR project (in my case Test) and select option Run. Netbeans will do the deploy automatically and when the glassfish is started, the index.jsp page will be opened in your web browser.
+After that, click on the LINK and see in the console of Netbeans (tab Glassfish) to see the output.
+Note: 
+Although the @EJB annotation is much better than JNDI calls, it only works in the Glassfish server environment. Therefore if you are creating a stand-alone application that calls a remote object, you can not use the @EJB annotation.
+Creating a Java Stand-Alone Client
+As mentioned above, you cannot use the @EJB annotation out of a Glassfish server environment, therefore in a Stand-Alone application you must use the JNDI. Below following an example of how to call a EJB from a Java Stand-Alone client.
+First of all, create a Java Project. New Project -> Java -> Java Application.
+In this application, you must add two JARs file, as well as associate your application with the EJB module (thus your client knows about the EJB Interface).
+To do that, right click on Java Project, Properties -> Libraries -> Add Project (to add the Test project) and Add JAR/Folder to add the following jar files:
+appserv-rt.jar
+javaee.jar
+appserv-deployment-client.jar (tip from David Etheridge)
+appserv-ext.jar (tip from David Etheridge)
+Both jar can be located into $GLASSFISH_HOME/lib directory.
+By default, the appserv-rt.jar brings a jndi.properties file, but I will show you how to create one. Why? Because when you are running the client in the machine different than the app server, you must override this file.
+So create a file called jndi.properties file into the root of the Java project and put the following content:
+java.naming.factory.initial = com.sun.enterprise.naming.SerialInitContextFactory
+java.naming.factory.url.pkgs = com.sun.enterprise.naming
+java.naming.factory.state = com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl
+#optional.  Defaults to localhost.  Only needed if web server is running
+#on a different host than the appserver
+org.omg.CORBA.ORBInitialHost = localhost
+#optional.  Defaults to 3700.  Only needed if target orb port is not 3700.
+org.omg.CORBA.ORBInitialPort = 3700
+Now, open the Main class and add the following commands:
+package testclient;
+
+import java.io.FileInputStream;
+import java.util.Properties;
+import javax.naming.InitialContext;
+import stateless.TestEJBRemote;
+
+public class Main {
+
+    public static void main(String[] args) {
+        try {
+            Properties props = new Properties();
+            props.load(new FileInputStream("jndi.properties"));
+            InitialContext ctx = new InitialContext(props);
+            TestEJBRemote testEJB = (TestEJBRemote) ctx.lookup("stateless.TestEJBRemote");
+            System.out.println(testEJB.getMessage());
+        } catch (NamingException nex) {
+            nex.printStackTrace();
+        } catch (FileNotFoundException fnfex) {
+            fnfex.printStackTrace();
+        } catch (IOException ioex) {
+            ioex.printStackTrace();
+        }
+
+    }
+
+}
+}
+You can copy-paste the body of main method, then press Ctrl + Shift + I to Fix Imports.
+Also remember to add reference to your EJB project, otherwise import stateless.TestEJBRemote can not be resolved. To do this, right click on your standalone client application 'Properties -> Libraries -> Add Project and choose Test-ejb.ejb.
+Save it and before run this code, make sure the Glassfish is running. After you run the java class, you should see the EJB message onto the console.
+This topic overs here. I hope this topic be useful for anyone, as well as you can choose yourself which environment (Eclipse or Netbeans) is better for you.
+Note: 
+Another alternative way to call the EJB is copying jndi.properties to the same package (testclient) of Standalone Client in this case Main class, you could use this alternative code:
+
+
+package testclient;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import stateless.TestEJBRemote;
+
+/**
+ *
+ * @author xtecuan
+ */
+public class Main {
+
+    private static final String EJB_JNDI_NAME="stateless.TestEJBRemote";
+    private static final String BUNDLE_CONFIG_CLASSPATH_PROPS = "/testclient/jndi.properties";
+    private static TestEJBRemote testEJB = getEjbReference();
+
+    private static final Properties getConfigurationProps() {
+
+        Properties props = new Properties();
+        InputStream is =
+                Main.class.getResourceAsStream(BUNDLE_CONFIG_CLASSPATH_PROPS);
+        try {
+            props.load(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return props;
+        }
+
+    }
+
+    public static TestEJBRemote getEjbReference() {
+
+        TestEJBRemote ll = null;
+        try {
+            Properties props = getConfigurationProps();
+            InitialContext ctx = new InitialContext(props);
+            ll = (TestEJBRemote) ctx.lookup(EJB_JNDI_NAME);
+            System.out.println(ll.toString());
+        } catch (NamingException nex) {
+            nex.printStackTrace();
+        } finally {
+
+            return ll;
+        }
+
+
+    }
+
+
+    
+    public static void main(String[] args) {
+       System.out.println(testEJB.getMessage());
+    }
+
+    
+}
