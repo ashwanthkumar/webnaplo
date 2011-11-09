@@ -1,6 +1,14 @@
 <?php
+/**
+ *	DataEntry Controller for performing various functions
+ *
+ *	@author Team WebNaplo
+ *	@date 08/11/2011
+ **/
 
-// Dataentry related controllers here 
+/**
+ * Delete Student View Page
+ **/
 function delete_student_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Delete Student");
@@ -9,6 +17,20 @@ function delete_student_render() {
     return render("dataentry/delstud.html.php");
 }
 
+/**
+ * Data Entry Home Page
+ **/
+function dataentry_home() {
+	layout('dataentry/layout.html.php');
+	set("title" ,"Data Entry - Home");
+	set("home_active" ,"true");
+
+    return render("dataentry/dataentry.home.html.php");
+}
+
+/**
+ * Delete the Student from the dataentry
+ **/
 function delete_student_post() {
 	$reg = $_POST['regno'];
 
@@ -35,6 +57,9 @@ function delete_student_post() {
 	redirect('/dataentry/student/delete');
 }
 
+/**
+ * Delete Staff view page
+ **/
 function delete_staff_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Delete Staff");
@@ -43,6 +68,9 @@ function delete_staff_render() {
     return render("dataentry/delstaff.html.php");
 }
 
+/**
+ * Delete Staff from the system
+ **/
 function delete_staff_post() {
 	$staffid = $_POST['staffid'];
 
@@ -71,6 +99,9 @@ function delete_staff_post() {
 	redirect('/dataentry/staff/delete');
 }
 
+/**
+ * Delete Programme View Page
+ **/
 function delete_programme_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Delete Programme");
@@ -79,6 +110,9 @@ function delete_programme_render() {
     return render("dataentry/delprog.html.php");
 }
 
+/**
+ * Delete the programme from the system
+ **/
 function delete_programme_post() {
 	$pgmid = $_POST['Programme_FK'];
 
@@ -107,6 +141,9 @@ function delete_programme_post() {
 	redirect('/dataentry/programme/delete');
 }
 
+/**
+ * Delete Course View page
+ **/
 function delete_course_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Delete Course");
@@ -115,6 +152,9 @@ function delete_course_render() {
     return render("dataentry/delcourse.html.php");
 }
 
+/**
+ * Delete post from the system
+ **/
 function delete_course_post() {
 	$cid = $_POST['coursecode'];
 
@@ -141,6 +181,9 @@ function delete_course_post() {
 	redirect('/dataentry/course/delete');
 }
 
+/**
+ * Delete Department page
+ **/
 function delete_department_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Delete Department");
@@ -149,6 +192,9 @@ function delete_department_render() {
     return render("dataentry/deldept.html.php");
 }
 
+/**
+ * Delete programme from the system
+ **/
 function delete_department_post() {
 	$did = $_POST['dept_FK'];
 	
@@ -179,6 +225,9 @@ function delete_department_post() {
 	redirect('/dataentry/department/delete');
 }
 
+/**
+ * Edit Course View Page
+ **/
 function edit_course_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Edit Course");
@@ -187,6 +236,9 @@ function edit_course_render() {
     return render("dataentry/edit.course.html.php");
 }
 
+/**
+ * Edit Course in the system
+ **/
 function edit_course_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -214,7 +266,9 @@ function edit_course_post() {
 	redirect("/dataentry/course/$idcourse/edit");
 }
 
-
+/**
+ * Edit Department View Page
+ **/
 function edit_department_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Edit Department");
@@ -223,6 +277,9 @@ function edit_department_render() {
     return render("dataentry/edit.department.html.php");
 }
 
+/**
+ * Edit Department, existing from the system
+ **/
 function edit_department_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -235,7 +292,9 @@ function edit_department_post() {
 	redirect('/dataentry/department/edit');
 }
 
-
+/**
+ * Edit Programme View Page
+ **/
 function edit_programme_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Edit Programme");
@@ -244,6 +303,9 @@ function edit_programme_render() {
     return render("dataentry/edit.programme.html.php");
 }
 
+/**
+ * Edit Programme in the system
+ **/
 function edit_programme_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -256,7 +318,9 @@ function edit_programme_post() {
 	redirect('/dataentry/programme/edit');
 }
 
-
+/**
+ * Edit Staff View page
+ **/
 function edit_staff_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Edit Staff");
@@ -265,6 +329,9 @@ function edit_staff_render() {
     return render("dataentry/edit.staff.html.php");
 }
 
+/**
+ * Edit Staff in the system
+ **/
 function edit_staff_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -277,7 +344,9 @@ function edit_staff_post() {
 	redirect('/dataentry/staff/edit');
 }
 
-
+/**
+ * Edit Student View page
+ **/
 function edit_student_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Edit student");
@@ -286,6 +355,9 @@ function edit_student_render() {
     return render("dataentry/edit.student.html.php");
 }
 
+/**
+ * Edit Student in the system
+ **/
 function edit_student_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -298,7 +370,9 @@ function edit_student_post() {
 	redirect('/dataentry/student/edit');
 }
 
-
+/**
+ * Add Student View Page
+ **/
 function add_student_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add student");
@@ -307,6 +381,9 @@ function add_student_render() {
     return render("dataentry/add.student.html.php");
 }
 
+/**
+ * Add Student to the system
+ **/
 function add_student_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -319,7 +396,9 @@ function add_student_post() {
 	redirect('/dataentry/student/add');
 }
 
-
+/**
+ * Add Department View Page
+ **/
 function add_department_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Department");
@@ -328,6 +407,9 @@ function add_department_render() {
     return render("dataentry/add.department.html.php");
 }
 
+/**
+ * Add Department to the system
+ **/
 function add_department_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -340,7 +422,9 @@ function add_department_post() {
 	redirect('/dataentry/department/add');
 }
 
-
+/**
+ * Add programme View page
+ **/
 function add_programme_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Programme");
@@ -349,6 +433,9 @@ function add_programme_render() {
     return render("dataentry/add.programme.html.php");
 }
 
+/**
+ * Add Programme to the system
+ **/
 function add_programme_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -361,7 +448,9 @@ function add_programme_post() {
 	redirect('/dataentry/programme/add');
 }
 
-
+/**
+ * Add Section View page
+ **/
 function add_section_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Section");
@@ -370,6 +459,9 @@ function add_section_render() {
     return render("dataentry/add.section.html.php");
 }
 
+/**
+ * Add Section View page
+ **/
 function add_section_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -382,6 +474,9 @@ function add_section_post() {
 	redirect('/dataentry/section/add');
 }
 
+/**
+ * Add Staff View Page
+ **/
 function add_staff_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Staff");
@@ -390,6 +485,9 @@ function add_staff_render() {
     return render("dataentry/add.staff.html.php");
 }
 
+/**
+ * Add Staff to the system
+ **/
 function add_staff_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -402,7 +500,9 @@ function add_staff_post() {
 	redirect('/dataentry/staff/add');
 }
 
-
+/**
+ * Add Course View Page
+ **/
 function add_course_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Course");
@@ -411,6 +511,9 @@ function add_course_render() {
     return render("dataentry/add.course.html.php");
 }
 
+/**
+ * Add Course to the system
+ **/
 function add_course_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
