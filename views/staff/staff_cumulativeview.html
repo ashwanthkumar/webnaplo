@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+
+
+<!-- Mirrored from kaasper.com/demo/simplpan/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2010], Fri, 04 Nov 2011 16:04:29 GMT -->
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Cumulative Report</title>
+	
+	<!-- Imports General CSS and jQuery CSS -->
+	<link href="css/screen.css" rel="stylesheet" media="screen" type="text/css" />
+	
+	<!-- CSS for Fluid and Fixed Widths - Double to prevent flickering on change -->
+	<link href="css/fixed.css" rel="stylesheet" media="screen" type="text/css" />
+	<link href="css/fixed.css" rel="stylesheet" media="screen" type="text/css" class="width" />
+	
+	<!-- IE Stylesheet ie7 - Added in 1.2 -->
+	<!--[if lt IE 8]> <html lang="en" class="ie7"> <![endif]-->
+	
+	<!-- IE Stylesheet ie8 - Added in 1.1 -->
+	<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+	
+	<!-- CSS for Theme Styles - Double to prevent flickering on change -->
+	<link href="css/theme/blue.css" rel="stylesheet" media="screen" type="text/css" />
+	<link href="css/theme/blue.css" rel="stylesheet" media="screen" type="text/css" class="theme" />
+	
+	<!-- IE Canvas Fix for Visualize Charts - Added in 1.1 -->
+	<!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
+	
+	<!-- jQuery thats loaded before document ready to prevent flickering - Rest are found at the bottom -->
+	<script type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="js/jquery.styleswitcher.js"></script>
+	<script type="text/javascript" src="js/jquery.visualize.js"></script>
+	
+</head>
+
+<body>	
+<!-- Start: Page Wrap -->
+<div id="wrap" class="container_24">
+	
+	
+	<!-- Header Grid Container: Start -->
+	<div class="grid_24">
+		
+		<!-- User Panel: Start -->
+		<div id="userpanel">
+			
+			<!-- User: Start -->
+			<ul id="user" class="dropdown">
+				<li class="topnav">
+					<!-- User Name -->
+					<a href="#" class="top icon user">Staff</a>
+					
+					<!-- User Dropdown Content: Start -->
+					<ul class="subnav">  
+			            
+			            <li><a href="login.html" class="icon lock">Log out</a></li>  
+			        </ul>  
+			        <!-- User Dropdown Content: End -->
+				</li>
+			</ul>
+			<!-- User: End -->
+			<!-- Width Switcher: Start -->
+			<ul id="width" class="dropdown right">
+				<li class="topnav">
+					<a href="#" class="top">Sponsored by SASTRA</a>
+				</li>
+			</ul>
+			<!-- Width Switcher: End -->
+
+		</div>
+		<!-- User Panel: End -->
+		
+		<!-- Header: Start -->
+		<div id="header">
+				
+			
+			<!-- Navigation: Start -->
+			<ul id="navigation" class="dropdown">
+				<li><a class="dashboard active" href="staff.html"> Home</a></li>
+				
+				<!-- Navigation Dropdown Menu Item: Start -->
+				<li class="topnav">
+					<a class="frames" href="courseprofile.html">Course Profile</a>
+					
+					
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+				
+				<!-- Navigation Dropdown Menu Item: Start -->
+				<li class="topnav">
+					<a class="pages" href="timetable.html">Timetable</a>
+					
+					
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+				<!-- Navigation Dropdown Menu Item: Start -->
+				<li class="topnav">
+					<a class="pages" href="atten.html">Attendence</a>
+					
+					
+			        
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+				<!-- Navigation Dropdown Menu Item: Start -->
+				<li class="topnav">
+					<a class="pages" href="cia.html">CIA</a>
+					
+					
+			        
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+				
+				
+				<!-- Navigation Dropdown Menu Item: Start -->
+				<li class="topnav">
+					<a class="pages" href="view.html">View</a>
+					
+					<!-- Navigation Dropdown Menu Item Content: Start -->
+					<ul class="subnav">
+						<li><a href="sprofile.html" class="icon laptop">Profile</a></li> 
+						
+			            <li><a href="cumulative.html" class="icon archive">Cumulative Report</a></li>  
+			             
+			            
+			       </ul>  
+			        <!-- Navigation Dropdown Menu Item Content: End --> 
+			        
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+				
+			</ul>
+			<!-- Navigation: End -->
+			
+		</div>
+		<!-- Header: End -->
+		
+		<!-- Breadcrumb Bar: Start -->
+		<div id="breadcrumb">
+			
+			<!-- Breadcrumb: Start -->
+			<ul class="left">
+				<li class="icon dashboard"><a href="#">Staff</a></li>
+			</ul>
+			<!-- Breadcrumb: End -->
+			
+			<!-- Breadcrumb Icon Links: Start -->
+			<ul class="right">
+				<li><a href="#" class="icon support tip" title="FAQ">FAQ</a></li>
+				<li><a href="#" class="icon home tip" title="Home">Home</a></li>
+			</ul>
+			<!-- Breadcrumb Icon Links: End -->
+			
+		</div>
+		<!-- Breadcrumb Bar: End -->
+		
+	</div>
+	<!-- Header Grid Container: End -->
+
+<!-- 100% Box Grid Container: Start -->
+<div class="grid_24">
+
+	<!-- Box Header: Start -->
+	<div class="box_top">
+		
+		<h1 class="icon frames">&nbsp;</h1>
+		
+	</div>
+	<!-- Box Header: End -->
+	
+	
+	<!-- Box Content: Start -->
+	<div class="box_content padding">
+		
+		<div class="field noline">
+			<h1>CUMULATIVE REPORT</h1>
+		</div>
+
+		
+
+	</div>
+	<!-- Box Content: End -->
+	
+</div>
+<!-- 100% Box Grid Container: End -->
+
+
+<!-- Footer Grid: Start -->
+<div class="grid_24">
+
+	<!-- Footer: Start -->
+	<div id="footer">
+		
+		<p class="left">
+			Copyright &#169; 2011 <a href="#">Team WebNaplo</a>. 
+			Powered by <a href="#">WN Framework</a>.
+		</p>
+		
+		<!-- Footer Icon Navigation: Start -->
+		<ul class="right">
+			<li><a href="#" class="icon dashboard tip active" title="Dashboard">Dashboard</a></li>
+			<li><a href="#" class="icon pages tip" title="Pages">Pages</a></li>
+			<li><a href="#" class="icon users tip" title="Users">Users</a></li>
+			<li><a href="#" class="icon settings tip" title="Settings">Settings</a></li>
+			<li><a href="#" class="icon support tip" title="Support">Support</a></li>
+			<li><a href="#" class="icon home tip" title="Home">Home</a></li>
+		</ul>
+		<!--Footer Icon Navigation: End -->
+		
+	</div>
+	<!-- Footer: End -->
+	
+</div>
+<!-- Footer Grid: End -->
+	
+	
+	<!-- jQuery libs - Rest are found in the head section (at top) -->
+	<script type="text/javascript" src="js/jquery.visualize-tooltip.js"></script>
+	<script type="text/javascript" src="js/jquery-animate-css-rotate-scale.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.13.custom.min.js"></script>
+	<script type="text/javascript" src="js/jquery.poshytip.min.js"></script>
+	<script type="text/javascript" src="js/jquery.quicksand.js"></script>
+	<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="js/jquery.facebox.js"></script>
+	<script type="text/javascript" src="js/jquery.uniform.min.js"></script>
+	<script type="text/javascript" src="js/jquery.wysiwyg.js"></script>
+	<script type="text/javascript" src="js/syntaxHighlighter/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxHighlighter/shBrushXml.js"></script>
+	<script type="text/javascript" src="js/syntaxHighlighter/shBrushJScript.js"></script>
+	<script type="text/javascript" src="js/syntaxHighlighter/shBrushCss.js"></script>
+	<script type="text/javascript" src="js/syntaxHighlighter/shBrushPhp.js"></script>
+	<script type="text/javascript" src="js/fileTree/jqueryFileTree.js"></script> <!-- Added in 1.2 -->
+	
+	<!-- jQuery Customization -->
+	<script type="text/javascript" src="js/custom.js"></script>
+
+</body>
+
+</html>

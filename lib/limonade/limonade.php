@@ -323,7 +323,7 @@ function run($env = null)
   $lim_dir   = dirname(__FILE__);
   $base_path = dirname(file_path($env['SERVER']['SCRIPT_NAME']));
   $base_file = basename($env['SERVER']['SCRIPT_NAME']);
-  $base_uri  = file_path($base_path, (($base_file == 'index.php') ? '?' : $base_file.'?'));
+  $base_uri  = file_path($base_path, (($base_file == 'index.php') ? '' : $base_file.'?'));
   
   option('root_dir',           $root_dir);
   option('limonade_dir',       file_path($lim_dir));

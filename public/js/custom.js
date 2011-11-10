@@ -1,14 +1,3 @@
-/*
- * Simplpan Admin Panel
- *
- * Copyright (c) 2011 Kasper Kismul
- *
- * http://themeforest.net/user/Kaasper/profile
- *
- * This file configures all the different jQuery scripts used in the Simplpan Admin Panel template. 
- *
- */
-
 
 //-------------------------------------------------------------- */
 // Inserts "v"'s for dropdowns before documment load
@@ -369,6 +358,7 @@ $("<span class='v'></span>").insertAfter("ul#navigation.dropdown ul.subnav");
 		"bSortClasses": false,
 		"bAutoWidth": false
 	} );
+		
 	
 	// Removes sorting information if there are table actions due to space issues
 	if ($('.table_actions')) {
@@ -426,6 +416,19 @@ $("<span class='v'></span>").insertAfter("ul#navigation.dropdown ul.subnav");
 		slide: false
 	});
 
+	// Tip for Forms
+	$('.tip-form').poshytip({
+		className: 'tip-theme',
+		showOn:'focus',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'right',
+		alignY: 'center',
+		allowTipHover: true,
+		fade: false,
+		slide: true
+	});
+
 //-------------------------------------------------------------- */
 // Removal of notice boxes when pressed
 //-------------------------------------------------------------- */
@@ -480,7 +483,22 @@ $("<span class='v'></span>").insertAfter("ul#navigation.dropdown ul.subnav");
 
 	// Calls the validator function when focusing on an input field
 	$(".validate").focus(function () {
-	      return validation();
+	    // return validation();
+	});
+	
+	$("form").validate({
+		   errorElement: "div",
+		   errorClass: "validate_error",
+		   validClass: "validate_success",
+		   ignoreTitle: true,
+		   unhighlight: function(element,eclass, vclass) {
+			 $(element).poshytip('disable');
+			 $(element).removeClass(eclass);
+			 $(element).addClass(vclass);
+		   },
+		   errorPlacement: function(error, element) {
+				element.poshytip('update', $(error).html());
+		   }
 	});
 	
 

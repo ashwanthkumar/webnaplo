@@ -127,10 +127,10 @@
 				<!-- Navigation Dropdown Menu Item: End -->
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
+				<!--
 				<li class="topnav">
 					<a class="pages <?php if(isset($edit_active)) echo "active"; ?>" href="#">Edit</a>
 					
-					<!-- Navigation Dropdown Menu Item Content: Start -->
 					<ul class="subnav">
 			            <li><a href="<?php echo url_for('/dataentry/course/edit/'); ?>" class="icon pages">Course</a></li> 
 						<li><a href="<?php echo url_for('/dataentry/department/edit/'); ?>" class="icon laptop">Department</a></li>  
@@ -138,9 +138,9 @@
 			            <li><a href="<?php echo url_for('/dataentry/staff/edit/'); ?>" class="icon graph">Staff</a></li>  
 			            <li><a href="<?php echo url_for('/dataentry/student/edit/'); ?>" class="icon edit">Student</a></li>  
 			       </ul>  
-			        <!-- Navigation Dropdown Menu Item Content: End --> 
 			        
 				</li>
+				-->
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="topnav">
@@ -166,10 +166,10 @@
 					
 					<!-- Navigation Dropdown Menu Item Content: Start -->
 					<ul class="subnav">
-						<li><a href="stafflist.html" class="icon laptop">Staff List</a></li>  
-			            <li><a href="pgmlist.html" class="icon archive">Programme List</a></li>  
-			            <li><a href="courselist.html" class="icon pages">Course List</a></li> 
-			            <li><a href="section.html" class="icon edit">Section List</a></li>  
+						<li><a href="<?php echo url_for('/dataentry/staff/list/'); ?>" class="icon laptop">Staff List</a></li>  
+			            <li><a href="<?php echo url_for('/dataentry/programme/list/'); ?>" class="icon archive">Prog. List</a></li>  
+			            <li><a href="<?php echo url_for('/dataentry/course/list/'); ?>" class="icon pages">Course List</a></li> 
+			            <!-- <li><a href="<?php echo url_for('/dataentry/section/list/'); ?>" class="icon edit">Section List</a></li>  -->
 			            
 			       </ul>  
 			        <!-- Navigation Dropdown Menu Item Content: End --> 

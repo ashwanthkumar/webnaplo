@@ -1,7 +1,7 @@
 .tip-theme {
 	z-index:1000;
 	text-align:center;
-	max-width:200px;
+	max-width:500px;
 	color:#212121;
 	text-shadow: #d7dfe2 1px 1px;
 	/**
@@ -37,7 +37,7 @@
 	margin-left:0;
 	top:50%;
 	left:100%;
-	width:9px;
+	width:19px;
 	height:15px;
 	background:url('arrows.png') no-repeat -9px 0;
 }
