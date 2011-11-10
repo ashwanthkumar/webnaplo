@@ -30,7 +30,39 @@
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.styleswitcher.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.visualize.js"></script>
-	
+	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.poshytip.min.js"></script>
+
+	<script type="text/javascript">
+		// Tip for Forms
+		$('.tip-form').poshytip({
+			className: 'tip-theme',
+			showOn:'focus',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'right',
+			alignY: 'center',
+			allowTipHover: true,
+			fade: false,
+			slide: true
+		});
+
+		$("form").validate({
+			   errorElement: "div",
+			   errorClass: "validate_error",
+			   validClass: "validate_success",
+			   ignoreTitle: true,
+			   unhighlight: function(element,eclass, vclass) {
+				 $(element).poshytip('disable');
+				 $(element).removeClass(eclass);
+				 $(element).addClass(vclass);
+			   },
+			   errorPlacement: function(error, element) {
+					element.poshytip('enable');
+					element.poshytip('update', $(error).html());
+			   }
+		});
+	</script>
 </head>
 
 <body>	
@@ -52,7 +84,6 @@
 					
 					<!-- User Dropdown Content: Start -->
 					<ul class="subnav">  
-			            
 			            <li><a href="<?php echo url_for('/user/logout/'); ?>" class="icon lock">Log out</a></li>  
 			        </ul>  
 			        <!-- User Dropdown Content: End -->
@@ -152,28 +183,8 @@
 		</div>
 		<!-- Header: End -->
 		
-		<!-- Breadcrumb Bar: Start -->
-		<div id="breadcrumb">
-			
-			<!-- Breadcrumb: Start -->
-			<ul class="left">
-				<li class="icon dashboard"><a href="#">Data Entry User</a></li>
-			</ul>
-			<!-- Breadcrumb: End -->
-			
-			<!-- Breadcrumb Icon Links: Start -->
-			<ul class="right">
-				<li><a href="#" class="icon support tip" title="FAQ">FAQ</a></li>
-				<li><a href="#" class="icon home tip" title="Home">Home</a></li>
-			</ul>
-			<!-- Breadcrumb Icon Links: End -->
-			
-		</div>
-		<!-- Breadcrumb Bar: End -->
-		
 	</div>
 	<!-- Header Grid Container: End -->
-<!-- InstanceBeginEditable name="EditRegion1" -->
 <?php
 
 	// Render the layout template
@@ -187,20 +198,8 @@
 	<div id="footer">
 		
 		<p class="left">
-			Copyright &#169; 2011 <a href="#">Team WebNaplo</a>. 
-			Powered by <a href="#">WN Framework</a>.
+			Copyright &#169; 2011 <a href="#">Team WebNaplo</a>. Currently in Beta.
 		</p>
-		
-		<!-- Footer Icon Navigation: Start -->
-		<ul class="right">
-			<li><a href="#" class="icon dashboard tip active" title="Dashboard">Dashboard</a></li>
-			<li><a href="#" class="icon pages tip" title="Pages">Pages</a></li>
-			<li><a href="#" class="icon users tip" title="Users">Users</a></li>
-			<li><a href="#" class="icon settings tip" title="Settings">Settings</a></li>
-			<li><a href="#" class="icon support tip" title="Support">Support</a></li>
-			<li><a href="#" class="icon home tip" title="Home">Home</a></li>
-		</ul>
-		<!--Footer Icon Navigation: End -->
 		
 	</div>
 	<!-- Footer: End -->
@@ -229,6 +228,9 @@
 	<!-- jQuery Customization -->
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/custom.js"></script>
 
+	<?php
+		if(isset($javascript_libs)) echo $javascript_libs;
+	?>
 </body>
 
 </html>

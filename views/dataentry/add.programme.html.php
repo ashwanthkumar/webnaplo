@@ -1,4 +1,7 @@
 <?php
+
+	$db = $GLOBALS['db'];
+	
 	content_for('body');
 ?>
 <!-- 100% Box Grid Container: Start -->
@@ -40,32 +43,33 @@
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		
-		<h1 class="icon frames">&nbsp;</h1>
+		<h1 class="icon frames">Add Programme</h1>
 		
 	</div>
 	<!-- Box Header: End -->
 	
 	<!-- Box Content: Start -->
 	<div class="box_content padding">
-
 		<form method="POST" action="<?php echo url_for('/dataentry/programme/add'); ?>">
-		<div class="field noline">
-			<h1>ADD PROGRAMME </h1>
-		</div>
 
 		<div class="field noline">
 			<label class="left">Programme Name</label>
-			<label class="nobold left nowidth"><input type="text" class="required big validate" name="Coursecode" id="name" /></label>
+			<label class="nobold left nowidth"><input type="text" class="required big validate" name="name" id="name" /></label>
 		</div>
 		<div class="field">
 			<label class="left">Department Name</label>
+			<?php
+				$d = $db->select("dept");
+			?>
 			<label class="nobold left nowidth">
-				<select name="dept_FK" id="select">
-					<option name="btech">CSE</option>
-					<option name="btech">IT</option>
-					<option name="btech">ECE</option>
-					<option name="btech">EEE</option>
-					<option name="btech">PHYSICS</option>
+				<select name="dept_id" id="select">
+				<?php
+					foreach($d as $dept) {
+				?>
+					<option value="<?php echo $dept['iddept']; ?>"><?php echo $dept['name']; ?></option>
+				<?php
+					}
+				?>
 				</select>
 			</label>
 		</div>

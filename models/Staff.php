@@ -1,126 +1,129 @@
-
 <?php
 
-	class Staff {
+class Staff {
+
+	public $idstaff;
+	public $address;
+	public $designation;
+	public $email;
+	public $is_blocked;
+	public $mobile;
+	public $name;
+	public $password;
+	public $staff_id;
+	public $dept_iddept;
 		
-	private $idstaff;
-		public function getIdstaff() 
-		{ 
-		return $this->idstaff;
-		}
-		public function setIdstaff($idstaff)
-		{
-			$this->idstaff = $idstaff;
-		}
-		
-	private $address;
-		public function getAddress()
-		{
-		return $this->address;
-		}
-		public function setAddress($address)
-		{
-			$this->address = $address;
-		}
-		
-	private $designation;
-		public function getDesignation()
-		{
-		return $this->designation;
-		}
-		public function setDesignation($designation)
-		{
-			$this->designation = $designation;
-		}
-		
-	private $email;
-		public function getEmail()
-		{
-		return $this->email;
-		}
-		public function setEmail($email)
-		{
-			$this->email = $email;
-		}
-		
-	private $is_Blocked;
-		public function getIsBlocked()
-		{
-		return $this->is_Blocked;
-		}
-		public function setIsBlocked($is_Blocked)
-		{
-			$this->is_Blocked = $is_Blocked;
-		}
-		
-	private $mobile;
-		public function getmobile()
-		{
-		return $this->mobile;
-		}
-		public function setmobile($mobile)
-		{
-			$this->mobile = $mobile;
-		}
-		
-	private $name;
-		public function getname()
-		{
-		return $this->name;
-		}
-		public function setname($name)
-		{
-			$this->name = $name;
-		}
-		
-	private $password;
-		
-		public function getpassword()
-		{
-		return $this->password;
-		}
-		public function setpassword($password)
-		{
-			$this->password = $password;
-		}
-			
-	private $staff_id;
-		
-		public function getStaff_id()
-		{
-		return $this->staff_id;
-		}
-		public function setStaff_idr($staff_id)
-		{
-			$this->staff_id = $staff_id;
-		}
-		
-	private $dept_iddept;
-		
-		public function getDept_iddept()
-		{
-		return $this->dept_iddept;
-		}
-		public function setDept_iddept($dept_iddept)
-		{
-			$this->dept_iddept = $dept_iddept;
-		}
-		
-		
-		
-	public static function getCourse_Profile($s_id) 
-	{
-		// select c_p.name from staff s,course_profile c_p where s.staff_id="$s_id" and c_p.staff_idstaff=c.idstaff;
+	public static function getCourseProfiles($staff, $db) {
+		$query = "select c_p.name from staff s,course_profile c_p where s.staff_id='" . $s_id . "' and c_p.staff_idstaff = c.idstaff;";
+		return $db->run($query);
 	}
 		
-	public static function getTimeTable($s_id)
-	{
-		// select c_p.name,t.days_of_week,t.hours_of_day from staff s,course_profile c_p,timetable t where s.staff_id="$s_id" c_p.staff_idstaff=c.idstaff t.cp_id=c_p.idcp;
+	public static function getTimeTable($s_id) {
+		// $query = "select c_p.name,t.days_of_week,t.hours_of_day from staff s,course_profile c_p,timetable t where s.staff_id='$s_id' c_p.staff_idstaff=c.idstaff t.cp_id=c_p.idcp;";
+		return $db->run($query);
 	}
 	
-	public static function getPendingAttendance() 
+	public static function LoadAndSave($staff, $db) {
+		extract($staff);
+		
+		$staffCount = $db->select("staff", "staff_id = :sid", array(":sid" => $staff_id));
+		if(count($staffCount) > 0) return false;
+		
+		$staff = new Staff;
+		$staff->name = $name;
+		$staff->designation = $designation;
+		$staff->dept_id = $dept_id;
+		$staff->staff_id = $staff_id;
+		$staff->email = $email;
+		$staff->mobile = $mobile;
+		$staff->address = $address;
+		
+		$staff->is_blocked = false;
+		$staff->password = "src";
+		
+		return $staff->save($db);
+	}
+	
+	public function save($db) {
+		return $db->insert("staff", array (
+			"name" => $this->name,
+			"designation" => $this->designation,
+			"dept_id" => $this->dept_id,
+			"staff_id" => $this->staff_id,
+			"email" => $this->email,
+			"mobile" => $this->mobile,
+			"address" => $this->address,
+			"is_blocked" => $this->is_blocked,
+			"password" => $this->password
+		));
+	}
+	
+	public static function getPendingAttendance($staffid, $db) 
 	{
-		// select a.date,cs.name from attendance a,staff s,timetable t,courseprofile cs where s.staffid=$s_id and is_Present=false and a.timetable_idtimetable=t.idtimetable an t.cp_id = cs.idcp;
+		date_default_timezone_set("Asia/Calcutta");
+		
+		$pending = array();
+		
+		$cpListQuery = "select  * from course_profile where staff_id = (select idstaff from staff where staff_id = :sid)";
+		$cpList = $db->run($cpListQuery, array(":sid" => $staffid));
+		
+		foreach($cpList as $cp) {
+			$getAttendanceListQuery = "select at.`date` from attendance at where at.timetable_id in (select idtimetable from timetable where cp_id = :cpid) group by at.`date` order by `date` desc ;";
+			
+			$postedAttendance = $db->run($getAttendanceListQuery, array(":cpid" => $cp['idcourse_profile']));
+
+			if(is_object($postedAttendance) && get_class($postedAttendance) == "PDOException") {
+				flash('warning', $postedAttendance->getMessage());
+				print_r($postedAttendance->getMessage());
+				return false;
+			}
+
+			$postedDays = array();
+			
+			// print_r($postedAttendance);
+			foreach($postedAttendance as $posted) {
+				$postedDays[] = $posted['date'];
+			}
+			
+			$workingDays = System::getWokingDaysTillNow($db);
+			
+			// Find the tentative number of pending days
+			$tempPending = array_diff($workingDays, $postedDays);
+			
+			$getTimeTableQuery = "select * from timetable where cp_id = :cpid";
+			$timeTable = $db->run($getTimeTableQuery, array(":cpid" => $cp['idcourse_profile']));
+			// print_r($timeTable);
+			$days_of_week = array();
+			$days_hour_tt = array();
+			foreach($timeTable as $tt) {
+				$days_of_week[] = $tt['days_of_week'];
+				$days_hour_tt[$tt['days_of_week']][] = $tt['hour_of_day'];
+			}
+			
+			$pendingDay = array();
+			$pendingDay['name'] = $cp['name'];
+			$pendingDay['cp_id'] = $cp['idcourse_profile'];
+			// echo $cp['name'] . "<br />";
+			
+			foreach($tempPending as $tp) {
+				$day_num = date('N', strtotime($tp));
+				// echo $day_num . "<br>";
+				if(in_array($day_num, $days_of_week)) {
+					foreach($days_hour_tt[$day_num] as $hour) {
+						// echo "Pending date - " . date('Y-m-d', strtotime($tp)) . " -- $hour - hour.<br>";
+						$pendingDay['name'] = $cp['name'];
+						$pendingDay['date'] = date('Y-m-d', strtotime($tp));
+						$pendingDay['hour'] = $hour;
+						
+						// Moving this outside the loop decreases the resoulution of data and causes a lot of abstraction
+						$pending[] = $pendingDay;
+					}
+				}
+			}
+			
+		}
+		
+		return $pending;
 	}
 	
 	public static function getStudentListForCourseProfile($cp_id,$s_id) 
@@ -148,19 +151,9 @@
 		
 	public static function getBlockStatus() 
 	{
-		// select s.name,s.is_Blocked from staff s;
+		// select s.name,s.is_blocked from staff s;
 	}
 		
-		
-	public static function unblock_User($uid) 
-	{
-		// update staff set is_blocked=false where staff_id=uid;
-	}
-	
-	public static function block_user($uid) {
-		// update staff set is_blocked = true where staff_id = uid;
-	}
-	
 	public static function Delete($staffid, $db) {
 		return $db->delete("staff", "staff_id = :staffid", array(":staffid" => $staffid));
 	}

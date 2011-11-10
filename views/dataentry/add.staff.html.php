@@ -1,4 +1,6 @@
 <?php
+
+	$db = $GLOBALS['db'];
 	content_for('body');
 ?>
 
@@ -41,7 +43,7 @@
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		
-		<h1 class="icon frames">&nbsp;</h1>
+		<h1 class="icon frames">Add Staff</h1>
 		
 	</div>
 	<!-- Box Header: End -->
@@ -49,50 +51,53 @@
 	<!-- Box Content: Start -->
 	<div class="box_content padding">
 		<form method="POST" action="<?php echo url_for('/dataentry/staff/add'); ?>">
-		<div class="field noline">
-			<h1>ADD STAFF </h1>
-		</div>
+
 		<div class="field noline">
 			<label class="left">Designation</label>
 			
 			<label class="nobold left nowidth big">
-				<select name="Programme_FK" id="select">
-					<option name="AP-I">Assistant Professor - I</option>
-					<option name="AP-II">Assistant Professor - II</option>
-					<option name="AP-III">Assistant Professor - III</option>
-					<option name="Professor">Professor</option>
+				<select name="designation" id="select">
+					<option value="AP-I">Assistant Professor - I</option>
+					<option value="AP-II">Assistant Professor - II</option>
+					<option value="AP-III">Assistant Professor - III</option>
+					<option value="Professor">Professor</option>
 				</select>
 			</label>
 		</div>
 		<div class="field">
 			<label class="left">Department Name</label>
 			<label class="nobold left nowidth">
-				<select name="dept_FK" id="select">
-					<option name="CSE">CSE</option>
-					<option name="IT">IT</option>
-					<option name="ECE">ECE</option>
-					<option name="EEE">EEE</option>
-					<option name="PHYSICS">PHYSICS</option>
+			<?php
+				$d = $db->select("dept", "1=1 order by name asc");
+			?>
+				<select name="dept_id" id="select">
+				<?php
+					foreach($d as $dept) {
+				?>
+					<option value="<?php echo $dept['iddept']; ?>"><?php echo $dept['name']; ?></option>
+				<?php
+					}
+				?>
 				</select>
 			</label>
 		</div>
 		<div class="field noline">
 			<label class="left">Staff Id</label>
-			<label class="nobold left nowidth"><input type="text" class="required big validate" name="name" id="staffid" /></label>
+			<label class="nobold left nowidth"><input type="text" class="required big validate tip-form" title="Unique Identifier for the Staff" name="staff_id" id="staffid" /></label>
 		</div>
 		<div class="field noline">
 			<label class="left">Name</label>
-			<label class="nobold left nowidth"><input type="text" class="required big validate" name="name" id="name" /></label>
+			<label class="nobold left nowidth"><input type="text" title="Name of the Staff" class="required big validate tip-form" name="name" id="name" /></label>
 		</div>
 
 		
 			<div class="field noline">
 				<label class="left">Email Id</label>
-				<label class="nobold left nowidth"><input type="text" name="Credits" id="email"  class="big validate required" /></label>
+				<label class="nobold left nowidth"><input type="text" name="email" id="email" title="EMail of th Staff" class="big validate required tip-form email" /></label>
 		</div>
 		<div class="field noline">
 			<label class="left">Mobile No</label>
-			<label class="nobold left nowidth"><input type="text" name="Credits" id="mobile"  class="big validate required" /></label>
+			<label class="nobold left nowidth"><input type="text" name="mobile" id="mobile" title="Mobile Number of the Staff" class="big validate required tip-form digits" /></label>
 		</div>
 		
 
@@ -100,7 +105,7 @@
 		<div class="field">
 			<label class="left">Address</label>
 			<label class="nobold left nowidth"></label>
-			 <textarea cols="4" style="width: 291px; height: 115px;"></textarea>
+			 <textarea name="address" class="validate required tip-form" title="Address of the staff" cols="4" style="width: 291px; height: 115px;"></textarea>
 		</div>
 		<!-- Textarea: End -->
 		

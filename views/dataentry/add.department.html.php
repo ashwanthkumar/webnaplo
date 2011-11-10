@@ -41,7 +41,7 @@
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		
-		<h1 class="icon frames">&nbsp;</h1>
+		<h1 class="icon frames">Add Department</h1>
 		
 	</div>
 	<!-- Box Header: End -->
@@ -49,13 +49,10 @@
 	<!-- Box Content: Start -->
 	<div class="box_content padding">
 		<form method="POST" action="<?php echo url_for('/dataentry/department/add'); ?>">
-		<div class="field noline">
-			<h1>ADD DEPARTMENT</h1>
-		</div>
 
 		<div class="field noline">
 			<label class="left">Department Name</label>
-			<label class="nobold left nowidth"><input type="text" class="required big validate" name="deptname" id="deptname" /></label>
+			<label class="nobold left nowidth"><input type="text" class="required big validate tip-form" title="Name of the Department" name="name" id="deptname" /></label>
 		</div>
 
 		<div class="field noline">

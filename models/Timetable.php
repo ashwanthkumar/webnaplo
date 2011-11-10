@@ -1,5 +1,10 @@
 <?php
-
+/**
+ *	Timetable Model Class representing the timetable 
+ *
+ *	@date 05/11/2011
+ *	@author Dhivya, Janan & Kalpana
+ **/
 class Timetable{
 
 	private $idtimetable;

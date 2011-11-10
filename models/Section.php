@@ -34,4 +34,18 @@ class Section {
 		
 		return $section->update($db);
 	}
+
+	public static function LoadAndSave($sec, $db) {
+		extract($sec);
+
+		$cls = $db->select("class", "name = :name and programme_id = :pid", array(":name" => $name, ":pid" => $programme_id));
+		
+		if(count($cls) > 0) return false;
+		
+		$section = new Section;
+		$section->name = $name;
+		$section->programme_id = $programme_id;
+		
+		return $section->save($db);
+	}
 }

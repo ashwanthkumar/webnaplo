@@ -1,4 +1,7 @@
 <?php 
+
+	$db = $GLOBALS['db'];
+	
 	content_for('body');
 ?>
 <!-- 100% Box Grid Container: Start -->
@@ -40,7 +43,7 @@
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		
-		<h1 class="icon frames">&nbsp;</h1>
+		<h1 class="icon frames">Add a new Student</h1>
 		
 	</div>
 	<!-- Box Header: End -->
@@ -49,40 +52,57 @@
 	<div class="box_content padding">
 		
 		<form method="POST" action="<?php echo url_for('/dataentry/student/add'); ?>">
-		<div class="field noline">
-			<h1>ADD STUDENT </h1>
-		</div>
-		
+<!--		
+	Commented this out for future implementation
 		<div class="field">
 			<label class="left">Department Name</label>
 			<label class="nobold left nowidth">
-				<select name="dept_FK" id="department">
-					<option name="CSE">CSE</option>
-					<option name="IT">IT</option>
-					<option name="ECE">ECE</option>
-					<option name="EEE">EEE</option>
-					<option name="PHYSICS">PHYSICS</option>
+			<?php
+				// $d = $db->select("dept");
+			?>
+				<select name="dept_id" id="department">
+				<?php
+					// foreach($d as $dept) {
+				?>
+					<option value="<?php echo $dept['iddept']; ?>"><?php echo $dept['name']; ?></option>
+				<?php
+					// }
+				?>
 				</select>
 			</label>
 		</div>
 		<div class="field">
 			<label class="left">Programe Name</label>
 			<label class="nobold left nowidth">
-				<select name="Programme_FK" id="programme">
-					<option name="btech">B. Tech IT</option>
-					<option name="btech">B. Tech CSE</option>
-					<option name="btech">B. Tech ECE</option>
-					<option name="btech">B. Tech EEE</option>
-					<option name="btech">B. Tech PHYSICS</option>
+			<?php
+				// $p = $db->select('programme'); 
+			?>
+				<select name="programme_id" id="programme" disabled="disabled">
+				<?php
+					// foreach($p as $pgm) {
+				?>
+					<option value="<?php echo $pgm['idprogramme']; ?>"><?php echo $pgm['name'] ;?></option>
+				<?php
+					// }
+				?>
 				</select>
 			</label>
 		</div>
+-->
 		<div class="field">
 			<label class="left">Section Name</label>
 			<label class="nobold left nowidth">
-				<select name="section_FK" id="section">
-					<option name="A">A</option>
-					<option name="B">B</option>
+			<?php
+				$class = $db->select('class');
+			?>
+				<select name="class_id" id="class">
+				<?php
+					foreach($class as $c) {
+				?>
+					<option value="<?php echo $c['idclass']; ?>"><?php echo $c['name'] ;?></option>
+				<?php
+					}
+				?>
 				</select>
 			</label>
 		</div>
@@ -91,39 +111,41 @@
 			<label class="left">Year</label>
 			<label class="nobold left nowidth">
 				<select name="year" id="year">
-					<option> I</option>
-					<option>II</option>
-					<option>III</option>
-					<option>IV</option>
+					<option value="1">I</option>
+					<option value="2">II</option>
+					<option value="3">III</option>
+					<option value="4">IV</option>
+					<option value="5">V</option>
 				</select>
 			</label>
 		</div>
 		
 		<div class="field noline">
 			<label class="left">Register No</label>
-			<label class="nobold left nowidth"><input type="text" class="required big validate" name="name" id="regno" /></label>
+			<label class="nobold left nowidth"><input type="text" class="required big validate digits" name="idstudent" id="regno" /></label>
 		</div>
+		
 		<div class="field noline">
 			<label class="left">Name</label>
 			<label class="nobold left nowidth"><input type="text" class="required big validate" name="name" id="name" /></label>
 		</div>
 
-		
-			<div class="field noline">
-				<label class="left">Email Id</label>
-				<label class="nobold left nowidth"><input type="text" name="Credits" id="email"  class="big validate required" /></label>
+		<div class="field noline">
+			<label class="left">Email Id</label>
+			<label class="nobold left nowidth"><input type="text" name="email" id="email"  class="big validate required tip-form" title="Mobile number of the student"/></label>
 		</div>
+		
 		<div class="field noline">
 			<label class="left">Mobile No</label>
-			<label class="nobold left nowidth"><input type="text" name="Credits" id="mobile"  class="big validate required" /></label>
+			<label class="nobold left nowidth"><input type="text" name="mobile" id="mobile"  class="big validate required digits min=6000000000 max=9999999999 tip-form" title="Mobile number of the student"/></label>
 		</div>
 		
 
 		<!-- Textarea: Start -->	
 		<div class="field">
 			<label class="left">Address</label>
-			<label class="nobold left nowidth"></label>
-			 <textarea cols="4" style="width: 291px; height: 115px;"></textarea>
+			<label class="nobold left nowidth "></label>
+			 <textarea name="address" cols="4" style="width: 291px; height: 115px;" class="validate required"></textarea>
 		</div>
 		<!-- Textarea: End -->
 		
@@ -140,3 +162,9 @@
 
 <?php
 	end_content_for();
+	
+	content_for('javascript_libs');
+		// require('dataentry.js.php');
+	end_content_for('javascript_libs');
+?>
+	

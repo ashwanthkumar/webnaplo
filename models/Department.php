@@ -21,6 +21,15 @@ class Department {
 		
 		return $department->update($db);		
 	}
+	
+	public static function LoadAndSave($department, $db) {
+		extract($department);
+		
+		$d = new Department;
+		if(isset($name)) $d->name = $name;
+		
+		return $d->save($db);
+	}
 
 	public static function Delete($dip, $db) {
 		return $db->delete("dept", "iddept = :dip", array(":dip" => $dip));

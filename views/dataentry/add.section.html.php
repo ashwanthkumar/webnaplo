@@ -1,4 +1,7 @@
 <?php
+
+	$db = $GLOBALS['db'];
+	
 	content_for('body');
 ?>
 <!-- 100% Box Grid Container: Start -->
@@ -39,32 +42,32 @@
 
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		
-		<h1 class="icon frames">&nbsp;</h1>
-		
+		<h1 class="icon frames">Add Section</h1>
 	</div>
 	<!-- Box Header: End -->
 	
 	<!-- Box Content: Start -->
 	<div class="box_content padding">
 	<form method="POST" action="<?php echo url_for('/dataentry/section/add'); ?>">	
-		<div class="field noline">
-			<h1>ADD SECTION </h1>
-		</div>
 
 		<div class="field noline">
 			<label class="left"> Name</label>
 			<label class="nobold left nowidth"><input type="text" class="required big validate" name="name" id="name" /></label>
 		</div>
 		<div class="field">
-			<label class="left">Programe Name</label>
+			<label class="left">Programme Name</label>
 			<label class="nobold left nowidth">
-				<select name="Programme_FK" id="programme">
-					<option name="btech">B. Tech IT</option>
-					<option name="btech">B. Tech CSE</option>
-					<option name="btech">B. Tech ECE</option>
-					<option name="btech">B. Tech EEE</option>
-					<option name="btech">B. Tech PHYSICS</option>
+			<?php
+				$p = $db->select("programme", "1 = 1 order by name asc");
+			?>
+				<select name="programme_id" id="programme">
+				<?php
+					foreach($p as $pgm) {
+				?>
+					<option value="<?php echo $pgm['idprogramme']; ?>"><?php echo $pgm['name']; ?></option>
+				<?php
+					}
+				?>
 				</select>
 			</label>
 		</div>

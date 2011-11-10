@@ -42,4 +42,21 @@ class Course{
 		
 		return $course->update($db);
 	}
+	
+	public static function LoadAndSave($courseData, $db) {
+		extract($courseData);
+
+		$cs = $db->select("course", "course_code = :code and course_name = :name and credits = :credits and pgm_id = :pgm", array(":code" => $coursecode, ":name" => $coursename, ":credits" => $credits, ":pgm" => $pgm_id));
+		
+		if(count($cs) > 0) return FALSE;
+		
+		$course = new Course;
+		$course->credits = $credits;
+		$course->coursecode = $coursecode;
+		$course->coursename = $coursename;
+		$course->pgm_id = $pgm_id;
+		
+		return $course->save($db);
+		
+	}
 }

@@ -385,15 +385,29 @@ function add_student_render() {
  * Add Student to the system
  **/
 function add_student_post() {
+	$db = $GLOBALS['db'];
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
 
 	// Delete the student static function to delete the object
-	Student::Save($_POST);
+	$r = Student::LoadAndSave($_POST, $db);
+
+	if(is_object($r) && get_class($r) == "PDOException") {
+		switch($r->getCode()) {
+			case 23000:
+				flash('error', "Student with the register number already exist");
+				break;
+			default:
+				flash('error', 'There was an error adding a student, please try again later.');
+				break;
+		}
+		return redirect('/dataentry/student/add');
+	} 
+	
 	flash('success', "Student $name has been successfully added");
 	
 	// Redirect the user back 
-	redirect('/dataentry/student/add');
+	return redirect('/dataentry/student/add');
 }
 
 /**
@@ -407,16 +421,39 @@ function add_department_render() {
     return render("dataentry/add.department.html.php");
 }
 
+function add_student_proxy() {
+	$db = $GLOBALS['db'];
+	// Get the list of programmes for the given department
+	if(isset($_GET['dept'])) {
+		$d = $_GET['dept'];
+		
+		// header("Content-type: application/json");
+		$pgms = $db->select("programme", "dept_id = :d", array(":d" => $d));
+		
+		return json(array("data" => $pgms));
+	}
+
+	if(isset($_GET['pgm'])) {
+		$p = $_GET['pgm'];
+		
+		$class = $db->select("class", "programme_id = :p", array(":p" => $p));
+		
+		return json(array("data" => $class));
+	}
+}
+
 /**
  * Add Department to the system
  **/
 function add_department_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
+	
+	$db = $GLOBALS['db'];
 
 	// Delete the department static function to delete the object
-	Department::Save($_POST);
-	flash('success', "Department $deptname has been successfully added");
+	Department::LoadAndSave($_POST, $db);
+	flash('success', "Department $name has been successfully added");
 	
 	// Redirect the user back 
 	redirect('/dataentry/department/add');
@@ -439,13 +476,25 @@ function add_programme_render() {
 function add_programme_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
+	$db = $GLOBALS['db'];
 
 	// Delete the programme static function to delete the object
-	Programme::Save($_POST);
+	$r = Programme::LoadAndSave($_POST, $db);
+	
+	if(is_bool($r) && $r == false) {
+		flash('warning', 'Programme already exist. Please try with another name');
+		return redirect('/dataentry/programme/add');
+	}
+	
+	if(is_object($r) && get_class($r) == "PDOException") {
+		flash('error', 'Programme cannot be created. Please try again. Error: ' . $r->getMessage());
+		return redirect('/dataentry/programme/add');
+	} 
+	
 	flash('success', "Programme $name has been successfully added");
 	
 	// Redirect the user back 
-	redirect('/dataentry/programme/add');
+	return redirect('/dataentry/programme/add');
 }
 
 /**
@@ -465,13 +514,25 @@ function add_section_render() {
 function add_section_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
+	$db = $GLOBALS['db'];
 
 	// Delete the section static function to delete the object
-	Section::Save($_POST);
+	$r = Section::LoadAndSave($_POST, $db);
+	
+	if(is_bool($r) && $r == false) {
+		flash('warning', 'Section already exist. Please try with another name');
+		return redirect('/dataentry/section/add');
+	}
+	
+	if(is_object($r) && get_class($r) == "PDOException") {
+		flash('error', 'Section cannot be created. Please try again. Error: ' . $r->getMessage());
+		return redirect('/dataentry/section/add');
+	} 
+
 	flash('success', "Section $name has been successfully added");
 	
 	// Redirect the user back 
-	redirect('/dataentry/section/add');
+	return redirect('/dataentry/section/add');
 }
 
 /**
@@ -493,11 +554,22 @@ function add_staff_post() {
 	extract($_POST);
 
 	// Delete the staff static function to delete the object
-	Staff::Save($_POST);
+	$r = Staff::LoadAndSave($_POST, $GLOBALS['db']);
+
+	if(is_bool($r) && $r == false) {
+		flash('warning', 'Staff with $staff_id already exist. Please try with another name');
+		return redirect('/dataentry/staff/add');
+	}
+	
+	if(is_object($r) && get_class($r) == "PDOException") {
+		flash('error', 'Staff cannot be created. Please try again. Error: ' . $r->getMessage());
+		return redirect('/dataentry/staff/add');
+	} 
+	
 	flash('success', "Staff $name has been successfully added");
 	
 	// Redirect the user back 
-	redirect('/dataentry/staff/add');
+	return redirect('/dataentry/staff/add');
 }
 
 /**
@@ -519,10 +591,33 @@ function add_course_post() {
 	extract($_POST);
 
 	// Delete the course static function to delete the object
-	Course::Save($_POST);
+	$r = Course::LoadAndSave($_POST, $GLOBALS['db']);
+
+	if(is_bool($r) && $r == false) {
+		flash('warning', "Course with $course_code already exist. Please try with another name");
+		return redirect('/dataentry/course/add');
+	}
+	
+	if(is_object($r) && get_class($r) == "PDOException") {
+		flash('error', "Course cannot be created. Please try again. Error: " . $r->getMessage());
+		return redirect('/dataentry/course/add');
+	} 
+
 	flash('success', "Course $name has been successfully added");
 	
 	// Redirect the user back 
-	redirect('/dataentry/course/add');
+	return redirect('/dataentry/course/add');
 }
 
+// Change the password of the dataentry user
+function dataentry_changepass() {
+	if(isset($_POST['newPass'])) {
+		$newPass = $_POST['newPass'];
+		
+		flash('success', "Your password has been successfully updated");
+		Configuration::put(Configuration::$CONFIG_DATAENTRY_PASSWORD, $newPass, $GLOBALS['db']);
+		return redirect("/dataentry/home");
+	} else {
+		return redirect("/dataentry/home");
+	}
+}

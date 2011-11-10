@@ -2,11 +2,11 @@
 
 class CourseProfile {
 
-	private $idcourse_profile;
-	private $name;
-	private $class_id;
-	private $course_id;
-	private $staff_id;
+	public $idcourse_profile;
+	public $name;
+	public $class_id;
+	public $course_id;
+	public $staff_id;
 	
 	public function save($db) {
 		return $db->insert("course_profile", array(
@@ -44,4 +44,15 @@ class CourseProfile {
 		return $cprofile->update($db);
 	}
 	
+	public static function LoadAndSave($cp, $db) {
+		extract($cp);
+
+		$cprofile = new CourseProfile;
+		$cprofile->name = $name;
+		$cprofile->class_id = $class_id;
+		$cprofile->course_id = $course_id;
+		$cprofile->staff_id = $staff_id;
+		
+		return $cprofile->save($db);
+	}
 }
