@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Render the Home Page - Dashboard of the Admin User 
+ *
+ *	@method GET
+ *	@route /admin/home
+ **/
 function admin_home_render() {
 	layout('admin/layout.html.php');
 	set('title', 'Admin Home');
@@ -8,6 +14,12 @@ function admin_home_render() {
 	return render("admin/admin.home.html.php");
 }
 
+/**
+ * Render the Lock and Unlock Page for the Admin
+ *
+ *	@method GET
+ *	@route /admin/lock/
+ **/
 function admin_lock_render() {
 	layout('admin/layout.html.php');
 	set('title', 'Admin - Lock and Unlock Status');
@@ -16,6 +28,12 @@ function admin_lock_render() {
 	return render("admin/admin.lock.html.php");
 }
 
+/**
+ * Lock a particular type of object in the system for the given class
+ *
+ *	@metod GET
+ *	@route ^/admin/lock_unlock/(\d+)/(\d+)/lock
+ **/
 function admin_lock_entity() {
 	$type = params(0);
 	$id = params(1);
@@ -25,6 +43,12 @@ function admin_lock_entity() {
 	return redirect("admin/lock");
 }
 
+/**
+ * 	Unlock a particular type of object in the system for the given class
+ *
+ *	@method GET
+ * 	@route ^/admin/lock_unlock/(\d+)/(\d+)/unlock
+ **/
 function admin_unlock_entity() {
 	$type = params(0);
 	$id = params(1);
@@ -36,10 +60,22 @@ function admin_unlock_entity() {
 	return redirect("admin/lock");
 }
 
+/**
+ * Render custom javascript for Admin Interface
+ *
+ *	@method GET
+ * 	@route /admin/js/
+ **/
 function admin_js_render() {
 	return js('admin/admin_js.php');
 }
 
+/**
+ * Block or Unblock selected group of staff users
+ *
+ *	@method POST
+ *	@route /admin/staff/block
+ **/
 function admin_staff_block_post() {
 	$students = $_POST['staff_profile'];
 	$db = $GLOBALS['db'];
@@ -67,6 +103,12 @@ function admin_staff_block_post() {
 	return redirect('admin/block_unblock');
 }
 
+/**
+ *	Block or Unblock selected group of Student users
+ *
+ *	@method POST
+ *	@route /admin/student/block
+ **/
 function admin_student_block_post() {
 	$students = $_POST['student_profile'];
 	$db = $GLOBALS['db'];
@@ -94,6 +136,12 @@ function admin_student_block_post() {
 	return redirect('admin/block_unblock');
 }
 
+/**
+ * Render Block/Unblock Page for the Admin
+ *
+ * 	@method GET
+ *	@route /admin/block_unblock/
+ **/
 function admin_block_unblock_render() {
 	layout('admin/layout.html.php');
 	set('title', 'Admin - Block or Unblock Users');
@@ -102,6 +150,12 @@ function admin_block_unblock_render() {
 	return render("admin/admin.blockunblock.html.php");
 }
 
+/**
+ *	Block a particular Staff User
+ *
+ *	@method GET
+ *	@route ^/admin/staff/(\d+)/block
+ **/
 function admin_staff_block() {
 	$staffid = params(0);
 	$db = $GLOBALS['db'];
@@ -112,6 +166,12 @@ function admin_staff_block() {
 	return redirect('admin/block_unblock');
 }
 
+/**
+ *	Unblock a particular Staff User
+ *
+ *	@method GET
+ *	@route	^/admin/staff/(\d+)/unblock
+ **/
 function admin_staff_unblock() {
 	$staffid = params(0);
 	$db = $GLOBALS['db'];
@@ -122,6 +182,12 @@ function admin_staff_unblock() {
 	return redirect('admin/block_unblock');
 }
 
+/**
+ *	Block a particular Student User
+ *
+ *	@method GET
+ *	@route ^/admin/student/(\d+)/block
+ **/
 function admin_student_block() {
 	$studid = params(0);
 	$db = $GLOBALS['db'];
@@ -132,6 +198,12 @@ function admin_student_block() {
 	return redirect('admin/block_unblock');
 }
 
+/**
+ *	Unblock a particular Student user
+ *
+ *	@method GET
+ *  @route ^/admin/student/(\d+)/unblock
+ **/
 function admin_student_unblock() {
 	$studid = params(0);
 	$db = $GLOBALS['db'];
@@ -142,3 +214,45 @@ function admin_student_unblock() {
 	return redirect('admin/block_unblock');
 }
 
+/**
+ *	Render the Admin Advanced Page
+ *
+ *	@method GET
+ *	@route 	/admin/advanced/
+ **/
+function admin_advanced_render() {
+	layout('/admin/layout.html.php');
+	set('title', 'Admin Advanced');
+	set('advanced_visible', 'true');
+	
+	return render('/admin/admin.advanced.html.php');
+}
+
+/**
+ *	Reset a particular type of User's password
+ *
+ *	@method POST
+ *	@route 	/admin/user/reset/
+ **/
+function admin_user_reset_password() {
+	return h("TODO Method");
+}
+
+/**
+ *	Reset all Staff Password
+ *	@method POST
+ *	@route	/admin/user/reset/staff/all
+ **/
+function admin_staff_all_reset_password() {
+	return h("TODO Method");
+}
+
+/**
+ *	Reset all Students Password
+ *
+ *	@method POST
+ *	@route	/admin/user/reset/student/all
+ **/
+function admin_student_all_reset_password() {
+	return h("TODO Method");
+}
