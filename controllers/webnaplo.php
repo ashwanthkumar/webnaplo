@@ -1,5 +1,11 @@
 <?php
 
+/**
+ *	Render the Home Page (Login Page), if the user is already authenticated then redirect them to the corresponding home page
+ *
+ *	@method GET / POST
+ *	@route	/*	(Used as the last option only when no other parameters match the route controller pattern)
+ **/
 function webnaplo_home() {
 	if(!isset($_SESSION['user'])) {
 		return redirect('/user/login');
@@ -10,6 +16,12 @@ function webnaplo_home() {
 	}
 }
 
+/**
+ *	Render the User Login Page
+ *	
+ *	@method GET
+ *	@route /user/login
+ **/
 function user_login() {
 	if(!isset($_SESSION['user'])) {
 		return render('/webnaplo/login.html.php');
@@ -20,11 +32,23 @@ function user_login() {
 	}
 }
 
+/**
+ *	Logout the currently logged in user
+ *
+ *	@method GET / POST
+ *	@route 	/user/logout
+ **/
 function user_logout() {
 	unset($_SESSION['user']);
 	return redirect('/user/login');
 }
 
+/**
+ *	Authenticate the user from the Login page
+ *
+ *	@method POST
+ *	@route 	/user/login
+ **/
 function user_login_authenticate() {
 	extract($_POST);
 
@@ -95,6 +119,7 @@ function user_login_authenticate() {
 				return redirect('/user/login');
 			}
 		} else {
+			// Current pattern of username is Student
 			$user->type = "student";
 			$student = $db->select("student", "idstudent = :sid and password = :pass", array(":sid" => $username, ":pass" => $password));
 			
