@@ -17,7 +17,9 @@ class Configuration {
 			return $db->select("configuration", "`key` = :key limit 1", array(":key" => $key));
 		else {
 			$config = $db->select("configuration", "`key` = :key limit 1", array(":key" => $key));
-			return $config[0]['value'];
+			// Check for Exception
+			if(is_object($config) && get_class($config) == "PDOException") halt(SERVER_ERROR, $config->getMessage());
+			else return $config[0]['value'];
 		}
 	}
 	
