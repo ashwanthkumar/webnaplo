@@ -13,10 +13,13 @@ require_once("lib/limonade/limonade.php");
 // Start the session for the application right here
 session_start();
 
+/**
+ *	Setting the Configuration for the system
+ **/
 function configure() {
 	option('env', ENV_DEVELOPMENT);
-	option('limonade_views_dir', file_path(dirname(__FILE__), 'lib', 'limonade', 'views'));
 	option('limonade_public_dir', file_path(dirname(__FILE__), 'lib', 'limonade', 'public'));
+	option('limonade_views_dir', file_path(dirname(__FILE__), 'lib', 'limonade', 'views'));
 	option('controllers_dir', file_path(dirname(__FILE__), 'controllers'));
 	option('reports_dir', file_path(dirname(__FILE__), 'export'));
 	option('gzip', true);
@@ -25,14 +28,9 @@ function configure() {
 	require_once_dir(file_path(dirname(__FILE__), 'models'));
 	require_once_dir(file_path(dirname(__FILE__), 'lib'));
 	require_once_dir(file_path(dirname(__FILE__), 'lib' , 'wkhtmltopdf'));
-	
-	// Configuration file for the entire application
-	$db_host = "localhost";	// Databse host to connect to
-	$db_port = 3306;	// Database port number to connect to
-	$db_user = "root";	// Database User
-	$db_pass = "";	// Database password
-	
-	$db_name = "webnaplo";	// Name of the database
+
+	// Include the configuration file
+	include("config.php");
 	
 	$db = new db("mysql:host=$db_host;port=$db_port;dbname=$db_name", "$db_user", "$db_pass");
 	$db->setErrorCallbackFunction("showError", "text");
@@ -40,33 +38,71 @@ function configure() {
 	$GLOBALS['db'] = $db;
 }
 
+/**
+ * Utility function that returns the curent instance of the user using the system
+ **/
 function get_user() {
 	if(isset($_SESSION['user'])) return User::load(get_object_vars($_SESSION['user']));
 	
 	return new User;
 }
 
+/**
+ *	Callback function of PDO Library
+ **/
 function showError($message) {
 	// header("Content-type: application/json");
 	// return json(array("status" => false, "message" => $message));
-	html($message);
+	halt(SERVER_ERROR, $message);
 }
 
+/**
+ *	Hook that is to be executed before processing any request
+ **/
 function before($route) {
-  // header("X-LIM-route-function: ".$route['callback']);
-  // layout('layout.html.php');
-  // print_r($route);
-  
-  $func_calls_no_user_session = array('user_login', 'user_login_authenticate', 'user_logout', 'add_student_proxy', 'dataentry_report_list');
-  if(!in_array($route['callback'], $func_calls_no_user_session)) {
-	// redirect('/');
-	if(!isset($_SESSION['user'])) {
-		flash("error", "You need to login to view the requested resource");
-		redirect('/user/login');
-		// redirect(htmlspecialchars_decode(url_for('/user/login/', array("redirect" => $route['pattern'])), ENT_NOQUOTES));
+	// header("X-LIM-route-function: ".$route['callback']);
+	// layout('layout.html.php');
+	$route_pattern = $route['pattern'];
+
+	$func_calls_no_user_session = array('user_login', 'user_login_authenticate', 'user_logout', 'add_student_proxy', 'dataentry_report_list');
+	if(!in_array($route['callback'], $func_calls_no_user_session)) {
+		// redirect('/');
+		if(!isset($_SESSION['user'])) {
+			flash("error", "You need to login to view the requested resource");
+			redirect('/user/login');
+			// redirect(htmlspecialchars_decode(url_for('/user/login/', array("redirect" => $route['pattern'])), ENT_NOQUOTES));
+		} else {
+			// Get the current User instance using the application
+			$user = get_user();
+			
+			$access = "hacker";
+			
+			// Caculating the Access level of the route based on the callback function
+			if(preg_match('/^admin_*/', $route['callback'], $match) > 0) {
+				// Admin Access Route to be enabled nly by the admin users
+				$access = "admin";
+			} else if(preg_match('/^dataentry_*/', $route['callback'], $match) > 0) {
+				$access = "dataentry";
+			} else if(preg_match('/^staff_*/', $route['callback'], $match) > 0){
+				$access = "staff";
+			} else if(preg_match('/^student_*/', $route['callback'], $match) > 0) {
+				$access = "student";
+			} else {
+				$access = "hacker";
+			}
+			
+			// Now decide if the user has the access to access the requested resource
+			if($user->type != $access) {
+			} else {
+				halt(HTTP_FORBIDDEN, "Sorry hacker, your request cannot be handled. ");
+			}
+		}
 	}
-  }
 }
+/**
+ *	Dispatch routes follow
+ *	DO NOT EDIT BELOW THIS LINE UNTIL YOU KNOW WHAT YOU ARE DOING
+ **/
 
 // -------------------------------------------
 // Central Dispatch for Dataentry module
@@ -197,12 +233,19 @@ dispatch_get('/staff/**', 'staff_home_render');
 // ------------------------------------------
 dispatch_get('/admin/advanced/', 'admin_advanced_render');
 
-dispatch_get('/admin/block_unblock/', 'admin_block_unblock_render');
-dispatch_get('/admin/lock/', 'admin_lock_render');
+// Reset Passwords
+dispatch_post('/admin/user/reset/', 'admin_user_reset_password');
+dispatch_post('/admin/user/reset/staff/all', 'admin_staff_all_reset_password');
+dispatch_post('/admin/user/reset/student/all', 'admin_student_all_reset_password');
 
+// Lock and Unlock page
+dispatch_get('/admin/lock/', 'admin_lock_render');
 // Lock and Unlock Staff
 dispatch_get('^/admin/lock_unlock/(\d+)/(\d+)/lock', 'admin_lock_entity');
 dispatch_get('^/admin/lock_unlock/(\d+)/(\d+)/unlock', 'admin_unlock_entity');
+
+// Block and UnBlock Page
+dispatch_get('/admin/block_unblock/', 'admin_block_unblock_render');
 
 // Staff Blocking and Unblocking process
 dispatch_post('/admin/staff/block', 'admin_staff_block_post');
@@ -223,10 +266,11 @@ dispatch_get('/admin/home', 'admin_home_render');
 dispatch_get('/user/login', 'user_login');
 dispatch_post('/user/login', 'user_login_authenticate');
 dispatch_get('/user/logout', 'user_logout');
-
-
+dispatch_post('/user/logout', 'user_logout');
 
 // Must be the last entry in the order of controller actions
+dispatch_post('/**', 'webnaplo_home');
 dispatch_get('/**', 'webnaplo_home');
 
+// Run the application
 run();
