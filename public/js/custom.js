@@ -492,9 +492,10 @@ $("<span class='v'></span>").insertAfter("ul#navigation.dropdown ul.subnav");
 		   validClass: "validate_success",
 		   ignoreTitle: true,
 		   unhighlight: function(element,eclass, vclass) {
-			 $(element).poshytip('disable');
-			 $(element).removeClass(eclass);
-			 $(element).addClass(vclass);
+			// Changed from disable to update to give a better UX 
+			$(element).poshytip('update', $(element).attr('title'));
+			$(element).removeClass(eclass);
+			$(element).addClass(vclass);
 		   },
 		   errorPlacement: function(error, element) {
 				element.poshytip('update', $(error).html());
