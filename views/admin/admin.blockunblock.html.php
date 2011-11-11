@@ -119,7 +119,7 @@
 				<div class="table_actions">
 					<input type="checkbox" class="checkall" />
 					
-					<select name="operation">
+					<select name="operation" class="validate required">
 						<option>Choose action</option>
 						<option value="block">Block</option>
 						<option value="unblock">Unblock</option>
