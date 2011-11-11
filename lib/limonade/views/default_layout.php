@@ -2,12 +2,12 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Limonade, the fizzy PHP micro-framework</title>
-	<link rel="stylesheet" href="<?php echo url_for('/_lim_css/screen.css');?>" type="text/css" media="screen">
+	<title><?php echo option('SYSTEM_NAME') . " v" . option('SYSTEM_VERSION'); ?></title>
+		<link rel="stylesheet" href="<?php echo url_for('/_lim_css/screen.css');?>" type="text/css" media="screen">
 </head>
 <body>
   <div id="header">
-    <h1>Limonade</h1>
+    <h1>Webnaplo</h1>
   </div>
   
   <div id="content">
