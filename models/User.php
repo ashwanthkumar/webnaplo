@@ -1,14 +1,34 @@
 <?php
 
+/**
+ *	Model Entity that represents the User of the system in the Webnaplo
+ *
+ *	@since 1.0
+ **/
 class User {
+	// Current name of the User
 	public $name;
+	// Is the User Authenticated
 	public $auth;
+	/**
+	 *	Unique User id of the user
+	 *	
+	 *	For Students - Register Number (idstudent)
+	 *	For Staff - Staff ID (staff_id not the PK)
+	 *	For DataEntry - Username of the Dataentry User
+	 *	For Admin - Username of the Admin User
+	 **/
 	public $userid;
+	// Type of User - admin > dataentry > staff > student
 	public $type;
+	// Is the currently logged in user blocked?
 	public $blocked;
+	// Current Access Level of the User
+	public $accessLevel;
 	
 	public function __construct() {
 		$this->auth = false;
+		$this->accessLevel = -1;
 	}
 	
 	public function getLoggedIn() {
@@ -38,7 +58,12 @@ class User {
 	public function getType() {
 		return $this->type;
 	}
-	
+
+	/**
+	 *	Load the User from the Session to the Object.
+	 *
+	 *	@reason Provided as a fix for session object store / retrieve problem
+	 **/
 	public static function load($user) {
 		$u = new User;
 		if(isset($user['name']))	$u->name = $user['name'];
@@ -46,14 +71,8 @@ class User {
 		if(isset($user['userid']))	$u->userid = $user['userid'];
 		if(isset($user['type']))	$u->type = $user['type'];
 		if(isset($user['blocked']))	$u->blocked = $user['blocked'];
+		if(isset($user['accessLevel']))	$u->accessLevel = $user['accessLevel'];
 		
 		return $u;
-	}
-	
-	public function destroy() {
-		$this->name = null;
-		$this->auth = false;
-		$this->userid = null;
-		$this->type = null;
 	}
 }

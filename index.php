@@ -17,12 +17,18 @@ session_start();
  *	Setting the Configuration for the system
  **/
 function configure() {
-	option('env', ENV_DEVELOPMENT);
+	option('env', ENV_PRODUCTION);
+	// option('env', ENV_DEVELOPMENT);
 	option('limonade_public_dir', file_path(dirname(__FILE__), 'lib', 'limonade', 'public'));
 	option('limonade_views_dir', file_path(dirname(__FILE__), 'lib', 'limonade', 'views'));
+	option('error_views_dir',    option('limonade_views_dir'));
 	option('controllers_dir', file_path(dirname(__FILE__), 'controllers'));
 	option('reports_dir', file_path(dirname(__FILE__), 'export'));
 	option('gzip', true);
+	
+	// System Settings 
+	option('SYSTEM_VERSION', '1.1');
+	option('SYSTEM_NAME', 'WebNaplo');
 	
 	// Include all the models to the system
 	require_once_dir(file_path(dirname(__FILE__), 'models'));
@@ -75,25 +81,24 @@ function before($route) {
 			// Get the current User instance using the application
 			$user = get_user();
 			
-			$access = "hacker";
+			$access = -1;
 			
 			// Caculating the Access level of the route based on the callback function
 			if(preg_match('/^admin_*/', $route['callback'], $match) > 0) {
 				// Admin Access Route to be enabled nly by the admin users
-				$access = "admin";
+				$access = 0;
 			} else if(preg_match('/^dataentry_*/', $route['callback'], $match) > 0) {
-				$access = "dataentry";
+				$access = 1;
 			} else if(preg_match('/^staff_*/', $route['callback'], $match) > 0){
-				$access = "staff";
+				$access = 2;
 			} else if(preg_match('/^student_*/', $route['callback'], $match) > 0) {
-				$access = "student";
+				$access = 3;
 			} else {
-				$access = "hacker";
+				$access = -1;
 			}
 			
 			// Now decide if the user has the access to access the requested resource
-			if($user->type != $access) {
-			} else {
+			if($user->accessLevel > $access || $user->accessLevel == -1) {
 				halt(HTTP_FORBIDDEN, "Sorry hacker, your request cannot be handled. ");
 			}
 		}
