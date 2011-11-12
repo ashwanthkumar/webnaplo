@@ -1,6 +1,7 @@
 <?php
 
 	$db = $GLOBALS['db'];
+	$user = get_user();
 	
 	content_for('body');
 ?>
@@ -38,8 +39,24 @@
 
 				<tr>
 					<td class="align_left center"><?php echo $i; ?></td>
-					<td class="align_left center"><a href="<?php echo url_for('/dataentry/programme/' . $programme['idprogramme'] . '/edit'); ?>"><?php echo $programme['pname']; ?></a></td>
-					<td class="align_left center"><a href="<?php echo url_for('/dataentry/programme/' . $programme['iddept'] . '/edit'); ?>"><?php echo $programme['dname']; ?></a></td>
+					<td class="align_left center">
+					<?php if($user->IsAdmin()): ?>				
+					<a href="<?php echo url_for('/admin/programme/' . $programme['idprogramme'] . '/edit'); ?>">
+					<?php endif; ?>
+						<?php echo $programme['pname']; ?>
+					<?php if($user->IsAdmin()):?>
+						</a>
+					<?php endif;?>
+					</td>
+					<td class="align_left center">
+					<?php if($user->IsAdmin()): ?>					
+						<a href="<?php echo url_for('/admin/programme/' . $programme['iddept'] . '/edit'); ?>">
+					<?php endif;?>
+						<?php echo $programme['dname']; ?>
+					<?php if($user->IsAdmin()): ?>					
+						</a>
+					<?php endif;?>
+					</td>
 				</tr>
 			<?php
 				}
@@ -48,7 +65,7 @@
 		</table>
 
 		<div class="table_actions">
-			<button type="submit" onclick="window.open('<?php echo url_for('/dataentry/export/list/programme'); ?>');" class="left">Export as PDF</button>
+			<button type="submit" onclick="window.open('<?php echo url_for('/' . $user->type . '/export/list/programme'); ?>','pdfexplore','status');" class="left">Export as PDF</button>
 		</div>
 		
 	</div>

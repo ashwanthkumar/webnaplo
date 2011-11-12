@@ -18,7 +18,7 @@
 
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		<h1 class="icon frames">Lock &amp; Unlock Status</h1>
+		<h1 class="icon frames"><?php echo get_text('LOCK'); echo get_text('AND'); echo get_text('UNLOCK'); echo get_text('STATUS'); ?></h1>
 	</div>
 	<!-- Box Header: End -->
 	
@@ -53,11 +53,11 @@
 							<td class="align_left center">
 								<?php if($lu['c1'] == 0) {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/1/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="Lock CIA I">lock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/1/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="<?php echo get_text('LOCK'); ?>">lock</a>
 								<?php
 									} else {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/1/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="Unlock CIA I">unlock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/1/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="<?php echo get_text('UNLOCK'); ?>">unlock</a>
 								<?php
 									}
 								?>
@@ -65,11 +65,11 @@
 							<td class="align_left center">
 								<?php if($lu['c2'] == 0) {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/2/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="Lock CIA II">lock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/2/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="<?php echo get_text('LOCK'); ?>">lock</a>
 								<?php
 									} else {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/2/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="Unlock CIA II">unlock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/2/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="<?php echo get_text('UNLOCK'); ?>">unlock</a>
 								<?php
 									}
 								?>
@@ -77,11 +77,11 @@
 							<td class="align_left center">
 								<?php if($lu['c3'] == 0 ) {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/3/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="Lock CIA III">lock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/3/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="<?php echo get_text('LOCK'); ?>">lock</a>
 								<?php
 									} else {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/3/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="Unlock CIA III">unlock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/3/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="<?php echo get_text('UNLOCK'); ?>">unlock</a>
 								<?php
 									}
 								?>
@@ -89,11 +89,11 @@
 							<td class="align_left center">
 								<?php if($lu['assignment'] == 0) {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/4/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="Lock Assignment">lock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/4/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="<?php echo get_text('LOCK'); ?>">lock</a>
 								<?php
 									} else {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/4/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="Unlock Assignment">unlock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/4/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="<?php echo get_text('UNLOCK'); ?>">unlock</a>
 								<?php
 									}
 								?>
@@ -101,11 +101,11 @@
 							<td class="align_left center">
 								<?php if($lu['attendance'] = 0) {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/5/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="Lock Attendance">lock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/5/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="<?php echo get_text('LOCK'); ?>">lock</a>
 								<?php
 									} else {
 								?>
-								<a href="<?php echo url_for("/admin/lock_unlock/5/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="Unlock Attendance">unlock</a>
+								<a href="<?php echo url_for("/admin/lock_unlock/5/" . $lu['id'] . "/unlock"); ?>" class="delete tip" title="<?php echo get_text('UNLOCK'); ?>">unlock</a>
 								<?php
 									}
 								?>

@@ -3,19 +3,8 @@
  *	DataEntry Controller for performing various functions
  *
  *	@author Team WebNaplo
- *	@date 08/11/2011
+ *	@date 11/11/2011
  **/
-
-/**
- * Delete Student View Page
- **/
-function delete_student_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Delete Student");
-	set("delete_active" ,"true");
-
-    return render("dataentry/delstud.html.php");
-}
 
 /**
  * Data Entry Home Page
@@ -29,351 +18,9 @@ function dataentry_home() {
 }
 
 /**
- * Delete the Student from the dataentry
- **/
-function delete_student_post() {
-	$reg = $_POST['regno'];
-
-	// Delete the student static function to delete the object
-	$r = Student::Delete($reg, $GLOBALS['db']);
-	if(is_object($r) && get_class($r) == "PDOException") {
-		
-		switch($r->getCode()) {
-			case 23000:
-				$msg = "There are other dependencies for the given Student, delete them before deleting this student";
-			break;
-		}
-		
-		flash('error', $msg);
-	} else {
-		if($r == 0) {
-			flash('warning', "Student with $reg was not found in the system");
-		} else {
-			flash('success', "Student with $reg has been successfully deleted");
-		}
-	}
-	
-	// Redirect the user back 
-	redirect('/dataentry/student/delete');
-}
-
-/**
- * Delete Staff view page
- **/
-function delete_staff_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Delete Staff");
-	set("delete_active" ,"true");
-
-    return render("dataentry/delstaff.html.php");
-}
-
-/**
- * Delete Staff from the system
- **/
-function delete_staff_post() {
-	$staffid = $_POST['staffid'];
-
-	$db = $GLOBALS['db'];
-	// Delete the student static function to delete the object
-	$r = Staff::Delete($staffid, $db);
-	
-	if(is_object($r) && get_class($r) == "PDOException") {
-		
-		switch($r->getCode()) {
-			case 23000:
-				$msg = "There are other dependencies for the given Staff, delete them before deleting this Staff";
-			break;
-		}
-		
-		flash('error', $msg);
-	} else {
-		if($r == 0) {
-			flash('warning', "Staff with $staffid is not found in the system");
-		} else {
-			flash('success', "Staff with $staffid has been successfully deleted");
-		}
-	}
-	
-	// Redirect the user back 
-	redirect('/dataentry/staff/delete');
-}
-
-/**
- * Delete Programme View Page
- **/
-function delete_programme_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Delete Programme");
-	set("delete_active" ,"true");
-
-    return render("dataentry/delprog.html.php");
-}
-
-/**
- * Delete the programme from the system
- **/
-function delete_programme_post() {
-	$pgmid = $_POST['Programme_FK'];
-
-	$db = $GLOBALS['db'];
-	
-	// Delete the student static function to delete the object
-	$r = Programme::Delete($pgmid, $db);
-	if(is_object($r) && get_class($r) == "PDOException") {
-		
-		switch($r->getCode()) {
-			case 23000:
-				$msg = "There are other dependencies for the given Programme, delete them before deleting this programme";
-			break;
-		}
-		
-		flash('error', $msg);
-	} else {
-		if($r == 0) {
-			flash('warning', "Programme is not found in the system");
-		} else {
-			flash('success', "Programme has been successfully deleted");
-		}
-	}
-	
-	// Redirect the user back 
-	redirect('/dataentry/programme/delete');
-}
-
-/**
- * Delete Course View page
- **/
-function delete_course_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Delete Course");
-	set("delete_active" ,"true");
-
-    return render("dataentry/delcourse.html.php");
-}
-
-/**
- * Delete post from the system
- **/
-function delete_course_post() {
-	$cid = $_POST['coursecode'];
-
-	// Delete the student static function to delete the object
-	$r = Course::Delete($cid, $GLOBALS['db']);
-	if(is_object($r) && get_class($r) == "PDOException") {
-		
-		switch($r->getCode()) {
-			case 23000:
-				$msg = "There are other dependencies for the given Course, delete them before deleting this Course";
-			break;
-		}
-		
-		flash('error', $msg);
-	} else {
-		if($r == 0) {
-			flash('warning', "Course with $cid not found in the system");
-		} else {
-			flash('success', "Course with $cid has been successfully deleted");
-		}
-	}
-	
-	// Redirect the user back 
-	redirect('/dataentry/course/delete');
-}
-
-/**
- * Delete Department page
- **/
-function delete_department_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Delete Department");
-	set("delete_active" ,"true");
-
-    return render("dataentry/deldept.html.php");
-}
-
-/**
- * Delete programme from the system
- **/
-function delete_department_post() {
-	$did = $_POST['dept_FK'];
-	
-	// Move this to Department Model class
-	$db = $GLOBALS['db'];
-
-	// Delete the student static function to delete the object
-	$r = Department::Delete($did, $db);
-	
-	if(is_object($r) && get_class($r) == "PDOException") {
-		
-		switch($r->getCode()) {
-			case 23000:
-				$msg = "There are other dependencies for the given Department, delete them before deleting this department";
-			break;
-		}
-		
-		flash('error', $msg);
-	} else {
-		if($r == 0) {
-			flash('warning', "Department was not found in the system");
-		} else {
-			flash('success', "Department has been successfully deleted");
-		}
-	}
-	
-	// Redirect the user back 
-	redirect('/dataentry/department/delete');
-}
-
-/**
- * Edit Course View Page
- **/
-function edit_course_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Edit Course");
-	set("edit_active" ,"true");
-
-    return render("dataentry/edit.course.html.php");
-}
-
-/**
- * Edit Course in the system
- **/
-function edit_course_post() {
-	// $did = $_POST['dept_FK'];
-	extract($_POST);
-
-	// Delete the student static function to delete the object
-	$r = Course::LoadAndUpdate($_POST, $GLOBALS['db']);
-	if(is_object($r) && get_class($r) == "PDOException") {
-		
-		switch($r->getCode()) {
-			case 23000:
-				$msg = "There are other dependencies for the given Department, delete them before deleting this department";
-			break;
-		}
-		
-		flash('error', $msg);
-	} else {
-		if($r == 0) {
-			flash('warning', "Course was not found in the system");
-		} else {
-			flash('success', "Course $courseName has been successfully edited");
-		}
-	}
-	
-	// Redirect the user back 
-	redirect("/dataentry/course/$idcourse/edit");
-}
-
-/**
- * Edit Department View Page
- **/
-function edit_department_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Edit Department");
-	set("edit_active" ,"true");
-
-    return render("dataentry/edit.department.html.php");
-}
-
-/**
- * Edit Department, existing from the system
- **/
-function edit_department_post() {
-	// $did = $_POST['dept_FK'];
-	extract($_POST);
-
-	// Delete the student static function to delete the object
-	Department::LoadAndUpdate($_POST);
-	flash('success', "department $departmentName has been successfully edited");
-	
-	// Redirect the user back 
-	redirect('/dataentry/department/edit');
-}
-
-/**
- * Edit Programme View Page
- **/
-function edit_programme_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Edit Programme");
-	set("edit_active" ,"true");
-
-    return render("dataentry/edit.programme.html.php");
-}
-
-/**
- * Edit Programme in the system
- **/
-function edit_programme_post() {
-	// $did = $_POST['dept_FK'];
-	extract($_POST);
-
-	// Delete the student static function to delete the object
-	Programme::LoadAndUpdate($_POST);
-	flash('success', "Programme has been successfully edited");
-	
-	// Redirect the user back 
-	redirect('/dataentry/programme/edit');
-}
-
-/**
- * Edit Staff View page
- **/
-function edit_staff_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Edit Staff");
-	set("edit_active" ,"true");
-
-    return render("dataentry/edit.staff.html.php");
-}
-
-/**
- * Edit Staff in the system
- **/
-function edit_staff_post() {
-	// $did = $_POST['dept_FK'];
-	extract($_POST);
-
-	// Delete the student static function to delete the object
-	Staff::LoadAndUpdate($_POST);
-	flash('success', "Staff $staffName has been successfully edited");
-	
-	// Redirect the user back 
-	redirect('/dataentry/staff/edit');
-}
-
-/**
- * Edit Student View page
- **/
-function edit_student_render() {
-	layout('dataentry/layout.html.php');
-	set("title" ,"Edit student");
-	set("edit_active" ,"true");
-
-    return render("dataentry/edit.student.html.php");
-}
-
-/**
- * Edit Student in the system
- **/
-function edit_student_post() {
-	// $did = $_POST['dept_FK'];
-	extract($_POST);
-
-	// Delete the student static function to delete the object
-	Student::LoadAndUpdate($_POST);
-	flash('success', "Student $name has been successfully deleted");
-	
-	// Redirect the user back 
-	redirect('/dataentry/student/edit');
-}
-
-/**
  * Add Student View Page
  **/
-function add_student_render() {
+function dataentry_add_student_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add student");
 	set("add_active" ,"true");
@@ -384,7 +31,7 @@ function add_student_render() {
 /**
  * Add Student to the system
  **/
-function add_student_post() {
+function dataentry_add_student_post() {
 	$db = $GLOBALS['db'];
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
@@ -413,7 +60,7 @@ function add_student_post() {
 /**
  * Add Department View Page
  **/
-function add_department_render() {
+function dataentry_add_department_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Department");
 	set("add_active" ,"true");
@@ -421,7 +68,7 @@ function add_department_render() {
     return render("dataentry/add.department.html.php");
 }
 
-function add_student_proxy() {
+function dataentry_add_student_proxy() {
 	$db = $GLOBALS['db'];
 	// Get the list of programmes for the given department
 	if(isset($_GET['dept'])) {
@@ -445,7 +92,7 @@ function add_student_proxy() {
 /**
  * Add Department to the system
  **/
-function add_department_post() {
+function dataentry_add_department_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
 	
@@ -462,7 +109,7 @@ function add_department_post() {
 /**
  * Add programme View page
  **/
-function add_programme_render() {
+function dataentry_add_programme_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Programme");
 	set("add_active" ,"true");
@@ -473,7 +120,7 @@ function add_programme_render() {
 /**
  * Add Programme to the system
  **/
-function add_programme_post() {
+function dataentry_add_programme_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
 	$db = $GLOBALS['db'];
@@ -500,7 +147,7 @@ function add_programme_post() {
 /**
  * Add Section View page
  **/
-function add_section_render() {
+function dataentry_add_section_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Section");
 	set("add_active" ,"true");
@@ -511,7 +158,7 @@ function add_section_render() {
 /**
  * Add Section View page
  **/
-function add_section_post() {
+function dataentry_add_section_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
 	$db = $GLOBALS['db'];
@@ -538,7 +185,7 @@ function add_section_post() {
 /**
  * Add Staff View Page
  **/
-function add_staff_render() {
+function dataentry_add_staff_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Staff");
 	set("add_active" ,"true");
@@ -549,7 +196,7 @@ function add_staff_render() {
 /**
  * Add Staff to the system
  **/
-function add_staff_post() {
+function dataentry_add_staff_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
 
@@ -575,7 +222,7 @@ function add_staff_post() {
 /**
  * Add Course View Page
  **/
-function add_course_render() {
+function dataentry_add_course_render() {
 	layout('dataentry/layout.html.php');
 	set("title" ,"Add Course");
 	set("add_active" ,"true");
@@ -586,24 +233,26 @@ function add_course_render() {
 /**
  * Add Course to the system
  **/
-function add_course_post() {
+function dataentry_add_course_post() {
 	// $did = $_POST['dept_FK'];
 	extract($_POST);
 
-	// Delete the course static function to delete the object
 	$r = Course::LoadAndSave($_POST, $GLOBALS['db']);
 
-	if(is_bool($r) && $r == false) {
-		flash('warning', "Course with $course_code already exist. Please try with another name");
+	print_r($r);
+	
+	if(is_bool($r) && $r === FALSE) {
+		flash('warning', "Course with $coursecode already exist. Please try with another name");
 		return redirect('/dataentry/course/add');
 	}
 	
 	if(is_object($r) && get_class($r) == "PDOException") {
-		flash('error', "Course cannot be created. Please try again. Error: " . $r->getMessage());
-		return redirect('/dataentry/course/add');
+		// flash('error', "Course cannot be created. Please try again. Error: " . $r->getMessage());
+		halt(SERVER_ERROR, $r->getMessage());
+		// return redirect('/dataentry/course/add');
 	} 
 
-	flash('success', "Course $name has been successfully added");
+	flash('success', "Course $coursename has been successfully added");
 	
 	// Redirect the user back 
 	return redirect('/dataentry/course/add');
@@ -619,5 +268,84 @@ function dataentry_changepass() {
 		return redirect("/dataentry/home");
 	} else {
 		return redirect("/dataentry/home");
+	}
+}
+
+
+function dataentry_list_staff_render() {
+	return list_staff_render();
+}
+
+function list_staff_render() {
+	$user = get_user();
+	layout($user->type . '/layout.html.php');
+	set('title', "Staff List");
+	set('list_active', "true");
+	
+	return render("/dataentry/dataentry.list.staff.php");
+}
+
+function dataentry_list_programme_render() {
+	return list_programme_render();
+}
+
+function list_programme_render() {
+	$user = get_user();
+	layout($user->type . '/layout.html.php');
+	set('title', "Programme List");
+	set('list_active', "true");
+	
+	return render("/dataentry/dataentry.list.programme.php");
+}
+
+function dataentry_list_course_render() {
+	return list_course_render();
+}
+
+function list_course_render() {
+	$user = get_user();
+	layout($user->type . '/layout.html.php');
+	set('title', "Course List");
+	set('list_active', "true");
+	
+	return render("/dataentry/dataentry.list.course.php");
+}
+
+function dataentry_report_list() {
+	$type = params('type');
+	return render("/dataentry/export/dataentry.$type.list.html.php");
+}
+
+function dataentry_export_list() {
+	$type = params('type');
+	
+	switch($type) {
+		case "staff":
+			$print_url = "http://" . $_SERVER['SERVER_NAME'] . url_for('/admin/report/list/staff'); 
+			$pdf_path = WTK::exportPDF($print_url);
+			return render_file($pdf_path);
+			break;
+		case "programme":
+			$print_url = "http://" . $_SERVER['SERVER_NAME'] . url_for('/admin/report/list/programme'); 
+			$pdf_path = WTK::exportPDF($print_url);
+			return render_file($pdf_path);
+			break;
+		case "student":
+			$print_url = "http://" . $_SERVER['SERVER_NAME'] . url_for('/admin/report/list/student'); 
+			$pdf_path = WTK::exportPDF($print_url);
+			return render_file($pdf_path);
+			break;
+		case "section":
+			$print_url = "http://" . $_SERVER['SERVER_NAME'] . url_for('/admin/report/list/section'); 
+			$pdf_path = WTK::exportPDF($print_url);
+			return render_file($pdf_path);
+			break;
+		case "course":
+			$print_url = "http://" . $_SERVER['SERVER_NAME'] . url_for('/admin/report/list/course'); 
+			$pdf_path = WTK::exportPDF($print_url);
+			return render_file($pdf_path);
+			break;
+		default:
+			break;
 	}
 }

@@ -7,6 +7,7 @@
 	$students = $db->select("student");
 	
 	content_for('body');
+	
 ?>
 <!-- 100% Box Grid Container: Start -->
 <div class="grid_24">
@@ -49,12 +50,12 @@
 
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		<h2 class="icon frames">Block and Unblock Users</h2>
+		<h2 class="icon frames"><?php echo get_text('BLOCK_UNBLOCK_USERS'); ?></h2>
 
 		<!-- Tab Select: Start -->
 		<ul class="sorting">
-			<li><a href="#students_list" class="active">Students</a></li>
-			<li><a href="#staffs_list">Staffs</a></li>
+			<li><a href="#students_list" class="active"><?php echo get_text('STUDENT'); ?></a></li>
+			<li><a href="#staffs_list"><?php echo get_text('STAFF'); ?></a></li>
 		</ul>
 		<!-- Tab Select: End -->
 		
@@ -97,14 +98,14 @@
 								?>
 							<td class="align_left center"><span class="icon stop"></span></td>
 							<td class="align_left tools center">
-								<a href="<?php echo url_for("/admin/student/" . $student['idstudent'] . "/unblock"); ?>" class="edit tip" title="unblock student">edit</a>
+								<a href="<?php echo url_for("/admin/student/" . $student['idstudent'] . "/unblock"); ?>" class="delete tip" title="<?php echo get_text('UNBLOCK'); ?>">edit</a>
 							</td>
 								<?php
 									} else {
 								?>
 							<td class="align_left center"><span class="icon success"></span></td>
 							<td class="align_left tools center">
-								<a href="<?php echo url_for("/admin/student/" . $student['idstudent'] . "/block"); ?>" class="delete tip" title="block student">delete</a>
+								<a href="<?php echo url_for("/admin/student/" . $student['idstudent'] . "/block"); ?>" class="edit tip" title="<?php echo get_text('BLOCK'); ?>">delete</a>
 							</td>
 								<?php
 									}
@@ -120,12 +121,12 @@
 					<input type="checkbox" class="checkall" />
 					
 					<select name="operation" class="validate required">
-						<option>Choose action</option>
-						<option value="block">Block</option>
-						<option value="unblock">Unblock</option>
+						<option><?php echo get_text('CHOOSE_ACTION'); ?></option>
+						<option value="block"><?php echo get_text('BLOCK'); ?></option>
+						<option value="unblock"><?php echo get_text('UNBLOCK'); ?></option>
 					</select>
 					
-					<button type="submit" class="left">Apply to Selected</button>
+					<button type="submit" class="left"><?php echo get_text('APPLY_SELECTED'); ?></button>
 				</div>
 			</form>
 			</div>
@@ -160,14 +161,14 @@
 							?>
 							<td class="align_left center"><span class="icon stop"></span></td>
 							<td class="align_left tools center">
-								<a href="<?php echo url_for("/admin/staff/" . $staff['idstaff'] . "/unblock"); ?>" class="edit tip" title="Unblock User">Unblock User</a>
+								<a href="<?php echo url_for("/admin/staff/" . $staff['idstaff'] . "/unblock"); ?>" class="delete tip" title="<?php echo get_text('UNBLOCK'); ?>">"Unblock User</a>
 							</td>
 							<?php
 								} else {
 							?>
 							<td class="align_left center"><span class="icon success"></span></td>
 							<td class="align_left tools center">
-								<a href="<?php echo url_for("/admin/staff/" . $staff['idstaff'] . "/block"); ?>" class="delete tip" title="Block User">Block User</a>
+								<a href="<?php echo url_for("/admin/staff/" . $staff['idstaff'] . "/block"); ?>" class="edit tip" title="<?php echo get_text('BLOCK'); ?>">Block User</a>
 							</td>
 							<?php
 								}
@@ -181,13 +182,13 @@
 				<div class="table_actions">
 					<input type="checkbox" class="checkall" />
 					
-					<select name="operation">
-						<option>Choose action</option>
-						<option value="block">Block</option>
-						<option value="unblock">Unblock</option>
+					<select name="operation" class="validate required">
+						<option><?php echo get_text('CHOOSE_ACTION'); ?></option>
+						<option value="block"><?php echo get_text('BLOCK'); ?></option>
+						<option value="unblock"><?php echo get_text('UNBLOCK'); ?></option>
 					</select>
 					
-					<button type="submit" class="left">Apply to Selected</button>
+					<button type="submit" class="left"><?php echo get_text('APPLY_SELECTED'); ?></button>
 				</div>
 			</form>
 			</div>

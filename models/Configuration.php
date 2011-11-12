@@ -4,6 +4,7 @@
  *	Configuration class
  **/
 class Configuration {
+	// Configuration constants to be used against the datastore
 	public static $CONFIG_DATAENTRY_USER = "CONFIG_DATAENTRY_USER";
 	public static $CONFIG_DATAENTRY_PASSWORD = "CONFIG_DATAENTRY_PASSWORD";
 	
@@ -11,6 +12,9 @@ class Configuration {
 	public static $CONFIG_ADMIN_PASSWORD = "CONFIG_ADMIN_PASSWORD";
 
 	public static $CONFIG_SEM_START_DATE = "CONFIG_SEM_START_DATE";
+
+	public static $CONFIG_DEFAULT_STAFF_PASSWORD = "CONFIG_DEFAULT_STAFF_PASSWORD";
+	public static $CONFIG_DEFAULT_STUDENT_PASSWORD = "CONFIG_DEFAULT_STUDENT_PASSWORD";
 	
 	public static function get($key, $db, $returnValue = false) {
 		if(!$returnValue) 

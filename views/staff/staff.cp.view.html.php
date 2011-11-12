@@ -100,6 +100,8 @@
 		<input type="checkbox" class="checkall" />
 
 		<button class="left">Delete Selected</button>
+		<!-- <button class="left" onclick="window.location='<?php echo url_for('/staff/course_profile/add'); ?>';return false;">Add new Course Profile</button> -->
+		<a class="button" href="<?php echo url_for('/staff/course_profile/add'); ?>">Add a new Course</a>
 	</div>
 	</form>
 	</div>

@@ -8,7 +8,7 @@
  **/
 function admin_home_render() {
 	layout('admin/layout.html.php');
-	set('title', 'Admin Home');
+	set('title', get_text('ADMIN') . " " . get_text('HOME'));
 	set('home_active', 'true');
 	
 	return render("admin/admin.home.html.php");
@@ -144,7 +144,7 @@ function admin_student_block_post() {
  **/
 function admin_block_unblock_render() {
 	layout('admin/layout.html.php');
-	set('title', 'Admin - Block or Unblock Users');
+	set('title', get_text('ADMIN') . " - " . get_text('BLOCK_UNBLOCK_USERS'));
 	set('block_active', 'true');
 	
 	return render("admin/admin.blockunblock.html.php");
@@ -657,7 +657,7 @@ function admin_edit_programme_post() {
 	flash('success', "Programme has been successfully edited");
 	
 	// Redirect the user back 
-	redirect('/admin/programme/edit');
+	return redirect('/admin/programme/edit');
 }
 
 /**
@@ -683,7 +683,7 @@ function admin_edit_staff_post() {
 	flash('success', "Staff $staffName has been successfully edited");
 	
 	// Redirect the user back 
-	redirect('/admin/staff/edit');
+	return redirect('/admin/staff/edit');
 }
 
 /**
@@ -709,7 +709,7 @@ function admin_edit_student_post() {
 	flash('success', "Student $name has been successfully deleted");
 	
 	// Redirect the user back 
-	redirect('/admin/student/edit');
+	return redirect('/admin/student/edit');
 }
 
 function admin_list_staff_render() {

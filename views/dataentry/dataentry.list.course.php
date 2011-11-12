@@ -2,7 +2,9 @@
 
 	$db = $GLOBALS['db'];
 	
+	$user = get_user();
 	content_for('body');
+	
 ?>
 
 <!-- 100% Box Grid Container: Start -->
@@ -41,7 +43,15 @@
 
 				<tr>
 					<td class="align_left center"><?php echo $i; ?></td>
-					<td class="align_left center"><a href="<?php echo url_for('/dataentry/course/' . $programme['course_code'] . '/edit'); ?>"><?php echo $programme['pname']; ?></a></td>
+					<td class="align_left center">
+					<?php if($user->IsAdmin()): ?>
+						<a href="<?php echo url_for('/admin/course/' . $programme['course_code'] . '/edit'); ?>">
+					<?php endif; ?>
+						<?php echo $programme['course_code']; ?>
+					<?php if($user->IsAdmin()):?>
+						</a>
+					<?php endif;?>
+					</td>
 					<td class="align_left center"><?php echo $programme['course_name']; ?></td>
 					<td class="align_left center"><?php echo $programme['credits']; ?></td>
 					<td class="align_left center"><?php echo $programme['pname']; ?></td>
@@ -54,7 +64,7 @@
 		</table>
 
 		<div class="table_actions">
-			<button type="submit" onclick="window.open('<?php echo url_for('/dataentry/export/list/course'); ?>');" class="left">Export as PDF</button>
+			<button type="submit" onclick="window.open('<?php echo url_for('/' . $user->type .'/export/list/course'); ?>','pdfexplore','status');" class="left">Export as PDF</button>
 		</div>
 		
 	</div>

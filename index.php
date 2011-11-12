@@ -129,7 +129,8 @@ function before($route) {
 	// layout('layout.html.php');
 	$route_pattern = $route['pattern'];
 
-	$func_calls_no_user_session = array('user_login', 'user_login_authenticate', 'user_logout', 'add_student_proxy', 'dataentry_report_list', 'user_change_locale');
+	// Callback functions for which user session check is to be skipped
+	$func_calls_no_user_session = array('user_login', 'user_login_authenticate', 'user_logout', 'add_student_proxy', 'dataentry_report_list', 'user_change_locale', 'user_javascript_i18n_render');
 	if(!in_array($route['callback'], $func_calls_no_user_session)) {
 		// redirect('/');
 		if(!isset($_SESSION['user'])) {
@@ -354,6 +355,8 @@ dispatch_get('/admin/home', 'admin_home_render');
 // ------------------------------------------
 // Main or Other functions
 // ------------------------------------------
+dispatch_get('/user/js/i18n', 'user_javascript_i18n_render');
+
 dispatch_get('/user/locale/:lang', 'user_change_locale');
 dispatch_get('/user/login', 'user_login');
 dispatch_post('/user/login', 'user_login_authenticate');

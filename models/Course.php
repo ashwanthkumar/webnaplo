@@ -46,7 +46,7 @@ class Course{
 	public static function LoadAndSave($courseData, $db) {
 		extract($courseData);
 
-		$cs = $db->select("course", "course_code = :code and course_name = :name and credits = :credits and pgm_id = :pgm", array(":code" => $coursecode, ":name" => $coursename, ":credits" => $credits, ":pgm" => $pgm_id));
+		$cs = $db->select("course", "course_code = :code and course_name = :name and credits = :credits and programme_id = :pgm", array(":code" => $coursecode, ":name" => $coursename, ":credits" => $credits, ":pgm" => $pgm_id));
 		
 		if(count($cs) > 0) return FALSE;
 		
@@ -57,6 +57,5 @@ class Course{
 		$course->pgm_id = $pgm_id;
 		
 		return $course->save($db);
-		
 	}
 }

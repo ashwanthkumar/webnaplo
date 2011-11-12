@@ -1,7 +1,8 @@
 <?php
 
 	$db = $GLOBALS['db'];
-	
+
+	$user = get_user();
 	content_for('body');
 ?>
 
@@ -40,7 +41,15 @@
 
 				<tr>
 					<td class="align_left"><?php echo $i; ?></td>
-					<td class="align_left"><a href="<?php echo url_for('/dataentry/staff/' . $staff['idstaff'] . '/edit'); ?>"><?php echo $staff['staff_id']; ?></a></td>
+					<td class="align_left">
+					<?php if($user->IsAdmin()): ?>
+						<a href="<?php echo url_for('/admin/staff/' . $staff['idstaff'] . '/edit'); ?>">
+					<?php endif; ?>
+						<?php echo $staff['staff_id']; ?>
+					<?php if($user->IsAdmin()):?>
+						</a>
+					<?php endif;?>
+					</td>
 					<td class="align_left center"><?php echo $staff['name']; ?></td>
 					<td class="align_left center"><?php echo $staff['designation']; ?></td>
 					<td class="align_left center"><a href="mailto:<?php echo $staff['email']; ?>"><?php echo $staff['email']; ?></a></td>
@@ -53,7 +62,7 @@
 		</table>
 
 		<div class="table_actions">
-			<button type="submit" onclick="window.open('<?php echo url_for('/dataentry/export/list/staff'); ?>');" class="left">Export as PDF</button>
+			<button type="submit" onclick="window.open('<?php echo url_for('/' . $user->type . '/export/list/staff'); ?>','pdfexplore','status');" class="left">Export as PDF</button>
 		</div>
 		
 	</div>

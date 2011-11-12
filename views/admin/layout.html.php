@@ -29,6 +29,7 @@
 	<!-- jQuery thats loaded before document ready to prevent flickering - Rest are found at the bottom -->
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery-1.4.1.min.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.i18n.properties-min.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.styleswitcher.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.visualize.js"></script>

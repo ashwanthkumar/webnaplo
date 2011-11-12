@@ -183,3 +183,13 @@ function user_change_locale() {
 	if(isset($refrer) && $refrer != "") header("Location: " . $_SERVER['HTTP_REFERER']);
 	else return redirect("/");
 }
+
+/**
+ *	Provide a Localized error messages to form validation messages
+ *
+ *	@method GET
+ *	@route /user/js/i18n
+ **/
+function user_javascript_i18n_render() {
+	return render('webnaplo/user.js.php');
+}

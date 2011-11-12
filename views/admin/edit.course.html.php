@@ -10,7 +10,7 @@
 	
 	// Re-direct the course list 
 	if(count($course) < 1) {
-		redirect('/dataentry/course/list');
+		redirect('/admin/course/list');
 	}
 	
 	$course = $course[0];

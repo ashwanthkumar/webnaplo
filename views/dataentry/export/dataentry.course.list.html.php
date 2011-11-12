@@ -31,7 +31,7 @@
 	?>
   <tr>
 	<td><?php echo $i++; ?></td>
-	<td><?php echo $programme['pname']; ?></td>
+	<td><?php echo $programme['course_code']; ?></td>
 	<td><?php echo $programme['course_name']; ?></td>
 	<td><?php echo $programme['credits']; ?></td>
 	<td><?php echo $programme['pname']; ?></td>

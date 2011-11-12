@@ -14,7 +14,7 @@
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		
-		<h1 class="icon frames">News And Updates</h1>
+		<h1 class="icon frames"><?php echo get_text('NEWS_UPDATES'); ?></h1>
 		
 	</div>
 	<!-- Box Header: End -->
@@ -48,7 +48,7 @@
 	
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		<h1 class="icon frames">Campus Status</h1>
+		<h1 class="icon frames"><?php echo get_text('CAMPUS_STATUS'); ?></h1>
 	</div>
 	<!-- Box Header: End -->
 	
@@ -57,7 +57,7 @@
 	<div class="box_content">
 	<table>
 		<tr>
-			<td><span class="icon pages"></span> Departments</td>
+			<td><span class="icon pages"></span> <?php echo get_text('DEPARTMENT'); ?></td>
 			<?php
 				$dept = $db->run("select count(*) as count from dept");
 			?>
@@ -65,7 +65,7 @@
 		</tr>
 
 		<tr>
-			<td><span class="icon pages"></span> Programme</td>
+			<td><span class="icon pages"></span> <?php echo get_text('PROGRAMME'); ?></td>
 			<?php
 				$pgms = $db->run("select count(*) as count from programme;");
 			?>
@@ -73,7 +73,7 @@
 		</tr>
 
 		<tr>
-			<td><span class="icon users"></span> Staff</td>
+			<td><span class="icon users"></span> <?php echo get_text('STAFF'); ?></td>
 			<?php
 				$pgms = $db->run("select count(*) as count from staff;");
 			?>
@@ -81,7 +81,7 @@
 		</tr>
 
 		<tr>
-			<td><span class="icon users"></span>Students</td>
+			<td><span class="icon users"></span><?php echo get_text('STUDENT'); ?></td>
 			<?php
 				$pgms = $db->run("select count(*) as count from student;");
 			?>
@@ -93,7 +93,7 @@
 	
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		<h1 class="icon frames">System Status</h1>
+		<h1 class="icon frames"><?php echo get_text('SYSTEM_STATUS'); ?></h1>
 	</div>
 	<!-- Box Header: End -->
 	
@@ -102,15 +102,15 @@
 	<div class="box_content">
 	<table>
 		<tr>
-			<td>Version</td>
+			<td><?php echo get_text('VERSION'); ?></td>
 			<td class="right_end"><?php echo System::$version; ?></td>
 		</tr>
 		<tr>
-			<td>Release</td>
+			<td><?php echo get_text('RELEASE'); ?></td>
 			<td class="right_end"><?php echo System::$code_name; ?></td>
 		</tr>
 		<tr>
-			<td>Build Date</td>
+			<td><?php echo get_text('BUILD_DATE'); ?></td>
 			<td class="right_end"><?php echo date('r', System::$build); ?></td>
 		</tr>
 	</table>
