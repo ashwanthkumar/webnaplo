@@ -185,6 +185,9 @@
 		<p class="left">
 			Copyright &#169; 2011 <a href="#">Team WebNaplo</a>. Currently in Beta.
 		</p>
+		<p class="right">
+			View in <a href="<?php echo url_for('user/locale/en'); ?>">English</a> | <a href="<?php echo url_for('user/locale/ta'); ?>"><?php echo get_text('TAMIL', 'ta'); ?></a>
+		</p>
 		
 	</div>
 	<!-- Footer: End -->

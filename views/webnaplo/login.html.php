@@ -47,7 +47,7 @@
 		
 			<!-- Box Header: Start -->
 			<div class="box_top">
-				<h1 class="icon key">Login</h1>
+				<h1 class="icon key"><?php echo get_text('LOGIN_PAGE'); ?></h1>
 			</div>
 			<!-- Box Header: End -->
 			
@@ -59,7 +59,7 @@
 					
 					<!-- Login Tab: Start -->
 					<div id="login">
-						<p class="note small">Welcome to WebNaplo (Beta).</p>
+						<p class="note small"><?php echo get_text('WELCOME_TO_WEBNAPLO'); ?></p>
 						<?php
 							if(isset($flash['error'])) {
 						?>
@@ -71,17 +71,17 @@
 						<form action="<?php echo url_for('/user/login'); ?>" method="post">
 						
 							<div class="field noline nopadding">
-								<label class="left" for="username">Username</label>
-								<input type="text" class="validate tip-stay right required" required="required" title="enter your username" name="username" id="username">
+								<label class="left" for="username"><?php echo get_text('USERNAME'); ?></label>
+								<input type="text" class="validate tip-stay right required" title="enter your username" name="username" id="username">
 							</div>
 							
 							<div class="field">
-								<label class="left" for="password">Password</label>
-								<input type="password" class="validate tip-stay right required" title="enter your password" required="required" name="password" id="password">
+								<label class="left" for="password"><?php echo get_text('PASSWORD'); ?></label>
+								<input type="password" class="validate tip-stay right required" title="enter your password" name="password" id="password">
 							</div>
 							
 							<div class="right">
-								<button type="submit">Login</button>
+								<button type="submit"><?php echo get_text('LOGIN'); ?></button>
 							</div>
 						</form>
 						
@@ -99,8 +99,13 @@
 		
 		<div class="grid_12">
 			<div class="box_content padding">
-				<h6 class="noline">&copy; 2011 <a href="<?php echo url_for('/credits'); ?>">Team WebNaplo</a>. Currently in Beta. </h6>
-			</div>
+			<p class="left">
+				&copy; 2011 <a href="<?php echo url_for('/credits'); ?>"> WebNaplo</a> (Beta)
+			</p>
+		<p class="right">
+			View in <a href="<?php echo url_for('user/locale/en'); ?>">English</a> | <a href="<?php echo url_for('user/locale/ta'); ?>"><?php echo get_text('TAMIL', 'ta'); ?></a>
+		</p>
+	</div>
 		</div>
 		
 	</div>

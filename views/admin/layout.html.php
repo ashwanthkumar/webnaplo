@@ -50,12 +50,12 @@
 			<ul id="user" class="dropdown">
 				<li class="topnav">
 					<!-- User Name -->
-					<a href="#" class="top icon user">Admin</a>
+					<a href="#" class="top icon user"><?php echo get_text('ADMIN'); ?></a>
 					
 					<!-- User Dropdown Content: Start -->
 					<ul class="subnav">  
-						<li><a href="<?php echo url_for('admin/advanced/'); ?>" class="icon settings">Advanced Settings</a></li>
-			            <li><a href="<?php echo url_for('/user/logout/'); ?>" class="icon lock">Log out</a></li>  
+						<li><a href="<?php echo url_for('admin/advanced/'); ?>" class="icon settings"><?php echo get_text('ADVANCED_SETTINGS'); ?></a></li>
+			            <li><a href="<?php echo url_for('/user/logout/'); ?>" class="icon lock"><?php echo get_text('LOGOUT'); ?></a></li>  
 			        </ul>  
 			        <!-- User Dropdown Content: End -->
 				</li>
@@ -64,7 +64,7 @@
 			<!-- Width Switcher: Start -->
 			<ul id="width" class="dropdown right">
 				<li class="topnav">
-					<a href="http://www.sastra.edu/" class="top">Sponsored by SASTRA</a>
+					<a href="http://www.sastra.edu/" class="top"><?php echo get_text('SASTRA_UNIVERSITY'); ?></a>
 				</li>
 			</ul>
 			<!-- Width Switcher: End -->
@@ -75,7 +75,7 @@
 		<div id="header">
 		<!-- Navigation: Start -->
 			<ul id="navigation" class="dropdown">
-				<li><a class=" <?php if(isset($home_active)) echo "active"; ?>" href="<?php echo url_for('/admin/home'); ?>"> Home</a></li>
+				<li><a class=" <?php if(isset($home_active)) echo "active"; ?>" href="<?php echo url_for('/admin/home'); ?>"> <?php echo get_text('HOME'); ?></a></li>
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<!--
@@ -85,12 +85,12 @@
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li>
-					<a class=" <?php if(isset($block_active)) echo "active"; ?>" href="<?php echo url_for('admin/block_unblock/'); ?>">Block/UnBlock</a>
+					<a class=" <?php if(isset($block_active)) echo "active"; ?>" href="<?php echo url_for('admin/block_unblock/'); ?>"><?php echo get_text('BLOCK'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li>
-					<a class=" <?php if(isset($lock_active)) echo "active"; ?>" href="<?php echo url_for('admin/lock/'); ?>">Lock</a>
+					<a class=" <?php if(isset($lock_active)) echo "active"; ?>" href="<?php echo url_for('admin/lock/'); ?>"><?php echo get_text('LOCK'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 
@@ -100,7 +100,7 @@
 				<?php if(isset($edit_active)) {
 				?>
 				<li class="topnav">
-					<a class="pages <?php if(isset($edit_active)) echo "active"; ?>" href="#">Edit</a>
+					<a class="pages <?php if(isset($edit_active)) echo "active"; ?>" href="#"><?php echo get_text('EDIT'); ?></a>
 				</li>
 				<?php
 					}
@@ -118,15 +118,15 @@
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="topnav">
-					<a class="pages <?php if(isset($delete_active)) echo "active"; ?>" href="#">Delete</a>
+					<a class="pages <?php if(isset($delete_active)) echo "active"; ?>" href="#"><?php echo get_text('DELETE'); ?></a>
 					
 					<!-- Navigation Dropdown Menu Item Content: Start -->
 					<ul class="subnav">
-			            <li><a href="<?php echo url_for('/admin/course/delete/'); ?>" class="icon pages">Course</a></li> 
-						<li><a href="<?php echo url_for('/admin/department/delete/'); ?>" class="icon laptop">Department</a></li>  
-			            <li><a href="<?php echo url_for('/admin/programme/delete/'); ?>" class="icon archive">Programme</a></li>  
-			            <li><a href="<?php echo url_for('/admin/staff/delete/'); ?>" class="icon graph">Staff</a></li>  
-			            <li><a href="<?php echo url_for('/admin/student/delete/'); ?>" class="icon edit">Student</a></li>  
+			            <li><a href="<?php echo url_for('/admin/course/delete/'); ?>" class="icon pages"><?php echo get_text('COURSE'); ?></a></li> 
+						<li><a href="<?php echo url_for('/admin/department/delete/'); ?>" class="icon laptop"><?php echo get_text('DEPARTMENT'); ?></a></li>  
+			            <li><a href="<?php echo url_for('/admin/programme/delete/'); ?>" class="icon archive"><?php echo get_text('PROGRAMME'); ?></a></li>  
+			            <li><a href="<?php echo url_for('/admin/staff/delete/'); ?>" class="icon graph"><?php echo get_text('STAFF'); ?></a></li>  
+			            <li><a href="<?php echo url_for('/admin/student/delete/'); ?>" class="icon edit"><?php echo get_text('STUDENT'); ?></a></li>  
 			       </ul>  
 			        <!-- Navigation Dropdown Menu Item Content: End --> 
 			        
@@ -134,13 +134,13 @@
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="topnav">
-					<a class="pages <?php if(isset($list_active)) echo "active"; ?>" href="#">List</a>
+					<a class="pages <?php if(isset($list_active)) echo "active"; ?>" href="#"><?php echo get_text('LIST'); ?></a>
 					
 					<!-- Navigation Dropdown Menu Item Content: Start -->
 					<ul class="subnav">
-						<li><a href="<?php echo url_for('/admin/staff/list/'); ?>" class="icon laptop">Staff List</a></li>  
-			            <li><a href="<?php echo url_for('/admin/programme/list/'); ?>" class="icon archive">Prog. List</a></li>  
-			            <li><a href="<?php echo url_for('/admin/course/list/'); ?>" class="icon pages">Course List</a></li> 
+						<li><a href="<?php echo url_for('/admin/staff/list/'); ?>" class="icon laptop"><?php echo get_text('STAFF_LIST'); ?></a></li>  
+			            <li><a href="<?php echo url_for('/admin/programme/list/'); ?>" class="icon archive"><?php echo get_text('PROGRAMME_LIST'); ?></a></li>  
+			            <li><a href="<?php echo url_for('/admin/course/list/'); ?>" class="icon pages"><?php echo get_text('COURSE_LIST'); ?></a></li> 
 			            <!-- <li><a href="<?php echo url_for('/admin/section/list/'); ?>" class="icon edit">Section List</a></li>  -->
 			            
 			       </ul>  
@@ -175,7 +175,10 @@
 		
 		<p class="left">
 			Copyright &#169; 2011 <a href="#">Team WebNaplo</a>. Currently in Beta.
-		</p>		
+		</p>
+		<p class="right">
+			View in <a href="<?php echo url_for('user/locale/en'); ?>">English</a> | <a href="<?php echo url_for('user/locale/ta'); ?>"><?php echo get_text('TAMIL', 'ta'); ?></a>
+		</p>
 	</div>
 	<!-- Footer: End -->
 	
