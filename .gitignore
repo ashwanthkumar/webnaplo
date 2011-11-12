@@ -1,3 +1,4 @@
 config.php
 data/*
 export/*.pdf
+tests/data/
