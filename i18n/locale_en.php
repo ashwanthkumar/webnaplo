@@ -58,6 +58,8 @@
 		"PASSWORD" => "Password",
 		"LOGIN_PAGE" => "Login Page ",
 		"WELCOME_TO_WEBNAPLO" => "Welcome to WebNaplo",
+		"ENTER_USERNAME" => "enter your username", 
+		"ENTER_PASSWORD" => "enter your password", 
 	);
 	
 

@@ -461,7 +461,7 @@ $("<span class='v'></span>").insertAfter("ul#navigation.dropdown ul.subnav");
 	function validation(){
 
 		// Does the validation on blur (when you go to off the input field)
-		$(".validate").blur(function () {
+		$(".validateMultiForm").blur(function () {
 			
 			// If something is not typed, error icon
 			if ($(this).val() === ""){
@@ -480,28 +480,11 @@ $("<span class='v'></span>").insertAfter("ul#navigation.dropdown ul.subnav");
 		});
 
 	};
-
+	
 	// Calls the validator function when focusing on an input field
-	$(".validate").focus(function () {
-	    // return validation();
+	$(".validateMultiForm").focus(function () {
+	    return validation();
 	});
-	
-	$("form").validate({
-		   errorElement: "div",
-		   errorClass: "validate_error",
-		   validClass: "validate_success",
-		   ignoreTitle: true,
-		   unhighlight: function(element,eclass, vclass) {
-			// Changed from disable to update to give a better UX 
-			$(element).poshytip('update', $(element).attr('title'));
-			$(element).removeClass(eclass);
-			$(element).addClass(vclass);
-		   },
-		   errorPlacement: function(error, element) {
-				element.poshytip('update', $(error).html());
-		   }
-	});
-	
 
 //-------------------------------------------------------------- */
 // Drop Downs

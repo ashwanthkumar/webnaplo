@@ -58,6 +58,8 @@
 		"PASSWORD" => "மறைச் சொல்",
 		"LOGIN_PAGE" => "நுழைவு வாயில் ",
 		"WELCOME_TO_WEBNAPLO" => "வேப்னாப்லோகு நல்வரவு",
+		"ENTER_USERNAME" => "பயனீட்டாளர் பெயர் எழுது  ",
+		"ENTER_PASSWORD" => "மறைச் சொல் எழுது  ",
 	);
 	
 
