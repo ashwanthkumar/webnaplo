@@ -53,14 +53,19 @@ function user_login_authenticate() {
 	extract($_POST);
 
 	$dataentry_username = Configuration::get(Configuration::$CONFIG_DATAENTRY_USER, $GLOBALS['db']);
-	if(is_object($dataentry_username) && get_class($dataentry_username) != "PDOException") echo $dataentry_username->getMessage(); 
+	if(is_object($dataentry_username) && get_class($dataentry_username) == "PDOException") {
+		// PDOException goes here
+		print_r($dataentry_username);
+		halt(SERVER_ERROR, $dataentry_username->getMessage());
+	}
+	
 	$dataentry_username = $dataentry_username[0]["value"];
 	$dataentry_password = Configuration::get(Configuration::$CONFIG_DATAENTRY_PASSWORD, $GLOBALS['db']);
 	$dataentry_password = $dataentry_password[0]["value"];
 	
 	$admin_username = Configuration::get(Configuration::$CONFIG_ADMIN_USER, $GLOBALS['db']);
 	$admin_username = $admin_username[0]["value"];
-	$admin_password = Configuration::get(Configuration::$CONFIG_ADMIN_USER, $GLOBALS['db']);
+	$admin_password = Configuration::get(Configuration::$CONFIG_ADMIN_PASSWORD, $GLOBALS['db']);
 	$admin_password = $admin_password[0]["value"];
 
 	$db = $GLOBALS['db'];
@@ -71,6 +76,7 @@ function user_login_authenticate() {
 		$user->name = "Dataentry User";
 		$user->auth = ($password == $dataentry_password) ? true : false;
 		if($user->auth) {
+			$user->accessLevel = 1;
 			$_SESSION['user'] = $user;
 			return redirect('/dataentry/home');
 		} else {
@@ -82,6 +88,7 @@ function user_login_authenticate() {
 		$user->name = "Admin User";
 		$user->auth = ($password == $admin_password) ? true : false;
 		if($user->auth) {
+			$user->accessLevel = 0;
 			$_SESSION['user'] = $user;
 			return redirect('/admin/home');
 		} else {
@@ -104,6 +111,7 @@ function user_login_authenticate() {
 					flash("error", "Sorry but your account is blocked. Please contact WebNaplo Admin to unlock your Account.");
 					return redirect('/user/login');
 				} else {
+					$user->accessLevel = 2;
 					$user->auth = true;
 					$user->blocked = false;
 					$user->name = $staff['name'];
@@ -132,6 +140,7 @@ function user_login_authenticate() {
 					return redirect('/user/login');
 				} else {
 					$user->auth = true;
+					$user->accessLevel = 3;
 					$user->blocked = false;
 					$user->name = $student['name'];
 					$user->userid = $student['idstudent'];
@@ -151,4 +160,26 @@ function user_login_authenticate() {
 		}
 	}
 		
+}
+
+/**
+ *	Change the locale of the currently logged in user
+ *
+ *	@method GET / POST
+ *	@route	/user/locale/:lang
+ **/
+function user_change_locale() {
+	$lang = params('lang');
+	
+	// print_r($lang);
+
+	$_LOCALE = option('_LOCALE');
+	if(array_key_exists($lang, $_LOCALE)) {
+		$_SESSION['locale'] = $lang;
+		option('locale', $lang);
+	}
+		
+	$refrer = $_SERVER['HTTP_REFERER'];
+	if(isset($refrer) && $refrer != "") header("Location: " . $_SERVER['HTTP_REFERER']);
+	else return redirect("/");
 }
