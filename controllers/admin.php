@@ -308,7 +308,7 @@ function admin_student_all_reset_password() {
 	$db = $GLOBALS['db'];
 	
 	$default_student_password = Configuration::get(Configuration::$CONFIG_DEFAULT_STUDENT_PASSWORD,$db, true);
-	$update = $db->update("student", array("password" => $default_staff_password), "1=1"); // 1=1 is required for update query 
+	$update = $db->update("student", array("password" => $default_student_password), "1=1"); // 1=1 is required for update query 
 
 	flash('success', "Password successfully reset for all Students");
 	if(is_object($update) && get_class($update) == "PDOException") halt(SERVER_ERROR, $update->getMessage());
@@ -355,4 +355,379 @@ function admin_update_dataentry_password() {
 	Configuration::put(Configuration::$CONFIG_DATAENTRY_PASSWORD, $password, $db);
 	flash('success', "Your Dataentry password is successfully changed");
 	return redirect('admin/advanced');
+}
+
+/**
+ * Delete Student View Page
+ *	
+ *	@method GET
+ *	@route 
+ **/
+function admin_delete_student_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Delete Student");
+	set("delete_active" ,"true");
+
+    return render("admin/delstud.html.php");
+}
+/**
+ * Delete the Student from the dataentry
+ **/
+function admin_delete_student_post() {
+	$reg = $_POST['regno'];
+
+	// Delete the student static function to delete the object
+	$r = Student::Delete($reg, $GLOBALS['db']);
+	if(is_object($r) && get_class($r) == "PDOException") {
+		
+		switch($r->getCode()) {
+			case 23000:
+				$msg = "There are other dependencies for the given Student, delete them before deleting this student";
+			break;
+		}
+		
+		flash('error', $msg);
+	} else {
+		if($r == 0) {
+			flash('warning', "Student with $reg was not found in the system");
+		} else {
+			flash('success', "Student with $reg has been successfully deleted");
+		}
+	}
+	
+	// Redirect the user back 
+	redirect('/admin/student/delete');
+}
+
+/**
+ * Delete Staff view page
+ **/
+function admin_delete_staff_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Delete Staff");
+	set("delete_active" ,"true");
+
+    return render("admin/delstaff.html.php");
+}
+
+/**
+ * Delete Staff from the system
+ **/
+function admin_delete_staff_post() {
+	$staffid = $_POST['staffid'];
+
+	$db = $GLOBALS['db'];
+	// Delete the student static function to delete the object
+	$r = Staff::Delete($staffid, $db);
+	
+	if(is_object($r) && get_class($r) == "PDOException") {
+		
+		switch($r->getCode()) {
+			case 23000:
+				$msg = "There are other dependencies for the given Staff, delete them before deleting this Staff";
+			break;
+		}
+		
+		flash('error', $msg);
+	} else {
+		if($r == 0) {
+			flash('warning', "Staff with $staffid is not found in the system");
+		} else {
+			flash('success', "Staff with $staffid has been successfully deleted");
+		}
+	}
+	
+	// Redirect the user back 
+	redirect('/admin/staff/delete');
+}
+
+/**
+ * Delete Programme View Page
+ **/
+function admin_delete_programme_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Delete Programme");
+	set("delete_active" ,"true");
+
+    return render("admin/delprog.html.php");
+}
+
+/**
+ * Delete the programme from the system
+ **/
+function admin_delete_programme_post() {
+	$pgmid = $_POST['Programme_FK'];
+
+	$db = $GLOBALS['db'];
+	
+	// Delete the student static function to delete the object
+	$r = Programme::Delete($pgmid, $db);
+	if(is_object($r) && get_class($r) == "PDOException") {
+		
+		switch($r->getCode()) {
+			case 23000:
+				$msg = "There are other dependencies for the given Programme, delete them before deleting this programme";
+			break;
+		}
+		
+		flash('error', $msg);
+	} else {
+		if($r == 0) {
+			flash('warning', "Programme is not found in the system");
+		} else {
+			flash('success', "Programme has been successfully deleted");
+		}
+	}
+	
+	// Redirect the user back 
+	redirect('/admin/programme/delete');
+}
+
+/**
+ * Delete Course View page
+ **/
+function admin_delete_course_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Delete Course");
+	set("delete_active" ,"true");
+
+    return render("admin/delcourse.html.php");
+}
+
+/**
+ * Delete post from the system
+ **/
+function admin_delete_course_post() {
+	$cid = $_POST['coursecode'];
+
+	// Delete the student static function to delete the object
+	$r = Course::Delete($cid, $GLOBALS['db']);
+	if(is_object($r) && get_class($r) == "PDOException") {
+		
+		switch($r->getCode()) {
+			case 23000:
+				$msg = "There are other dependencies for the given Course, delete them before deleting this Course";
+			break;
+		}
+		
+		flash('error', $msg);
+	} else {
+		if($r == 0) {
+			flash('warning', "Course with $cid not found in the system");
+		} else {
+			flash('success', "Course with $cid has been successfully deleted");
+		}
+	}
+	
+	// Redirect the user back 
+	redirect('/admin/course/delete');
+}
+
+/**
+ * Delete Department page
+ **/
+function admin_delete_department_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Delete Department");
+	set("delete_active" ,"true");
+
+    return render("admin/deldept.html.php");
+}
+
+/**
+ * Delete programme from the system
+ **/
+function admin_delete_department_post() {
+	$did = $_POST['dept_FK'];
+	
+	// Move this to Department Model class
+	$db = $GLOBALS['db'];
+
+	// Delete the student static function to delete the object
+	$r = Department::Delete($did, $db);
+	
+	if(is_object($r) && get_class($r) == "PDOException") {
+		
+		switch($r->getCode()) {
+			case 23000:
+				$msg = "There are other dependencies for the given Department, delete them before deleting this department";
+			break;
+		}
+		
+		flash('error', $msg);
+	} else {
+		if($r == 0) {
+			flash('warning', "Department was not found in the system");
+		} else {
+			flash('success', "Department has been successfully deleted");
+		}
+	}
+	
+	// Redirect the user back 
+	redirect('/admin/department/delete');
+}
+
+/**
+ * Edit Course View Page
+ **/
+function admin_edit_course_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Edit Course");
+	set("edit_active" ,"true");
+
+    return render("admin/edit.course.html.php");
+}
+
+/**
+ * Edit Course in the system
+ **/
+function admin_edit_course_post() {
+	// $did = $_POST['dept_FK'];
+	extract($_POST);
+
+	// Delete the student static function to delete the object
+	$r = Course::LoadAndUpdate($_POST, $GLOBALS['db']);
+	if(is_object($r) && get_class($r) == "PDOException") {
+		
+		switch($r->getCode()) {
+			case 23000:
+				$msg = "There are other dependencies for the given Department, delete them before deleting this department";
+			break;
+		}
+		
+		flash('error', $msg);
+	} else {
+		if($r == 0) {
+			flash('warning', "Course was not found in the system");
+		} else {
+			flash('success', "Course $courseName has been successfully edited");
+		}
+	}
+	
+	// Redirect the user back 
+	redirect("/admin/course/$idcourse/edit");
+}
+
+/**
+ * Edit Department View Page
+ **/
+function admin_edit_department_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Edit Department");
+	set("edit_active" ,"true");
+
+    return render("admin/edit.department.html.php");
+}
+
+/**
+ * Edit Department, existing from the system
+ **/
+function admin_edit_department_post() {
+	// $did = $_POST['dept_FK'];
+	extract($_POST);
+
+	// Delete the student static function to delete the object
+	Department::LoadAndUpdate($_POST);
+	flash('success', "department $departmentName has been successfully edited");
+	
+	// Redirect the user back 
+	redirect('/admin/department/edit');
+}
+
+/**
+ * Edit Programme View Page
+ **/
+function admin_edit_programme_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Edit Programme");
+	set("edit_active" ,"true");
+
+    return render("admin/edit.programme.html.php");
+}
+
+/**
+ * Edit Programme in the system
+ **/
+function admin_edit_programme_post() {
+	// $did = $_POST['dept_FK'];
+	extract($_POST);
+
+	// Delete the student static function to delete the object
+	Programme::LoadAndUpdate($_POST);
+	flash('success', "Programme has been successfully edited");
+	
+	// Redirect the user back 
+	redirect('/admin/programme/edit');
+}
+
+/**
+ * Edit Staff View page
+ **/
+function admin_edit_staff_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Edit Staff");
+	set("edit_active" ,"true");
+
+    return render("admin/edit.staff.html.php");
+}
+
+/**
+ * Edit Staff in the system
+ **/
+function admin_edit_staff_post() {
+	// $did = $_POST['dept_FK'];
+	extract($_POST);
+
+	// Delete the student static function to delete the object
+	Staff::LoadAndUpdate($_POST);
+	flash('success', "Staff $staffName has been successfully edited");
+	
+	// Redirect the user back 
+	redirect('/admin/staff/edit');
+}
+
+/**
+ * Edit Student View page
+ **/
+function admin_edit_student_render() {
+	layout('admin/layout.html.php');
+	set("title" ,"Edit student");
+	set("edit_active" ,"true");
+
+    return render("admin/edit.student.html.php");
+}
+
+/**
+ * Edit Student in the system
+ **/
+function admin_edit_student_post() {
+	// $did = $_POST['dept_FK'];
+	extract($_POST);
+
+	// Delete the student static function to delete the object
+	Student::LoadAndUpdate($_POST);
+	flash('success', "Student $name has been successfully deleted");
+	
+	// Redirect the user back 
+	redirect('/admin/student/edit');
+}
+
+function admin_list_staff_render() {
+	return list_staff_render();
+}
+
+function admin_list_programme_render() {
+	return list_programme_render();
+}
+
+function admin_list_course_render() {
+	return list_course_render();
+}
+
+function admin_report_list() {
+	return dataentry_report_list();
+}
+
+function admin_export_list() {
+	return dataentry_export_list();
 }

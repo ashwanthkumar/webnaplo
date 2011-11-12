@@ -127,40 +127,6 @@
 				<!-- Navigation Dropdown Menu Item: End -->
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
-				<!--
-				<li class="topnav">
-					<a class="pages <?php if(isset($edit_active)) echo "active"; ?>" href="#">Edit</a>
-					
-					<ul class="subnav">
-			            <li><a href="<?php echo url_for('/dataentry/course/edit/'); ?>" class="icon pages">Course</a></li> 
-						<li><a href="<?php echo url_for('/dataentry/department/edit/'); ?>" class="icon laptop">Department</a></li>  
-			            <li><a href="<?php echo url_for('/dataentry/programme/edit/'); ?>" class="icon archive">Programme</a></li>  
-			            <li><a href="<?php echo url_for('/dataentry/staff/edit/'); ?>" class="icon graph">Staff</a></li>  
-			            <li><a href="<?php echo url_for('/dataentry/student/edit/'); ?>" class="icon edit">Student</a></li>  
-			       </ul>  
-			        
-				</li>
-				-->
-				<!-- Navigation Dropdown Menu Item: End -->
-				<!-- Navigation Dropdown Menu Item: Start -->
-				<li class="topnav">
-					<a class="pages <?php if(isset($delete_active)) echo "active"; ?>" href="#">Delete</a>
-					
-					<!-- Navigation Dropdown Menu Item Content: Start -->
-					<ul class="subnav">
-			            <li><a href="<?php echo url_for('/dataentry/course/delete/'); ?>" class="icon pages">Course</a></li> 
-						<li><a href="<?php echo url_for('/dataentry/department/delete/'); ?>" class="icon laptop">Department</a></li>  
-			            <li><a href="<?php echo url_for('/dataentry/programme/delete/'); ?>" class="icon archive">Programme</a></li>  
-			            <li><a href="<?php echo url_for('/dataentry/staff/delete/'); ?>" class="icon graph">Staff</a></li>  
-			            <li><a href="<?php echo url_for('/dataentry/student/delete/'); ?>" class="icon edit">Student</a></li>  
-			       </ul>  
-			        <!-- Navigation Dropdown Menu Item Content: End --> 
-			        
-				</li>
-				<!-- Navigation Dropdown Menu Item: End -->
-				
-				
-				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="topnav">
 					<a class="pages <?php if(isset($list_active)) echo "active"; ?>" href="#">List</a>
 					

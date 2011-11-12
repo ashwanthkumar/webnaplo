@@ -54,6 +54,7 @@
 					
 					<!-- User Dropdown Content: Start -->
 					<ul class="subnav">  
+						<li><a href="<?php echo url_for('admin/advanced/'); ?>" class="icon settings">Advanced Settings</a></li>
 			            <li><a href="<?php echo url_for('/user/logout/'); ?>" class="icon lock">Log out</a></li>  
 			        </ul>  
 			        <!-- User Dropdown Content: End -->
@@ -91,11 +92,67 @@
 				<li>
 					<a class=" <?php if(isset($lock_active)) echo "active"; ?>" href="<?php echo url_for('admin/lock/'); ?>">Lock</a>
 				</li>
-				<!-- Navigation Dropdown Menu Item: End -->				
-				<!-- Navigation Dropdown Menu Item: Start -->
-				<li>
-					<a class=" <?php if(isset($advanced_visible)) echo "active"; ?>" href="<?php echo url_for('admin/advanced/'); ?>">Advanced</a>
+				<!-- Navigation Dropdown Menu Item: End -->
+
+				<!--
+					Edit can be accessed only from the listing
+				-->
+				<?php if(isset($edit_active)) {
+				?>
+				<li class="topnav">
+					<a class="pages <?php if(isset($edit_active)) echo "active"; ?>" href="#">Edit</a>
 				</li>
+				<?php
+					}
+				?>
+				<!--
+					<ul class="subnav">
+			            <li><a href="<?php echo url_for('/admin/course/edit/'); ?>" class="icon pages">Course</a></li> 
+						<li><a href="<?php echo url_for('/admin/department/edit/'); ?>" class="icon laptop">Department</a></li>  
+			            <li><a href="<?php echo url_for('/admin/programme/edit/'); ?>" class="icon archive">Programme</a></li>  
+			            <li><a href="<?php echo url_for('/admin/staff/edit/'); ?>" class="icon graph">Staff</a></li>  
+			            <li><a href="<?php echo url_for('/admin/student/edit/'); ?>" class="icon edit">Student</a></li>  
+			       </ul>  
+			        
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+				<!-- Navigation Dropdown Menu Item: Start -->
+				<li class="topnav">
+					<a class="pages <?php if(isset($delete_active)) echo "active"; ?>" href="#">Delete</a>
+					
+					<!-- Navigation Dropdown Menu Item Content: Start -->
+					<ul class="subnav">
+			            <li><a href="<?php echo url_for('/admin/course/delete/'); ?>" class="icon pages">Course</a></li> 
+						<li><a href="<?php echo url_for('/admin/department/delete/'); ?>" class="icon laptop">Department</a></li>  
+			            <li><a href="<?php echo url_for('/admin/programme/delete/'); ?>" class="icon archive">Programme</a></li>  
+			            <li><a href="<?php echo url_for('/admin/staff/delete/'); ?>" class="icon graph">Staff</a></li>  
+			            <li><a href="<?php echo url_for('/admin/student/delete/'); ?>" class="icon edit">Student</a></li>  
+			       </ul>  
+			        <!-- Navigation Dropdown Menu Item Content: End --> 
+			        
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+				<!-- Navigation Dropdown Menu Item: Start -->
+				<li class="topnav">
+					<a class="pages <?php if(isset($list_active)) echo "active"; ?>" href="#">List</a>
+					
+					<!-- Navigation Dropdown Menu Item Content: Start -->
+					<ul class="subnav">
+						<li><a href="<?php echo url_for('/admin/staff/list/'); ?>" class="icon laptop">Staff List</a></li>  
+			            <li><a href="<?php echo url_for('/admin/programme/list/'); ?>" class="icon archive">Prog. List</a></li>  
+			            <li><a href="<?php echo url_for('/admin/course/list/'); ?>" class="icon pages">Course List</a></li> 
+			            <!-- <li><a href="<?php echo url_for('/admin/section/list/'); ?>" class="icon edit">Section List</a></li>  -->
+			            
+			       </ul>  
+			        <!-- Navigation Dropdown Menu Item Content: End --> 
+			        
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+			        
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+
+				<!-- Navigation Dropdown Menu Item: Start -->
 				<!-- Navigation Dropdown Menu Item: End -->				
 			</ul>
 			<!-- Navigation: End -->

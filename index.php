@@ -18,6 +18,10 @@ session_start();
  **/
 function configure() {
 	option('env', ENV_PRODUCTION);
+	// Setting the locale
+	option('default_locale', 'en');
+	option('locale', 'ta');
+	
 	// option('env', ENV_DEVELOPMENT);
 	option('limonade_public_dir', file_path(dirname(__FILE__), 'lib', 'limonade', 'public'));
 	option('limonade_views_dir', file_path(dirname(__FILE__), 'lib', 'limonade', 'views'));
@@ -34,6 +38,7 @@ function configure() {
 	require_once_dir(file_path(dirname(__FILE__), 'models'));
 	require_once_dir(file_path(dirname(__FILE__), 'lib'));
 	require_once_dir(file_path(dirname(__FILE__), 'lib' , 'wkhtmltopdf'));
+	require_once_dir(file_path(dirname(__FILE__), 'i18n' , option('locale')));
 
 	// Include the configuration file
 	include("config.php");
@@ -52,6 +57,21 @@ function get_user() {
 	
 	return new User;
 }
+
+/**
+ * 	Checks the $_LOCALE variable to fetch the corresponding $key value
+ *
+ *	@return Matching translated text
+ **/
+function get_text($key) {
+	$_LOCALE = option('_LOCALE');
+	if(array_key_exists($key, $_LOCALE)) {
+		return $_LOCALE[$key];
+	} else {
+		return $key;
+	}
+}
+
 
 /**
  *	Callback function of PDO Library
@@ -98,7 +118,9 @@ function before($route) {
 			}
 			
 			// Now decide if the user has the access to access the requested resource
-			if($user->accessLevel > $access || $user->accessLevel == -1) {
+			if ($route['callback'] == 'webnaplo_home') {
+				// Its either notfound or the default home page
+			} else if($user->accessLevel > $access || $user->accessLevel == -1 && $route['callback'] != 'webnaplo_home') {
 				halt(HTTP_FORBIDDEN, "Sorry hacker, your request cannot be handled. ");
 			}
 		}
@@ -116,81 +138,42 @@ dispatch_get('/dataentry/home/', 'dataentry_home');
 dispatch_post('/dataentry/changepass/', 'dataentry_changepass');
 
 // -------------------------------------------
-// Delete Dataentry controllers
-// -------------------------------------------
-dispatch_get('/dataentry/course/delete/', 'delete_course_render');
-dispatch_post('/dataentry/course/delete/', 'delete_course_post');
-
-dispatch_get('/dataentry/student/delete/', 'delete_student_render');
-dispatch_post('/dataentry/student/delete/', 'delete_student_post');
-
-dispatch_get('/dataentry/staff/delete/', 'delete_staff_render');
-dispatch_post('/dataentry/staff/delete/', 'delete_staff_post');
-
-dispatch_get('/dataentry/programme/delete/', 'delete_programme_render');
-dispatch_post('/dataentry/programme/delete/', 'delete_programme_post');
-
-dispatch_get('/dataentry/department/delete/', 'delete_department_render');
-dispatch_post('/dataentry/department/delete/', 'delete_department_post');
-
-// -------------------------------------------
 // Add Dataentry controllers
 // -------------------------------------------
-dispatch_get('/dataentry/course/add/', 'add_course_render');
-dispatch_post('/dataentry/course/add/', 'add_course_post');
+dispatch_get('/dataentry/course/add/', 'dataentry_add_course_render');
+dispatch_post('/dataentry/course/add/', 'dataentry_add_course_post');
 
-dispatch_get('/dataentry/department/add/', 'add_department_render');
-dispatch_post('/dataentry/department/add/', 'add_department_post');
+dispatch_get('/dataentry/department/add/', 'dataentry_add_department_render');
+dispatch_post('/dataentry/department/add/', 'dataentry_add_department_post');
 
-dispatch_get('/dataentry/programme/add/', 'add_programme_render');
-dispatch_post('/dataentry/programme/add/', 'add_programme_post');
+dispatch_get('/dataentry/programme/add/', 'dataentry_add_programme_render');
+dispatch_post('/dataentry/programme/add/', 'dataentry_add_programme_post');
 
-dispatch_get('/dataentry/section/add/', 'add_section_render');
-dispatch_post('/dataentry/section/add/', 'add_section_post');
+dispatch_get('/dataentry/section/add/', 'dataentry_add_section_render');
+dispatch_post('/dataentry/section/add/', 'dataentry_add_section_post');
 
-dispatch_get('/dataentry/staff/add/', 'add_staff_render');
-dispatch_post('/dataentry/staff/add/', 'add_staff_post');
+dispatch_get('/dataentry/staff/add/', 'dataentry_add_staff_render');
+dispatch_post('/dataentry/staff/add/', 'dataentry_add_staff_post');
 
-dispatch_get('/dataentry/student/add/proxy', 'add_student_proxy');
-dispatch_get('/dataentry/student/add/', 'add_student_render');
-dispatch_post('/dataentry/student/add/', 'add_student_post');
-
-// ------------------------------------------
-// Edit Dataentry controllers
-// ------------------------------------------
-dispatch_get('^/dataentry/course/(\d+)/edit', 'edit_course_render');
-dispatch_get('^/dataentry/course/edit', 'edit_course_render');
-dispatch_post('^/dataentry/course/(\d+)/edit', 'edit_course_post');
-
-dispatch_get('^/dataentry/department/(\d+)/edit', 'edit_department_render');
-dispatch_post('^/dataentry/department/(\d+)/edit', 'edit_department_post');
-
-dispatch_get('^/dataentry/programme/(\d+)/edit/', 'edit_programme_render');
-dispatch_post('^/dataentry/programme/(\d+)/edit/', 'edit_programme_post');
-
-dispatch_get('^/dataentry/section/(\d+)/edit/', 'edit_section_render');
-dispatch_post('^/dataentry/section/(\d+)/edit/', 'edit_section_post');
-
-dispatch_get('^/dataentry/staff/(\d+)/edit/', 'edit_staff_render');
-dispatch_post('^/dataentry/staff/(\d+)/edit/', 'edit_staff_post');
-
-dispatch_get('^/dataentry/student/(\d+)/edit/', 'edit_student_render');
-dispatch_post('^/dataentry/student/(\d+)/edit/', 'edit_student_post');
+dispatch_get('/dataentry/student/add/proxy', 'dataentry_add_student_proxy');
+dispatch_get('/dataentry/student/add/', 'dataentry_add_student_render');
+dispatch_post('/dataentry/student/add/', 'dataentry_add_student_post');
 
 // ------------------------------------------
 // List Dataentry controllers
 // ------------------------------------------
-dispatch_get('/dataentry/programme/list/', 'list_programme_render');
-dispatch_post('/dataentry/programme/list/', 'list_programme_post');
+dispatch_get('/dataentry/programme/list/', 'dataentry_list_programme_render');
+dispatch_post('/dataentry/programme/list/', 'dataentry_list_programme_post');
 
-dispatch_get('/dataentry/section/list/', 'list_section_render');
-dispatch_post('/dataentry/section/list/', 'list_section_post');
+dispatch_get('/dataentry/section/list/', 'dataentry_list_section_render');
+dispatch_post('/dataentry/section/list/', 'dataentry_list_section_post');
 
-dispatch_get('/dataentry/staff/list/', 'list_staff_render');
-dispatch_post('/dataentry/staff/list/', 'list_staff_post');
+dispatch_get('/dataentry/staff/list/', 'dataentry_list_staff_render');
+dispatch_post('/dataentry/staff/list/', 'dataentry_list_staff_post');
 
-dispatch_get('/dataentry/course/list/', 'list_course_render');
-dispatch_post('/dataentry/course/list/', 'list_course_post');
+dispatch_get('/dataentry/course/list/', 'dataentry_list_course_render');
+dispatch_post('/dataentry/course/list/', 'dataentry_list_course_post');
+
 
 dispatch_get('/dataentry/export/list/:type', 'dataentry_export_list');
 dispatch_get('/dataentry/report/list/:type', 'dataentry_report_list');
@@ -243,6 +226,11 @@ dispatch_post('/admin/user/reset/', 'admin_user_reset_password');
 dispatch_post('/admin/user/reset/staff/all', 'admin_staff_all_reset_password');
 dispatch_post('/admin/user/reset/student/all', 'admin_student_all_reset_password');
 
+// Change Admin Password
+dispatch_post('/admin/user/admin/update/password', 'admin_update_admin_password');
+// Change Dataentry Password
+dispatch_post('/admin/user/dataentry/update/password', 'admin_update_dataentry_password');
+
 // Lock and Unlock page
 dispatch_get('/admin/lock/', 'admin_lock_render');
 // Lock and Unlock Staff
@@ -261,6 +249,65 @@ dispatch_get('^/admin/staff/(\d+)/unblock', 'admin_staff_unblock');
 dispatch_post('/admin/student/block', 'admin_student_block_post');
 dispatch_get('^/admin/student/(\d+)/block', 'admin_student_block');
 dispatch_get('^/admin/student/(\d+)/unblock', 'admin_student_unblock');
+
+// -------------------------------------------
+// Delete Admin controllers
+// -------------------------------------------
+dispatch_get('/admin/course/delete/', 'admin_delete_course_render');
+dispatch_post('/admin/course/delete/', 'admin_delete_course_post');
+
+dispatch_get('/admin/student/delete/', 'admin_delete_student_render');
+dispatch_post('/admin/student/delete/', 'admin_delete_student_post');
+
+dispatch_get('/admin/staff/delete/', 'admin_delete_staff_render');
+dispatch_post('/admin/staff/delete/', 'admin_delete_staff_post');
+
+dispatch_get('/admin/programme/delete/', 'admin_delete_programme_render');
+dispatch_post('/admin/programme/delete/', 'admin_delete_programme_post');
+
+dispatch_get('/admin/department/delete/', 'admin_delete_department_render');
+dispatch_post('/admin/department/delete/', 'admin_delete_department_post');
+
+// ------------------------------------------
+// Edit Admin controllers
+// ------------------------------------------
+dispatch_get('^/admin/course/(\d+)/edit', 'admin_edit_course_render');
+dispatch_get('^/admin/course/edit', 'admin_edit_course_render');
+dispatch_post('^/admin/course/(\d+)/edit', 'admin_edit_course_post');
+
+dispatch_get('^/admin/department/(\d+)/edit', 'admin_edit_department_render');
+dispatch_post('^/admin/department/(\d+)/edit', 'admin_edit_department_post');
+
+dispatch_get('^/admin/programme/(\d+)/edit', 'admin_edit_programme_render');
+dispatch_post('^/admin/programme/(\d+)/edit', 'admin_edit_programme_post');
+
+dispatch_get('^/admin/section/(\d+)/edit', 'admin_edit_section_render');
+dispatch_post('^/admin/section/(\d+)/edit', 'admin_edit_section_post');
+
+dispatch_get('^/admin/staff/(\d+)/edit', 'admin_edit_staff_render');
+dispatch_post('^/admin/staff/(\d+)/edit', 'admin_edit_staff_post');
+
+dispatch_get('^/admin/student/(\d+)/edit', 'admin_edit_student_render');
+dispatch_post('^/admin/student/(\d+)/edit', 'admin_edit_student_post');
+
+// ------------------------------------------
+// List Admin controllers
+// ------------------------------------------
+dispatch_get('/admin/programme/list/', 'admin_list_programme_render');
+dispatch_post('/admin/programme/list/', 'admin_list_programme_post');
+
+dispatch_get('/admin/section/list/', 'admin_list_section_render');
+dispatch_post('/admin/section/list/', 'admin_list_section_post');
+
+dispatch_get('/admin/staff/list/', 'admin_list_staff_render');
+dispatch_post('/admin/staff/list/', 'admin_list_staff_post');
+
+dispatch_get('/admin/course/list/', 'admin_list_course_render');
+dispatch_post('/admin/course/list/', 'admin_list_course_post');
+
+// Export Reports
+dispatch_get('/admin/export/list/:type', 'dataentry_export_list');
+dispatch_get('/admin/report/list/:type', 'dataentry_report_list');
 
 dispatch_get('/admin/js/', 'admin_js_render');
 dispatch_get('/admin/home', 'admin_home_render');
