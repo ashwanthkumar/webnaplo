@@ -12,7 +12,11 @@
 	 * Tamil Language Script
 	 **/
 	$_LOCALE = array(
+		// Generic Strings
 		"TAMIL" => "தமிழ் ", 
+		"WEBNAPLO" => "வேப்னாப்லோ ", 
+		
+		// Admin Page Strings
 		"ADMIN" => "நிர்வாகி", 
 		"HOME" => "முதற் பக்கம்", 
 		"STAFF" => "பணியாளர்",
@@ -36,6 +40,24 @@
 		"APPLY_SELECTED" => " பயன்படுத்து ",
 		"STAFF_LIST" => "பணியாளர் பட்டியல்",
 		"COURSE_LIST" => "படிப்புப் பிரிவு பட்டியல்",
+		"PROGRAMME_LIST" => "Programme List",
+		"PROGRAMME" => "Programme ",
+		"NEWS_UPDATES" => "செய்தி மட்ற்றும் புதுப்பித்தல் ",
+		"CAMPUS_STATUS" => "வளாகம் நிலமை  ",
+		"DEPARTMENT" => "துறை   ",
+		"SYSTEM_STATUS" => "சிஸ்டம்  நிலமை ",
+		"VERSION" => "பதிப்பு  ",
+		"RELEASE" => "வெளியீடு பெயர்",
+		"BUILD_DATE" => "வெளியீடு நாள்",
+		"STATUS" => "நிலமை",
+		"AND" => "மற்றும் ",
+		
+		// Login Page Strings
+		"LOGIN" => "நுழை ",
+		"USERNAME" => "பயனீட்டாளர் பெயர்",
+		"PASSWORD" => "மறைச் சொல்",
+		"LOGIN_PAGE" => "நுழைவு வாயில் ",
+		"WELCOME_TO_WEBNAPLO" => "வேப்னாப்லோகு நல்வரவு",
 	);
 	
 

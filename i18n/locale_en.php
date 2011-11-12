@@ -12,6 +12,11 @@
 	 * English Language Script
 	 **/
 	$_LOCALE = array(
+		// Generic Strings
+		"TAMIL" => "TAMIL", 
+		"WEBNAPLO" => "WebNaplo ", 
+		
+		// Admin Page Strings
 		"ADMIN" => "Admin",
 		"HOME" => "Home",
 		"STAFF" => "Staff",
@@ -37,8 +42,25 @@
 		"COURSE_LIST" => "Course List",
 		"PROGRAMME_LIST" => "Programme List",
 		"PROGRAMME" => "Programme ",
+		"NEWS_UPDATES" => "News and Updates ",
+		"CAMPUS_STATUS" => "Campus Status",
+		"DEPARTMENT" => "Department",
+		"SYSTEM_STATUS" => "System Status ",
+		"VERSION" => "Version ",
+		"RELEASE" => "Release",
+		"BUILD_DATE" => "Build Date",
+		"STATUS" => "Status",
+		"AND" => " and ",
+		
+		// Login Page Strings
+		"LOGIN" => "Login",
+		"USERNAME" => "Username",
+		"PASSWORD" => "Password",
+		"LOGIN_PAGE" => "Login Page ",
+		"WELCOME_TO_WEBNAPLO" => "Welcome to WebNaplo",
 	);
 	
 
 	// Add the locale information to the system
 	locale('en', $_LOCALE);
+	
