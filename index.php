@@ -17,17 +17,24 @@ session_start();
  *	Setting the Configuration for the system
  **/
 function configure() {
-	option('env', ENV_PRODUCTION);
-	// Setting the locale
-	option('default_locale', 'en');
-	option('locale', 'ta');
+	option('env', ENV_DEVELOPMENT);
+	// Setting the locale settings
+	option('default_locale', 'en');	// Default locale is always english
 	
-	// option('env', ENV_DEVELOPMENT);
+	// Setting the default locale if its not found
+	if(isset($_SESSION['locale'])) 
+		option('locale', $_SESSION['locale']);
+	else 
+		option('locale', option('default_locale'));
+	
 	option('limonade_public_dir', file_path(dirname(__FILE__), 'lib', 'limonade', 'public'));
 	option('limonade_views_dir', file_path(dirname(__FILE__), 'lib', 'limonade', 'views'));
 	option('error_views_dir',    option('limonade_views_dir'));
 	option('controllers_dir', file_path(dirname(__FILE__), 'controllers'));
 	option('reports_dir', file_path(dirname(__FILE__), 'export'));
+	// Directories that contain all the translations
+	option('locale_dir', file_path(dirname(__FILE__), 'i18n'));
+	
 	option('gzip', true);
 	
 	// System Settings 
@@ -38,7 +45,7 @@ function configure() {
 	require_once_dir(file_path(dirname(__FILE__), 'models'));
 	require_once_dir(file_path(dirname(__FILE__), 'lib'));
 	require_once_dir(file_path(dirname(__FILE__), 'lib' , 'wkhtmltopdf'));
-	require_once_dir(file_path(dirname(__FILE__), 'i18n' , option('locale')));
+	require_once_dir(file_path(option('locale_dir')));
 
 	// Include the configuration file
 	include("config.php");
@@ -46,11 +53,15 @@ function configure() {
 	$db = new db("mysql:host=$db_host;port=$db_port;dbname=$db_name", "$db_user", "$db_pass");
 	$db->setErrorCallbackFunction("showError", "text");
 	
-	$GLOBALS['db'] = $db;
+	$GLOBALS['db'] = $db; 
+	
 }
 
 /**
  * Utility function that returns the curent instance of the user using the system
+ *	
+ *	@return Current User Instance
+ *	@since 1.1
  **/
 function get_user() {
 	if(isset($_SESSION['user'])) return User::load(get_object_vars($_SESSION['user']));
@@ -62,14 +73,42 @@ function get_user() {
  * 	Checks the $_LOCALE variable to fetch the corresponding $key value
  *
  *	@return Matching translated text
+ *	@since 1.1
  **/
-function get_text($key) {
+function get_text($key, $lang = null) {
+	$locale = option('locale');
 	$_LOCALE = option('_LOCALE');
-	if(array_key_exists($key, $_LOCALE)) {
-		return $_LOCALE[$key];
-	} else {
-		return $key;
-	}
+	
+	if($lang == null) :
+		if(array_key_exists($key, $_LOCALE[$locale])) {
+			// Current Language has the requested key
+			return $_LOCALE[$locale][$key];
+		} else {
+			// During develokpment let the developer know that the request key is not available
+			if(option('env') === ENV_DEVELOPMENT)
+				return "i18n:[$key not found]";
+			else {
+				// Request the key from the default locale (which god willingly should contain all keys used)
+				$default_locale = option('default_locale');
+				return $_LOCALE[$default_locale][$key]; 
+			}
+		}
+	else :
+		return $_LOCALE[$lang][$key];
+	endif;
+}
+
+/**
+ * 	Function that adds locale strings to the system
+ *
+ *	@param $locale String to load into the system
+ *	@since 1.1
+ **/
+function locale($iso_code, $locale) {
+	$_LOCALE = option('_LOCALE');
+	$_LOCALE[$iso_code] = $locale;
+
+	option('_LOCALE', $_LOCALE);
 }
 
 
@@ -90,7 +129,7 @@ function before($route) {
 	// layout('layout.html.php');
 	$route_pattern = $route['pattern'];
 
-	$func_calls_no_user_session = array('user_login', 'user_login_authenticate', 'user_logout', 'add_student_proxy', 'dataentry_report_list');
+	$func_calls_no_user_session = array('user_login', 'user_login_authenticate', 'user_logout', 'add_student_proxy', 'dataentry_report_list', 'user_change_locale');
 	if(!in_array($route['callback'], $func_calls_no_user_session)) {
 		// redirect('/');
 		if(!isset($_SESSION['user'])) {
@@ -315,6 +354,7 @@ dispatch_get('/admin/home', 'admin_home_render');
 // ------------------------------------------
 // Main or Other functions
 // ------------------------------------------
+dispatch_get('/user/locale/:lang', 'user_change_locale');
 dispatch_get('/user/login', 'user_login');
 dispatch_post('/user/login', 'user_login_authenticate');
 dispatch_get('/user/logout', 'user_logout');
