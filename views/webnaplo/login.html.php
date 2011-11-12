@@ -3,7 +3,7 @@
 <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>WebNaplo - Login </title>
+	<title><?php echo get_text('WEBNAPLO'); ?> - <?php echo get_text('LOGIN_PAGE'); ?> </title>
 	
 	<!-- Imports General CSS and jQuery CSS -->
 	<link href="<?php echo option('base_path'); ?>/public/css/screen.css" rel="stylesheet" media="screen" type="text/css" />
@@ -28,6 +28,7 @@
 	<!-- jQuery thats loaded before document ready to prevent flickering - Rest are found at the bottom -->
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery-1.4.1.min.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.i18n.properties-min.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.styleswitcher.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.visualize.js"></script>
 	
@@ -68,16 +69,16 @@
 							}
 						?>
 						
-						<form action="<?php echo url_for('/user/login'); ?>" method="post">
+						<form action="<?php echo url_for('/user/login'); ?>" method="post" id="loginForm">
 						
 							<div class="field noline nopadding">
 								<label class="left" for="username"><?php echo get_text('USERNAME'); ?></label>
-								<input type="text" class="validate tip-stay right required" title="enter your username" name="username" id="username">
+								<input type="text" class="validate tip-stay right required" title="<?php echo get_text('ENTER_USERNAME'); ?>" message="<?php echo get_text('ENTER_USERNAME'); ?>" name="username" id="username">
 							</div>
 							
 							<div class="field">
 								<label class="left" for="password"><?php echo get_text('PASSWORD'); ?></label>
-								<input type="password" class="validate tip-stay right required" title="enter your password" name="password" id="password">
+								<input type="password" class="validate tip-stay right required" title="<?php echo get_text('ENTER_PASSWORD'); ?>" message="<?php echo get_text('ENTER_PASSWORD'); ?>" name="password" id="password">
 							</div>
 							
 							<div class="right">
@@ -135,6 +136,7 @@
 	
 	<!-- jQuery Customization -->
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/custom.js"></script>
+	<script type="text/javascript" src="<?php echo url_for('/user/js/i18n'); ?>"></script>
 
 </body>
 
