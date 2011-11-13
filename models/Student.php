@@ -57,6 +57,9 @@ class Student {
 			), "idstudent = :cid", array(":cid" => $this->idstudent));
 	}
 	
+	/**
+	 *	Lodas the array value from the param to a $Student Object and updates it
+	 **/
 	public static function LoadAndUpdate($student, $db) {
 		extract($student);
 
@@ -110,7 +113,7 @@ class Student {
 	 * Get the Attendance for a given student
 	 **/
 	public static function getAttendance($reg_no, $db) {
-		$query = "select a.date, a.is_present, c.course_name, c.course_code from attendance a, timetable t, course_profile cp, course c where a.student_id = :reg  and a.timetable_id = t.idtimetable and t.cp_id = cp.idcourse_profile and cp.course_id = c.idcourse order by a.date desc";
+		$query = "select a.date, a.is_present, c.course_name, c.course_code from attendance a, timetable t, course_profile cp, course c where a.idstudent = :reg  and a.timetable_id = t.idtimetable and t.cp_id = cp.idcourse_profile and cp.course_id = c.idcourse order by a.date desc";
 		
 		return $db->run($query, array(":reg" => $reg_no));
 	}
@@ -137,7 +140,7 @@ class Student {
 				$ciatype = 'mark_1';
 		}
 		
-		$query = "select cm.$ciatype, c.course_code, c.course_name from cia_marks cm, course c, course_profile cp where cm.student_id = :reg and cp.course_id = c.idcourse";
+		$query = "select cm.$ciatype, c.course_code, c.course_name from cia_marks cm, course c, course_profile cp where cm.idstudent = :reg and cp.course_id = c.idcourse";
 		
 		return $db->run($query, array(":reg" => $reg_no));
 	}
@@ -178,7 +181,7 @@ class Student {
 	 * @scope Admin and Dataentry only
 	 **/
 	public static function unblock($uid, $db) {
-		$query = "update student set is_blocked = '0' where student_id=:uid";
+		$query = "update student set is_blocked = '0' where idstudent=:uid";
 		
 		return $db->run($query, array(":uid" => $uid));
 	}
@@ -189,7 +192,7 @@ class Student {
 	 * @scope Admin and Dataentry only
 	 **/
 	public static function block($uid, $db) {
-		$query = "update student set is_blocked = '1' where student_id = :uid;";
+		$query = "update student set is_blocked = '1' where idstudent = :uid;";
 		
 		return $db->run($query, array(":uid" => $uid));
 	}
