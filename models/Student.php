@@ -6,7 +6,7 @@
  *	@date 07/11/2011
  *	@author Team Webnaplo
  **/
-class Student {		
+class Student {
 	public $idstudent;
 	public $address;
 	public $current_semester;
