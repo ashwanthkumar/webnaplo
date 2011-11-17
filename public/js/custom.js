@@ -689,7 +689,7 @@ $(".wysiwyg").wysiwyg();
 //
 //-------------------------------------------------------------- */
 
-$(".box_content select, .box_content input:checkbox, .box_content input:radio, .box_content input:file, .box_content button").uniform();
+$(".box_content select, select, .box_content input:checkbox, .box_content input:radio, .box_content input:file, .box_content button, button, input:reset, input:submit").uniform();
 
 //-------------------------------------------------------------- */
 // Check all checkboxes

@@ -28,7 +28,7 @@
 	content_for('body');
 ?>
 <!-- 100% Box Grid Container: Start -->
-<div class="grid_24">
+<div class="grid_18">
 <?php
 	if(isset($flash['success'])) {
 ?>
