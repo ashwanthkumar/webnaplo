@@ -244,6 +244,8 @@ dispatch_get('/staff/course_profile/', 'staff_cp_view_render');
 dispatch_get('/staff/course_profile/add/', 'staff_cp_add_render');
 dispatch_post('/staff/course_profile/create', 'staff_cp_create');
 dispatch_get('/staff/timetable/', 'staff_timetable_render');
+dispatch_get('/staff/timetable/popup', 'staff_timetable_popup_render');
+dispatch_post('/staff/timetable/save', 'staff_timetable_save');
 dispatch_get('/staff/attendance/', 'staff_attendance_render');
 dispatch_get('/staff/cia/', 'staff_cia_render');
 

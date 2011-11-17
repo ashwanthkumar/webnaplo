@@ -123,3 +123,49 @@ function staff_cp_create() {
 		return redirect('/staff/course_profile/');
 	}
 }
+
+/**
+ *	Shows the timetable selection window as a full page popup window
+ *
+ *	@method GET
+ *	@route	/staff/timetable/popup
+ **/
+function staff_timetable_popup_render() {
+	layout('staff/empty.layout.html.php');
+	set('title', "Staff - Timetable Editor");
+	
+	return render('/staff/staff.timetable.popup.html.php');
+}
+
+/**
+ *	Save the timetable of the current staff member from the Popup window
+ *
+ *	@method POST
+ *	@route	/staff/timetable/save
+ **/
+function staff_timetable_save() {
+	$user = get_user();
+	$db = $GLOBALS['db'];
+	
+	$days = array(1 => "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+	
+	// first delete the current timetable for the staff
+	$db->run("delete from timetable where cp_id in (select idcourse_profile from course_profile where staff_id = :sid)", array(":sid" => $user->userid));
+	
+	while($tt = current($_POST)) {
+		if($tt > -1):
+			print_r($tt);
+			echo " - ";
+			$day_hour = explode("_", (key($_POST)));
+			echo $days[$day_hour[0]] . " - " . $day_hour[1];
+			echo " <br /> ";
+			
+			$db->insert("timetable", array(
+									"days_of_week" => $day_hour[0], 
+									"hour_of_day" => $day_hour[1],
+									"cp_id" => $tt));
+		endif;
+		
+		next($_POST);
+	}
+}
