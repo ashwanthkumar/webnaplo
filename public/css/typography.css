@@ -107,6 +107,10 @@ table       	{ width:100%; font-size:1.2em; color:#7b858a; border-bottom:1px sol
 th          	{ font-weight: bold; }
 thead tr    	{ background:url(../img/bg_table_top.png) repeat-x #d0d0d0; color:#515151; font-size:10px; font-family: verdana; }
 th,td,caption 	{ padding: 15px 40px; border-bottom:1px solid #c9c9c9; }
+
+/* Style added specifically for Timetable table layout */
+table.nostyle th,table.nostyle td,table.nostyle caption 	{ padding: 10px; border-bottom:1px solid #c9c9c9; }
+
 th.center, td.center, caption.center { text-align:center; }
 
 /* Zebra-stripes for tables - First ones are the light, second are the dark uneven ones */
