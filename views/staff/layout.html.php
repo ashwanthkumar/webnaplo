@@ -129,11 +129,6 @@
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="">
-					<a class="pages <?php if(isset($tt_active)) echo "active"; ?>" href="<?php echo url_for('/staff/timetable/'); ?>">Timetable</a>
-				</li>
-				<!-- Navigation Dropdown Menu Item: End -->
-				<!-- Navigation Dropdown Menu Item: Start -->
-				<li class="">
 					<a class="pages <?php if(isset($at_active)) echo "active"; ?>" href="<?php echo url_for('/staff/attendance/'); ?>">Attendance</a>
 					
 					
@@ -175,7 +170,63 @@
 	</div>
 	<!-- Header Grid Container: End -->
 
+<?php
+	if(!isset($home_active)) :
+?>
+<!-- // Sidebar starts -->
+<!-- 25% Box Grid Container: Start -->
+<div class="grid_6">
+
+	<!-- Box Header: Start -->
+	<div class="box_top">
+		<h1 class="icon coverflow">Staff </h1>
+	</div>
+	<!-- Box Header: End -->
+	
+	<!-- Box Content: Start -->
+	<div class="box_content">
+		
+		<!-- Vertical Menu: Start -->
+			<ul class="menu">
+				<li><a href="#" class="tip" title="Edit your Profile"><span class="icon user"></span> Edit Profile </a>
+				<li><a href="#" class="tip" title="Generate Integrated Report"><span class="icon graph"></span> Generate IR</a>
+				<li><a href="#" class="tip" title="Generate Lack Report"><span class="icon pages"></span> Generate LR</a>
+				<li><a class="tip" title="View Timetable" href="#" onclick="window.open('<?php echo url_for('/staff/timetable/popup'); ?>', 'timetable_popup','status=0,height=650,width=1000');"><span class="icon pages"></span>Timetable</a></li>
+			</ul>
+		<!-- Vertical Menu: End -->
+
+	</div>
+	<!-- Box Content: End -->
+
+	<!-- Help Box Header: Start -->
+	<div class="box_top">
+		<h2 class="icon coverflow">Help Videos </h2>
+	</div>
+	<!-- Box Header: End -->
+	
+	<!-- Box Content: Start -->
+	<div class="box_content">
+		
+		<!-- Vertical Menu: Start -->
+			<ul class="menu">
+				<li><a href="#" class="tip" title="View Video Tutorial for 'How to Edit your Profile?'"><span class="icon user"></span> Edit Profile </a>
+				<li><a href="#" class="tip" title="View Video Tutorial for 'How to Generate Integrated Report?'"><span class="icon graph"></span> Generate IR</a>
+				<li><a href="#" class="tip" title="View Video Tutorial for 'How to Generate Lag Report?'"><span class="icon pages"></span> Generate LR</a>
+			</ul>
+		<!-- Vertical Menu: End -->
+
+	</div>
+	<!-- Box Content: End -->
+	
+</div>
+<!-- 25% Box Grid Container: End -->
+<!-- // Sidebar Ends -->
+<?php
+	endif;
+?>
+
 <?php if(isset($body)) echo $body; ?>
+
 <!-- Footer Grid: Start -->
 <div class="grid_24">
 

@@ -14,51 +14,6 @@
 	
 	$pendingAttendance = Staff::getPendingAttendance($staff['staff_id'], $db); 
 ?>
-<!-- 25% Box Grid Container: Start -->
-<div class="grid_6">
-
-	<!-- Box Header: Start -->
-	<div class="box_top">
-		<h2 class="icon coverflow">Staff </h2>
-	</div>
-	<!-- Box Header: End -->
-	
-	<!-- Box Content: Start -->
-	<div class="box_content">
-		
-		<!-- Vertical Menu: Start -->
-			<ul class="menu">
-				<li><a href="#" class="tip" title="Edit your Profile"><span class="icon user"></span> Edit Profile </a>
-				<li><a href="#" class="tip" title="Generate Integrated Report"><span class="icon graph"></span> Generate IR</a>
-				<li><a href="#" class="tip" title="Generate Lack Report"><span class="icon pages"></span> Generate LR</a>
-			</ul>
-		<!-- Vertical Menu: End -->
-
-	</div>
-	<!-- Box Content: End -->
-
-	<!-- Help Box Header: Start -->
-	<div class="box_top">
-		<h2 class="icon coverflow">Help Videos </h2>
-	</div>
-	<!-- Box Header: End -->
-	
-	<!-- Box Content: Start -->
-	<div class="box_content">
-		
-		<!-- Vertical Menu: Start -->
-			<ul class="menu">
-				<li><a href="#" class="tip" title="View Video Tutorial for 'How to Edit your Profile?'"><span class="icon user"></span> Edit Profile </a>
-				<li><a href="#" class="tip" title="View Video Tutorial for 'How to Generate Integrated Report?'"><span class="icon graph"></span> Generate IR</a>
-				<li><a href="#" class="tip" title="View Video Tutorial for 'How to Generate Lag Report?'"><span class="icon pages"></span> Generate LR</a>
-			</ul>
-		<!-- Vertical Menu: End -->
-
-	</div>
-	<!-- Box Content: End -->
-	
-</div>
-<!-- 25% Box Grid Container: End -->
 
 <!-- 75% Box Grid Container: Start -->
 <div class="grid_18">

@@ -10,12 +10,11 @@
 
 	// Render Page Starts
 	content_for('body');
-	
 	// Get List of course profiles for the staff members
 	$course_profiles = $db->run("select cp.name as cpname, cp.idcourse_profile as idcourse_profile, c.course_name as cname, cl.name as clname from course_profile cp, course c, class cl where cp.course_id = c.idcourse and cp.class_id = cl.idclass and cp.staff_id = :sid", array(":sid" => $user->userid));
 ?>
 <!-- 100% Box Grid Container: Start -->
-<div class="grid_24">
+<div class="grid_18">
 <?php
 	if(isset($flash['success'])) {
 ?>
@@ -100,8 +99,7 @@
 		<input type="checkbox" class="checkall" />
 
 		<button class="left">Delete Selected</button>
-		<!-- <button class="left" onclick="window.location='<?php echo url_for('/staff/course_profile/add'); ?>';return false;">Add new Course Profile</button> -->
-		<a class="button" href="<?php echo url_for('/staff/course_profile/add'); ?>">Add a new Course</a>
+		<button type="button" class="left" onclick="window.location='<?php echo url_for('/staff/course_profile/add'); ?>';return false;">Add New</button>
 	</div>
 	</form>
 	</div>
