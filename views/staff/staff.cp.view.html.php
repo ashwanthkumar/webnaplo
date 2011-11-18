@@ -5,13 +5,14 @@
 	// Getting the PDO Handler
 	$db = $GLOBALS['db'];
 	
-	$staff = $db->select("staff", "idstaff = :sid", array(":sid" => $user->userid));
-	$staff = $staff[0];
+	$staff = Staff::load($user->userid, $db);
 
 	// Render Page Starts
 	content_for('body');
 	// Get List of course profiles for the staff members
-	$course_profiles = $db->run("select cp.name as cpname, cp.idcourse_profile as idcourse_profile, c.course_name as cname, cl.name as clname from course_profile cp, course c, class cl where cp.course_id = c.idcourse and cp.class_id = cl.idclass and cp.staff_id = :sid", array(":sid" => $user->userid));
+	$course_profiles = $staff->getCourseProfiles($db);
+	
+	print_r($course_profiles);
 ?>
 <!-- 100% Box Grid Container: Start -->
 <div class="grid_18">
@@ -70,7 +71,6 @@
 			<tr>
 				<th class="checkers"><input type="checkbox" class="checkall" /></th>
 				<th class="align_left">Title</th>
-				<th class="align_left center">Class</th>
 				<th class="align_left center">Course</th>
 				<th class="align_left center tools">Tools</th>
 			</tr>
@@ -82,7 +82,6 @@
 			<tr>
 				<th class="checkers"><input type="checkbox" name="course_profiles[<?php echo $cp['idcourse_profile']; ?>]"/></th>
 				<td class="align_left"><?php echo $cp['cpname']; ?></td>
-				<td class="align_left center"><?php echo $cp['clname']; ?></td>
 				<td class="align_left center"><?php echo $cp['cname']; ?></td>
 				<td class="align_left tools center">
 					<a href="<?php echo url_for("/staff/course_profile/" . $cp['idcourse_profile'] . "/edit"); ?>" class="edit tip" title="edit">edit</a>

@@ -7,8 +7,10 @@
 	$db = $GLOBALS['db'];
 
 	// Select the list of course profiles the staff takes
-	$courses = $db->select("course_profile", "staff_id = :id", array(":id" => $user->userid));
-	$staff_timetable = $db->run("select hour_of_day, days_of_week, cp_id from timetable where cp_id in (select idcourse_profile from course_profile where staff_id = :sid)", array(":sid" => $user->userid));
+	$courses = Staff::getCourseProfiles($user->userid, $db);
+
+	// Get the timetable of the current staff member
+	$staff_timetable = Staff::getTimeTable($user->userid, $db);
 	
 	// Custom Array which contains the timetable of the staff member in a new format
 	$staff_tt_ids = array();
@@ -23,6 +25,15 @@
 	content_for('body'); 
 ?>
 <div class="grid_24" >
+<?php
+	if(isset($flash['success'])) :
+?>
+<div class="notice success">
+	<p><?php echo $flash['success']; ?></p>
+</div>
+<?php
+	endif;
+?>
 	<div class="box_top" style="padding-top: -100px;">
 		<h1 class="icon frames center">Timetable Editor for <?php echo $user->name; ?></h1>
 	</div>

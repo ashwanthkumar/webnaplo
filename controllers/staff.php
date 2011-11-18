@@ -150,15 +150,16 @@ function staff_timetable_save() {
 	$days = array(1 => "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
 	
 	// first delete the current timetable for the staff
-	$db->run("delete from timetable where cp_id in (select idcourse_profile from course_profile where staff_id = :sid)", array(":sid" => $user->userid));
+	Staff::clearTimetable($user->userid, $db);
 	
 	while($tt = current($_POST)) {
+		// Add only if its not a free period
 		if($tt > -1):
-			print_r($tt);
-			echo " - ";
+			/*
+				Day 	- $day_hour[0]
+				Hour 	- $day_hour[1]
+			*/
 			$day_hour = explode("_", (key($_POST)));
-			echo $days[$day_hour[0]] . " - " . $day_hour[1];
-			echo " <br /> ";
 			
 			$db->insert("timetable", array(
 									"days_of_week" => $day_hour[0], 
@@ -168,4 +169,8 @@ function staff_timetable_save() {
 		
 		next($_POST);
 	}
+	
+	flash('success', "Your timetable has been successfully updated.");
+	
+	return redirect('staff/timetable/popup');
 }
