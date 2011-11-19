@@ -59,6 +59,9 @@ function dataentry_add_student_post() {
 
 /**
  * Add Department View Page
+ *
+ *	@method	GET
+ *	@route	/dataentry/department/add/
  **/
 function dataentry_add_department_render() {
 	layout('dataentry/layout.html.php');
@@ -91,19 +94,30 @@ function dataentry_add_student_proxy() {
 
 /**
  * Add Department to the system
+ *
+ *	@method 	POST
+ *	@route		/dataentry/department/add/
  **/
 function dataentry_add_department_post() {
-	// $did = $_POST['dept_FK'];
 	extract($_POST);
 	
-	$db = $GLOBALS['db'];
+	if(strlen(trim($name)) < 1) {
+		flash('error', "Please enter valid Department name");
+	} else {
+	
+		$db = $GLOBALS['db'];
 
-	// Delete the department static function to delete the object
-	Department::LoadAndSave($_POST, $db);
-	flash('success', "Department $name has been successfully added");
+		// Delete the department static function to delete the object
+		$department = Department::LoadAndSave($_POST, $db);
+		if(!$department) {
+			flash('error', "$name Department already exists");
+		} else {
+			flash('success', "Department $name has been successfully added");
+		}
+	}	
 	
 	// Redirect the user back 
-	redirect('/dataentry/department/add');
+	return redirect('/dataentry/department/add');
 }
 
 /**
