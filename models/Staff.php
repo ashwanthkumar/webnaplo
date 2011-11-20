@@ -32,7 +32,7 @@ class Staff {
 	 *	Non-static version of get Course Profiles
 	 **/
 	public function getCourseProfiles($db) {
-		return Staff::SgetCourseProfiles($this->staff_id, $db);
+		return Staff::SgetCourseProfiles($this->idstaff, $db);
 	}
 	
 	/**
@@ -118,6 +118,7 @@ class Staff {
 		extract($staffObject[0]);
 		
 		$staff = new Staff;
+		$staff->idstaff = $idstaff;
 		$staff->name = $name;
 		$staff->designation = $designation;
 		$staff->dept_id = $dept_id;

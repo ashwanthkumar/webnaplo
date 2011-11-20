@@ -240,8 +240,8 @@ dispatch_get('/student/**', 'student_home_render');
 // ------------------------------------------
 // Staff View Controllers
 // ------------------------------------------
-dispatch_get('/staff/course_profile/', 'staff_cp_view_render');
-dispatch_get('/staff/course_profile/add/', 'staff_cp_add_render');
+dispatch_get('/staff/course_profile', 'staff_cp_view_render');
+dispatch_get('/staff/course_profile/add', 'staff_cp_add_render');
 dispatch_post('/staff/course_profile/create', 'staff_cp_create');
 dispatch_get('/staff/timetable/', 'staff_timetable_render');
 dispatch_get('/staff/timetable/popup', 'staff_timetable_popup_render');
@@ -254,7 +254,7 @@ dispatch_get('^/staff/course_profile/(\d+)/edit', 'staff_cp_edit');
 dispatch_post('/staff/course_profile/edit', 'staff_cp_edit_post');
 
 dispatch_post('/staff/course_profile/batch/delete', 'staff_cp_batch_delete');
-// Matches all other fields in student controller
+// Matches all other fields in staff controller
 dispatch_get('/staff/home', 'staff_home_render');
 dispatch_get('/staff/**', 'staff_home_render');
 

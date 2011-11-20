@@ -4,15 +4,16 @@
 
 	// Getting the PDO Handler
 	$db = $GLOBALS['db'];
-	
+
+	// Load the current staff onto the context
 	$staff = Staff::load($user->userid, $db);
 
 	// Render Page Starts
 	content_for('body');
+	
 	// Get List of course profiles for the staff members
 	$course_profiles = $staff->getCourseProfiles($db);
-	
-	print_r($course_profiles);
+
 ?>
 <!-- 100% Box Grid Container: Start -->
 <div class="grid_18">
