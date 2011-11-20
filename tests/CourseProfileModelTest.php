@@ -12,8 +12,9 @@ require_once("../models/Staff.php");
  *
  *	@author Team Webnaplo
  *	@date 20/11/2011
- **/
-class CourseProfileTest extends WebNaploTest {
+ * 	@outputBuffering enabled
+ */
+ class CourseProfileTest extends WebNaploTest {
 
 	public $db;
 	private $lastInsertId;
@@ -25,7 +26,7 @@ class CourseProfileTest extends WebNaploTest {
 	/**
 	 *	Testing creating and deleting of a course profile
 	 **/
-	public function Save() {
+	public function testSave() {
 		$course_profile = new CourseProfile;
 		$course_profile->name = "Test Course Profile";
 		$course_profile->course_id = 1;
@@ -47,7 +48,7 @@ class CourseProfileTest extends WebNaploTest {
 	/**
 	 *	Testing the LoadAndSave Operation of Course Profile
 	 **/
-	public function LoadAndSave() {
+	public function testLoadAndSave() {
 		$course_profile_post = array("name" => "Test Course Profile", "course_id" => 1, "staff_id" => 1);
 		
 		$result = CourseProfile::LoadAndSave($course_profile_post, $this->db);
@@ -63,7 +64,7 @@ class CourseProfileTest extends WebNaploTest {
 	/**
 	 *	Testing the LoadAndUpdate operation of Course Profile
 	 **/
-	public function LoadAndUpdate() {
+	public function testLoadAndUpdate() {
 		$course_profile_post = array("name" => "Test Course Profile", "course_id" => 1, "staff_id" => 1);
 		$result = CourseProfile::LoadAndSave($course_profile_post, $this->db);
 		$this->lastInsertId = $this->db->lastInsertId();
@@ -84,19 +85,8 @@ class CourseProfileTest extends WebNaploTest {
 	/**
 	 *	Testing the deletion of course profiles for a given staff member
 	 **/
-	public function DeleteByStaff() {
+	public function testDeleteByStaff() {
 		// We need to create a staff member, add its properties and create a set of course profiles for them and prove the test
-	}
-	
-	/**
-	 *	Run all the tests for this model class
-	 **/
-	public function testRun() {
-		$this->Save();
-		$this->LoadAndUpdate();
-		$this->LoadAndSave();
-		$this->DeleteByStaff();
-		
-		echo "Testing..";
+		$this->markTestIncomplete("We need to create a staff member, add its properties and create a set of course profiles for them and prove the test");
 	}
 }
