@@ -38,7 +38,68 @@ class ExcelReadTest extends WebNaploTest {
 	 *	@test
 	 **/
 	public function readStudentExcel() {
+		$this->readStudentExcelFiles('./data/StudentListTest.xlsx');
+		$this->readStudentExcelFiles('./data/StudentListTest.xls');
+		$this->readStudentExcelFiles('./data/StudentListTest.csv');
 		$this->markTestIncomplete("Yet to write this test");
+	}
+	
+	private function readStudentExcelFiles($filename) {
+		// Read from any of the supported files directly
+		$objPHPExcel = PHPExcel_IOFactory::load($filename);
+
+		$rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
+		// Contains the list of ids which will be generated upon inserting into the database
+		$dept_insert_ids = array();
+		$file_column_mapping = array('A' => 'name', 'B' => 'registernumber', 'C' => 'year', 'D' => 'semester', 'E' => 'mobile', 'F' => 'email', 'G' => 'address');
+		
+		foreach($rowIterator as $row) {
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(true);
+
+			//skip first row -- Since its the heading
+			if(1 === $row->getRowIndex()) {
+				foreach($cellIterator as $cell) {
+					if('name' == $cell->getValue()) {
+						$file_column_mapping[$cell->getColumn()] = 'name';
+					} else if('registernumber' == $cell->getValue()) {
+						$file_column_mapping[$cell->getColumn()] = 'registernumber';
+					} else if('year' == $cell->getValue()) {
+						$file_column_mapping[$cell->getColumn()] = 'year';
+					} else if('semester' == $cell->getValue()) {
+						$file_column_mapping[$cell->getColumn()] = 'semester';
+					} else if('mobile' == $cell->getValue()) {
+						$file_column_mapping[$cell->getColumn()] = 'mobile';
+					} else if('email' == $cell->getValue()) {
+						$file_column_mapping[$cell->getColumn()] = 'email';
+					} else if('address' == $cell->getValue()) {
+						$file_column_mapping[$cell->getColumn()] = 'address';
+					}
+				}
+				continue;
+			}
+
+			$rowIndex = $row->getRowIndex() - 2;
+			$array_data[$rowIndex] = array('name' => '', 'registernumber' => '', 'year' => '', 'semester' => '', 'mobile' => '', 'email' => '', 'address' => '');
+			
+			foreach($cellIterator as $cell) {
+				// Assuming the data is present in the first cell
+				// Storing the value
+				$prop = $file_column_mapping[$cell->getColumn()];
+				$array_data[$rowIndex][$prop] = $cell->getValue();
+			}
+		}
+		
+		// Test Data contains 6 records apart from the initial row
+		$this->assertEquals(1, count($array_data));
+		
+		// Lets test if the data is actually read properly
+		$this->assertEquals('Ashwanth', $array_data[0]['name']);
+		$this->assertEquals('21203015', $array_data[0]['registernumber']);
+		$this->assertEquals('4', $array_data[0]['year']);
+		$this->assertEquals('8', $array_data[0]['semester']);
+		$this->assertEquals('9003290112', $array_data[0]['mobile']);
+		$this->assertEquals('ashwanthkumar@googlemail.com', $array_data[0]['email']);
 	}
 
 	/**
@@ -76,7 +137,7 @@ class ExcelReadTest extends WebNaploTest {
 	/**
 	 *	Test the reading of Excel documents for Department
 	 **/
-	public function readDepartmentExcelFiles($filename) {
+	private function readDepartmentExcelFiles($filename) {
 		// Read from any of the supported files directly
 		$objPHPExcel = PHPExcel_IOFactory::load($filename);
 
