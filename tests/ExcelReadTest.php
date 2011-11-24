@@ -41,16 +41,20 @@ class ExcelReadTest extends WebNaploTest {
 		$this->readStudentExcelFiles('./data/StudentListTest.xlsx');
 		$this->readStudentExcelFiles('./data/StudentListTest.xls');
 		$this->readStudentExcelFiles('./data/StudentListTest.csv');
-		$this->markTestIncomplete("Yet to write this test");
+		
+		// $this->markTestIncomplete("Test ODS file");
 	}
 	
+	/**
+	 *	Read and asserts the Student List (Import) file
+	 **/
 	private function readStudentExcelFiles($filename) {
 		// Read from any of the supported files directly
 		$objPHPExcel = PHPExcel_IOFactory::load($filename);
 
 		$rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
 		// Contains the list of ids which will be generated upon inserting into the database
-		$dept_insert_ids = array();
+		$student_insert_ids = array();
 		$file_column_mapping = array('A' => 'name', 'B' => 'registernumber', 'C' => 'year', 'D' => 'semester', 'E' => 'mobile', 'F' => 'email', 'G' => 'address');
 		
 		foreach($rowIterator as $row) {
@@ -60,34 +64,54 @@ class ExcelReadTest extends WebNaploTest {
 			//skip first row -- Since its the heading
 			if(1 === $row->getRowIndex()) {
 				foreach($cellIterator as $cell) {
-					if('name' == $cell->getValue()) {
+					if('name' == strtolower($cell->getValue())) {
 						$file_column_mapping[$cell->getColumn()] = 'name';
-					} else if('registernumber' == $cell->getValue()) {
+					} else if('registernumber' == strtolower($cell->getValue())) {
 						$file_column_mapping[$cell->getColumn()] = 'registernumber';
-					} else if('year' == $cell->getValue()) {
+					} else if('year' == strtolower($cell->getValue())) {
 						$file_column_mapping[$cell->getColumn()] = 'year';
-					} else if('semester' == $cell->getValue()) {
+					} else if('semester' == strtolower($cell->getValue())) {
 						$file_column_mapping[$cell->getColumn()] = 'semester';
-					} else if('mobile' == $cell->getValue()) {
+					} else if('mobile' == strtolower($cell->getValue())) {
 						$file_column_mapping[$cell->getColumn()] = 'mobile';
-					} else if('email' == $cell->getValue()) {
+					} else if('email' == strtolower($cell->getValue())) {
 						$file_column_mapping[$cell->getColumn()] = 'email';
-					} else if('address' == $cell->getValue()) {
+					} else if('address' == strtolower($cell->getValue())) {
 						$file_column_mapping[$cell->getColumn()] = 'address';
 					}
 				}
 				continue;
 			}
 
+			// Getting zero-based row index
 			$rowIndex = $row->getRowIndex() - 2;
 			$array_data[$rowIndex] = array('name' => '', 'registernumber' => '', 'year' => '', 'semester' => '', 'mobile' => '', 'email' => '', 'address' => '');
 			
+			// Get the data from the sheet
 			foreach($cellIterator as $cell) {
-				// Assuming the data is present in the first cell
-				// Storing the value
 				$prop = $file_column_mapping[$cell->getColumn()];
 				$array_data[$rowIndex][$prop] = $cell->getValue();
 			}
+			
+			// Insert the Student Data into DB
+			// Map the Excel File fields to Student Model fields
+			$student_post_data = array(
+									'class_id' => 1, 
+									'year' => $array_data[$rowIndex]['year'],
+									'idstudent' => $array_data[$rowIndex]['registernumber'],
+									'name' => $array_data[$rowIndex]['name'],
+									'email' => $array_data[$rowIndex]['email'],
+									'address' => $array_data[$rowIndex]['address'],
+									'mobile' => $array_data[$rowIndex]['mobile'],
+									'current_semester' => $array_data[$rowIndex]['semester']
+								);
+			
+			$r = Student::LoadAndSave($student_post_data, $this->db);
+			
+			$this->assertNotInstanceOf('PDOException', $r);	// Make sure its not an error
+			$this->assertEquals(false, is_object($r));	// Make sure its not an error
+			
+			if(!is_object($r)) $student_insert_ids[] = $array_data[$rowIndex]['registernumber'];
 		}
 		
 		// Test Data contains 6 records apart from the initial row
@@ -100,6 +124,12 @@ class ExcelReadTest extends WebNaploTest {
 		$this->assertEquals('8', $array_data[0]['semester']);
 		$this->assertEquals('9003290112', $array_data[0]['mobile']);
 		$this->assertEquals('ashwanthkumar@googlemail.com', $array_data[0]['email']);
+		
+		// Now delete the inserted fields from the datastore
+		foreach($student_insert_ids as $sid) {
+			$r = Student::Delete($sid, $this->db);
+			$this->assertEquals(1, $r);
+		}
 	}
 
 	/**
@@ -131,7 +161,7 @@ class ExcelReadTest extends WebNaploTest {
 		$this->readDepartmentExcelFiles("./data/DepartmentListTest.xls");
 		$this->readDepartmentExcelFiles("./data/DepartmentListTest.csv");
 		
-		$this->markTestIncomplete("Still need to test ODS files");
+		// $this->markTestIncomplete("Still need to test ODS files");
 	}
 
 	/**
