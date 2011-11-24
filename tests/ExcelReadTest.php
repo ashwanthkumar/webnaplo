@@ -5,8 +5,6 @@ require_once("WebNaploTest.php");
 
 // Include the PHPExcel Library
 require_once("../lib/phpexcel/PHPExcel.php");
-/** PHPExcel_IOFactory */
-require_once("../lib/phpexcel/PHPExcel/IOFactory.php");
 
 // Including the Model files
 require_once("../models/Student.php");
