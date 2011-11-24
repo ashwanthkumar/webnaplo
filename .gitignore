@@ -1,4 +1,5 @@
 config.php
 data/*
 export/*.pdf
-tests/data/
+tests/data/*.sql
+lib/phpexcel/_content
