@@ -34,6 +34,8 @@ function configure() {
 	option('reports_dir', file_path(dirname(__FILE__), 'export'));
 	// Directories that contain all the translations
 	option('locale_dir', file_path(dirname(__FILE__), 'i18n'));
+	// Root directory of all the library
+	option('lib_dir', file_path(dirname(__FILE__), 'lib'));
 	
 	option('gzip', true);
 	
@@ -44,7 +46,8 @@ function configure() {
 	// Include all the models to the system
 	require_once_dir(file_path(dirname(__FILE__), 'models'));
 	require_once_dir(file_path(dirname(__FILE__), 'lib'));
-	require_once_dir(file_path(dirname(__FILE__), 'lib' , 'wkhtmltopdf'));
+	require_once_dir(file_path(option('lib_dir') , 'wkhtmltopdf'));
+	require_once_dir(file_path(option('lib_dir'), 'phpexcel'));
 	require_once_dir(file_path(option('locale_dir')));
 
 	// Include the configuration file
@@ -261,7 +264,13 @@ dispatch_get('/staff/**', 'staff_home_render');
 // ------------------------------------------
 // Admin functions
 // ------------------------------------------
+dispatch_get('/admin/advanced/import', 'admin_import_render');
 dispatch_get('/admin/advanced/', 'admin_advanced_render');
+
+// Import File Handlers
+dispatch_post('/admin/advanced/import/upload/student', 'admin_import_students');
+dispatch_post('/admin/advanced/import/upload/staff', 'admin_import_staffs');
+dispatch_post('/admin/advanced/import/upload/dept', 'admin_import_dept');
 
 // Reset Passwords
 dispatch_post('/admin/user/reset/', 'admin_user_reset_password');
