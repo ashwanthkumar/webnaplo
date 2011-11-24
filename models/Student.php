@@ -81,8 +81,6 @@ class Student {
 	public static function LoadAndSave($student, $db) {
 		extract($student);
 		
-		print_r($student);
-
 		$student = new Student;
 		if(isset($class_id)) 			$student->class_id = $class_id;
 		if(isset($year))				$student->year = $year;
