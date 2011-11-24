@@ -6,11 +6,18 @@
 	// Get the PDO handle
 	$db = $GLOBALS['db'];
 
+	$staff = Staff::load($user->userid, $db);
+	
+	if(!$staff) {
+		// Seems like the user does not exist, automatically logout the user
+		return redirect('/user/logout');
+	}
+	
 	// Select the list of course profiles the staff takes
-	$courses = Staff::getCourseProfiles($user->userid, $db);
+	$courses = $staff->getCourseProfiles($db);
 
 	// Get the timetable of the current staff member
-	$staff_timetable = Staff::getTimeTable($user->userid, $db);
+	$staff_timetable = $staff->getTimetable($db);
 	
 	// Custom Array which contains the timetable of the staff member in a new format
 	$staff_tt_ids = array();
