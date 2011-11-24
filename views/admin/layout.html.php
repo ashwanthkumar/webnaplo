@@ -56,6 +56,7 @@
 					<!-- User Dropdown Content: Start -->
 					<ul class="subnav">  
 						<li><a href="<?php echo url_for('admin/advanced/'); ?>" class="icon settings"><?php echo get_text('ADVANCED_SETTINGS'); ?></a></li>
+						<li><a href="<?php echo url_for('admin/advanced/import'); ?>" class="icon settings2"><?php echo get_text('ADVANCED_IMPORT_SETTINGS'); ?></a></li>
 			            <li><a href="<?php echo url_for('/user/logout/'); ?>" class="icon lock"><?php echo get_text('LOGOUT'); ?></a></li>  
 			        </ul>  
 			        <!-- User Dropdown Content: End -->
@@ -206,6 +207,8 @@
 	
 	<!-- jQuery Customization -->
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/custom.js"></script>
+	<!-- Custom Admin related JS -->
+	<script type="text/javascript" src="<?php echo url_for('admin/js'); ?>"></script>
 
 </body>
 
