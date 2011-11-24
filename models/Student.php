@@ -200,6 +200,83 @@ class Student {
 	 **/
 	public static function Delete($id, $db) {
 		return $db->delete("student", "idstudent = :sid", array(":sid" => $id));
-	}	
+	}
+	
+	/**
+	 *	Import the Student List from a XLS/XLSX/CSV/ODS file
+	 **/
+	public static function Import($filename, $class_id, $db) {
+		// This function requires us to include PHPExcel library which should be included before callng this function
+		// Read from any of the supported files directly
+		$objPHPExcel = PHPExcel_IOFactory::load($filename);
+
+		$rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
+		// Contains the list of ids which will be generated upon inserting into the database
+		$student_insert_ids = array();
+		$file_column_mapping = array('A' => 'name', 'B' => 'registernumber', 'C' => 'year', 'D' => 'semester', 'E' => 'mobile', 'F' => 'email', 'G' => 'address');
+		$batch_errors = array();
+		
+		// Read through all the rows of the file
+		foreach($rowIterator as $row) {
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(true);
+
+			//skip first row -- Since its the heading
+			if(1 === $row->getRowIndex()) {
+				foreach($cellIterator as $cell) {
+					if('name' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'name';
+					} else if('registernumber' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'registernumber';
+					} else if('year' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'year';
+					} else if('semester' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'semester';
+					} else if('mobile' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'mobile';
+					} else if('email' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'email';
+					} else if('address' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'address';
+					}
+				}
+				continue;
+			}
+
+			// Getting zero-based row index
+			$rowIndex = $row->getRowIndex() - 2;
+			$array_data[$rowIndex] = array('name' => '', 'registernumber' => '', 'year' => '', 'semester' => '', 'mobile' => '', 'email' => '', 'address' => '');
+			
+			// Get the data from the sheet
+			foreach($cellIterator as $cell) {
+				$prop = $file_column_mapping[$cell->getColumn()];
+				$array_data[$rowIndex][$prop] = $cell->getValue();
+			}
+			
+			// Insert the Student Data into DB
+			// Map the Excel File fields to Student Model fields
+			$student_post_data = array(
+									'class_id' => $class_id, // Got as an Input from the form
+									'year' => $array_data[$rowIndex]['year'],
+									'idstudent' => $array_data[$rowIndex]['registernumber'],
+									'name' => $array_data[$rowIndex]['name'],
+									'email' => $array_data[$rowIndex]['email'],
+									'address' => $array_data[$rowIndex]['address'],
+									'mobile' => $array_data[$rowIndex]['mobile'],
+									'current_semester' => $array_data[$rowIndex]['semester']
+								);
+			
+			$r = Student::LoadAndSave($student_post_data, $db);
+			
+			if(!is_object($r)) $student_insert_ids[] = $array_data[$rowIndex]['registernumber'];
+			else if(is_object($r) && get_class($r) == "PDOException") {
+				// Save the Error message associated with all the error register number
+				$reg = $array_data[$rowIndex]['registernumber'];
+				$batch_errors[$reg] = $r->getMessage();
+			}
+		}	// End of processing all the rows of the file
+		
+		return $batch_errors;
+	}
 }
 
