@@ -251,9 +251,85 @@ class Staff {
 	public static function getLackStatus() {
 			// set the attendance for the student 
 	}
+	
+	/**
+	 *	Imports the Staff List to the datastore. Supported file types are - 
+	 *				-->	XLSX
+	 *				-->	XLS
+	 *				-->	CSV
+	 *
+	 *	@linkedTestId	ReadStaffExcel
+	 *	
+	 *	@param	$filename	Filename (with full path) to read from
+	 *	@param	$dept		Department where the current staff list belongs
+	 *	@param	$db			PDOObject
+	 **/
+	public static function Import($filename, $dept, $db) {
+		// Read from any of the supported files directly
+		$objPHPExcel = PHPExcel_IOFactory::load($filename);
+
+		$rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
+		// Contains the list of ids which will be generated upon inserting into the database
+		$staff_insert_ids = array();
+		$file_column_mapping = array('A' => 'staffid', 'B' => 'name', 'C' => 'address', 'D' => 'designation', 'E' => 'mobile', 'F' => 'email');
+		$batch_errors = array();
 		
-	public static function importStaffList() {
-			// import stafflist
+		foreach($rowIterator as $row) {
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(true);
+
+			//skip first row -- Since its the heading
+			if(1 === $row->getRowIndex()) {
+				foreach($cellIterator as $cell) {
+					if('name' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'name';
+					} else if('staffid' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'staffid';
+					} else if('designation' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'designation';
+					} else if('mobile' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'mobile';
+					} else if('email' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'email';
+					} else if('address' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'address';
+					}
+				}
+				continue;
+			}
+
+			// Getting zero-based row index
+			$rowIndex = $row->getRowIndex() - 2;
+			$array_data[$rowIndex] = array('name' => '', 'staffid' => '', 'designation' => '', 'mobile' => '', 'email' => '', 'address' => '');
+			
+			// Get the data from the sheet
+			foreach($cellIterator as $cell) {
+				$prop = $file_column_mapping[$cell->getColumn()];
+				$array_data[$rowIndex][$prop] = $cell->getValue();
+			}
+			
+			// Insert the Staff Data into DB
+			// Map the Excel File fields to Staff Model fields
+			$staff_post_data = array(
+									'name' => $array_data[$rowIndex]['name'],
+									'designation' => $array_data[$rowIndex]['designation'], 
+									'dept_id' => $dept, // Department value got from the form
+									'staff_id' => $array_data[$rowIndex]['staffid'],
+									'email' => $array_data[$rowIndex]['email'],
+									'mobile' => $array_data[$rowIndex]['mobile'],
+									'address' => $array_data[$rowIndex]['address']
+								);
+			
+			$r = Staff::LoadAndSave($staff_post_data, $db);
+			
+			if(!is_object($r)) $staff_insert_ids[] = $array_data[$rowIndex]['staffid'];
+			else {
+				$staffId = $array_data[$rowIndex]['staffid'];
+				$batch_errors[$staffId] = $r->getMessage(); 
+			}
+		}
+		// Return the batch errors if any
+		return $batch_errors;
 	}
 		
 	public static function getBlockStatus() {

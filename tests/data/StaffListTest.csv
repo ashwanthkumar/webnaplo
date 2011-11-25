@@ -1,0 +1,4 @@
+staffid,name,address,designation,mobile,email
+A123,Staff1,Sample Address goes here,AP-I,1234567890,staff1@src.sastra.edu
+A456,Staff2,Sample Address goes here,AP-II,12345667890,staff2@src.sastra.edu
+A789,Staff3,Sample Address goes here,AP-III,1234567890,staff3@src.sastra.edu

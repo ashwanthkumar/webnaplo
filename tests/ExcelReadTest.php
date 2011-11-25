@@ -34,6 +34,7 @@ class ExcelReadTest extends WebNaploTest {
 	 *	Test the reading of Excel documents for students
 	 *	@group read
 	 *	@test
+	 *	@testId	ReadStudentExcel
 	 **/
 	public function readStudentExcel() {
 		$this->readStudentExcelFiles('./data/StudentListTest.xlsx');
@@ -112,7 +113,7 @@ class ExcelReadTest extends WebNaploTest {
 			if(!is_object($r)) $student_insert_ids[] = $array_data[$rowIndex]['registernumber'];
 		}
 		
-		// Test Data contains 6 records apart from the initial row
+		// Test Data contains 1 records apart from the initial row
 		$this->assertEquals(1, count($array_data));
 		
 		// Lets test if the data is actually read properly
@@ -134,9 +135,102 @@ class ExcelReadTest extends WebNaploTest {
 	 *	Test the reading of Excel documents for Staff
 	 *	@group read
 	 *	@test
+	 *	@testId	ReadStaffExcel
 	 **/
 	public function readStaffExcel() {
-		$this->markTestIncomplete("Yet to write this test");
+		$this->readStaffExcelFile('./data/StaffListTest.xlsx');
+		$this->readStaffExcelFile('./data/StaffListTest.xls');
+		$this->readStaffExcelFile('./data/StaffListTest.csv');
+		
+		// $this->markTestIncomplete("Test ODS Files");
+	}
+	
+	/**
+	 *	Read the Staff Excel files for Import and test database insert
+	 **/
+	private function readStaffExcelFile($filename) {
+		// Read from any of the supported files directly
+		$objPHPExcel = PHPExcel_IOFactory::load($filename);
+
+		$rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
+		// Contains the list of ids which will be generated upon inserting into the database
+		$staff_insert_ids = array();
+		$file_column_mapping = array('A' => 'staffid', 'B' => 'name', 'C' => 'address', 'D' => 'designation', 'E' => 'mobile', 'F' => 'email');
+		
+		foreach($rowIterator as $row) {
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(true);
+
+			//skip first row -- Since its the heading
+			if(1 === $row->getRowIndex()) {
+				foreach($cellIterator as $cell) {
+					if('name' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'name';
+					} else if('staffid' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'staffid';
+					} else if('designation' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'designation';
+					} else if('mobile' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'mobile';
+					} else if('email' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'email';
+					} else if('address' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'address';
+					}
+				}
+				continue;
+			}
+
+			// Getting zero-based row index
+			$rowIndex = $row->getRowIndex() - 2;
+			$array_data[$rowIndex] = array('name' => '', 'staffid' => '', 'designation' => '', 'mobile' => '', 'email' => '', 'address' => '');
+			
+			// Get the data from the sheet
+			foreach($cellIterator as $cell) {
+				$prop = $file_column_mapping[$cell->getColumn()];
+				$array_data[$rowIndex][$prop] = $cell->getValue();
+			}
+			
+			// Insert the Staff Data into DB
+			// Map the Excel File fields to Staff Model fields
+			$staff_post_data = array(
+									'name' => $array_data[$rowIndex]['name'],
+									'designation' => $array_data[$rowIndex]['designation'], 
+									'dept_id' => 16, 
+									'staff_id' => $array_data[$rowIndex]['staffid'],
+									'email' => $array_data[$rowIndex]['email'],
+									'mobile' => $array_data[$rowIndex]['mobile'],
+									'address' => $array_data[$rowIndex]['address']
+								);
+			
+			$r = Staff::LoadAndSave($staff_post_data, $this->db);
+			
+			$this->assertNotInstanceOf('PDOException', $r);	// Make sure its not an error
+			
+			// Run this assertion only if there is a PDOException
+			if(is_object($r) && get_class($r) == "PDOException") 
+				$this->assertNotEquals('PDOException', $r->getMessage());	// Make sure its not an error
+				
+			$this->assertEquals(false, is_object($r));	// Make sure its not an error
+			
+			if(!is_object($r)) $staff_insert_ids[] = $array_data[$rowIndex]['staffid'];
+		}
+		
+		// Test Data contains 3 records apart from the initial row
+		$this->assertEquals(3, count($array_data));
+		
+		// Lets test if the data is actually read properly
+		$this->assertEquals('Staff1', $array_data[0]['name']);
+		$this->assertEquals('A123', $array_data[0]['staffid']);
+		$this->assertEquals('AP-I', $array_data[0]['designation']);
+		$this->assertEquals('1234567890', $array_data[0]['mobile']);
+		$this->assertEquals('staff1@src.sastra.edu', $array_data[0]['email']);
+		
+		// Now delete the inserted fields from the datastore
+		foreach($staff_insert_ids as $sid) {
+			$r = Staff::Delete($sid, $this->db);
+			$this->assertEquals(1, $r);
+		}
 	}
 
 	/**
