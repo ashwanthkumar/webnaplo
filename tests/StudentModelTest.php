@@ -10,7 +10,7 @@ require_once("../models/Student.php");
  *	Test cases for unit testing the Student Model
  *
  *	@author Team Webnaplo
- *	@date 13/11/2011
+ *	@date 25/11/2011
  **/
 class StudentModelTest extends WebNaploTest {
 
@@ -22,7 +22,7 @@ class StudentModelTest extends WebNaploTest {
 	
 	// Negative test for deleting a non-existent student
 	public function testNegativeStudentDelete() {
-		$this->assertEquals(0, Student::Delete(200008000,$this->db));
+		$this->assertEquals(0, Student::Delete(123094527034098,$this->db));
 	}
 	
 	// Test the students against insterting a new value using the Model::save()
