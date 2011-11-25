@@ -52,21 +52,13 @@ function user_logout() {
 function user_login_authenticate() {
 	extract($_POST);
 
-	$dataentry_username = Configuration::get(Configuration::$CONFIG_DATAENTRY_USER, $GLOBALS['db']);
-	if(is_object($dataentry_username) && get_class($dataentry_username) == "PDOException") {
-		// PDOException goes here
-		print_r($dataentry_username);
-		halt(SERVER_ERROR, $dataentry_username->getMessage());
-	}
+	// Getting the Dataentry Credentials
+	$dataentry_username = trim(Configuration::get(Configuration::$CONFIG_DATAENTRY_USER, $GLOBALS['db'], true));
+	$dataentry_password = trim(Configuration::get(Configuration::$CONFIG_DATAENTRY_PASSWORD, $GLOBALS['db'], true));
 	
-	$dataentry_username = $dataentry_username[0]["value"];
-	$dataentry_password = Configuration::get(Configuration::$CONFIG_DATAENTRY_PASSWORD, $GLOBALS['db']);
-	$dataentry_password = $dataentry_password[0]["value"];
-	
-	$admin_username = Configuration::get(Configuration::$CONFIG_ADMIN_USER, $GLOBALS['db']);
-	$admin_username = $admin_username[0]["value"];
-	$admin_password = Configuration::get(Configuration::$CONFIG_ADMIN_PASSWORD, $GLOBALS['db']);
-	$admin_password = $admin_password[0]["value"];
+	// Getting the Admin Credentials
+	$admin_username = trim(Configuration::get(Configuration::$CONFIG_ADMIN_USER, $GLOBALS['db'], true));
+	$admin_password = trim(Configuration::get(Configuration::$CONFIG_ADMIN_PASSWORD, $GLOBALS['db'], true));
 
 	$db = $GLOBALS['db'];
 	
