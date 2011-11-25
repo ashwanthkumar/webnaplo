@@ -93,5 +93,18 @@ class Department {
 		// I should not come here
 		return false;
 	}
+	
+	/**
+	 *	Search through all the entities of the model
+	 *
+	 *	@param	$db			PDOObject
+	 *	@param	$condition	Condition on which the object must be searched
+	 *	@param	$bind		Bind the values used in the $condition
+	 *
+	 *	@return	Array of entities that matches the condition
+	 **/
+	public static function search($db, $condition = '1=1', $bind = array()) {
+		return $db->select("dept", $condition, $bind);
+	}
 }
 
