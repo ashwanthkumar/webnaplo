@@ -45,7 +45,8 @@ class StudentModelTest extends WebNaploTest {
 	
 	//  Testing if the Student Block is working
 	public function testStudentBlock() {
-		$this->assertEquals(0, Student::block(200008000,$this->db));
+		$this->assertEquals(0, Student::block(909876543,$this->db));
+		$this->assertEquals(1, Student::unblock(200000052,$this->db));
 		$this->assertEquals(1, Student::block(200000052,$this->db));
 	}
 }
