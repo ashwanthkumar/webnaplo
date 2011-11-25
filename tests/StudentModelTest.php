@@ -41,6 +41,9 @@ class StudentModelTest extends WebNaploTest {
 		$student->class_id = 1;
 		
 		$this->assertEquals(1, $student->save($this->db));
+		
+		// Now to remove the added student
+		$this->assertEquals(1, Student::Delete($student->idstudent, $this->db));
 	}
 	
 	//  Testing if the Student Block is working
