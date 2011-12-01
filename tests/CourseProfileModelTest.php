@@ -104,16 +104,9 @@ require_once("../models/Staff.php");
 
 		// Array of student register numbers our which one is fake
 		$students = array(21203015, 21203009, 12345);
-		$numberOfStudentsInserted = 0;
-		// Array of registeration numbers to add
-		foreach($students as $student) {
-			$r = $this->db->insert("cp_has_student", array(
-											"cp_id" => $this->lastInsertId,
-											"idstudent" => $student
-										));
-			
-			if(!(is_object($r) && get_class($r) == "PDOException")) $numberOfStudentsInserted++;
-		}
+		
+		$cp = CourseProfile::load($this->lastInsertId, $this->db);
+		$numberOfStudentsInserted = $cp->addStudent($students, $this->db);
 		
 		$this->assertNotEquals(count($students), $numberOfStudentsInserted, "Number of Students and inserted value should not match");
 		

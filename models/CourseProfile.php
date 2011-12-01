@@ -15,6 +15,7 @@ class CourseProfile {
 	public $name;
 	public $course_id;
 	public $staff_id;
+	public $syllabus;
 	
 	/**
 	 *	Save the current instance of the object to the datastore
@@ -28,6 +29,7 @@ class CourseProfile {
 				"idcourse_profile" => $this->idcourse_profile,
 				"name" => $this->name,
 				"course_id" => $this->course_id,
+				"syllabus" => $this->syllabus,
 				"staff_id" => $this->staff_id
 			));
 	}
@@ -43,6 +45,7 @@ class CourseProfile {
 		return $db->update("course_profile", array(
 				"name" => $this->name,
 				"course_id" => $this->course_id,
+				"syllabus" => $this->syllabus,
 				"staff_id" => $this->staff_id
 			), "idcourse_profile = :cid", array(":cid" => $this->idcourse_profile));
 	}
@@ -65,6 +68,7 @@ class CourseProfile {
 	 *
 	 *	@return	TRUE		When the  $cpid is an array and it has executed fine
 	 *			1			If the $cpid is a value, and it has executed fine. 
+	 *			FALSE		In case of an error
 	 **/
 	public static function DeleteByStaff($cpid, $staffid, $db) {
 		if(is_array($cpid)) {
@@ -77,7 +81,10 @@ class CourseProfile {
 			}
 			return TRUE;
 		} else {
-			return $db->delete("course_profile", "idcourse_profile = :cc and staff_id = :sid", array(":cc" => $cpid, ":sid" => $staffid));
+			$r = $db->delete("course_profile", "idcourse_profile = :cc and staff_id = :sid", array(":cc" => $cpid, ":sid" => $staffid));
+			
+			if(!(is_object($r) && get_class($r) == "PDOException")) return 1;
+			else return FALSE;
 		}
 	}
 
@@ -98,6 +105,7 @@ class CourseProfile {
 		$cprofile->name = $name;
 		$cprofile->course_id = $course_id;
 		$cprofile->staff_id = $staff_id;
+		if(isset($syllabus)) $cprofile->syllabus = $syllabus;
 		
 		return $cprofile->update($db);
 	}
@@ -116,6 +124,7 @@ class CourseProfile {
 		$cprofile->name = $name;
 		$cprofile->course_id = $course_id;
 		$cprofile->staff_id = $staff_id;
+		if(isset($syllabus)) $cprofile->syllabus = $syllabus;
 		
 		return $cprofile->save($db);
 	}
@@ -151,6 +160,32 @@ class CourseProfile {
 			// Make sure the insert was successful
 			if(!(is_object($r) && get_class($r) == "PDOException")) return 1;
 			else return 0;
+		}
+	}
+	
+	/**
+	 *	Load the current instance of the object from the datastore
+	 *
+	 *	@param	$cpid	Course Profile ID
+	 *	@param	$db		PDOObject
+	 *
+	 *	@return	An instance of CourseProfile
+	 **/
+	public static function load($cpid, $db) {
+		$r = $db->select("course_profile", "idcourse_profile = :cpid", array(":cpid" => $cpid));
+		
+		if((is_object($r) && get_class($r) == "PDOException")) return FALSE;
+		else {
+			extract($r[0]);
+			
+			$cprofile = new CourseProfile;
+			$cprofile->idcourse_profile = $idcourse_profile;
+			$cprofile->name = $name;
+			$cprofile->course_id = $course_id;
+			$cprofile->staff_id = $staff_id;
+			$cprofile->syllabus = $syllabus;
+			
+			return $cprofile;
 		}
 	}
 }
