@@ -119,4 +119,38 @@ class CourseProfile {
 		
 		return $cprofile->save($db);
 	}
+	
+	/**
+	 *	Add the students to the current course profile
+	 *
+	 *	@param	$student	Student(s) registernumber to add 
+	 *	@return	number of students successfully added
+	 **/
+	public function addStudent($students, $db) {
+		if(is_array($students)) {
+			$numberOfStudentsInserted = 0;
+			// Array of registeration numbers to add
+			foreach($students as $student) {
+				$r = $db->insert("cp_has_student", array(
+												"cp_id" => $this->idcourse_profile,
+												"idstudent" => $student
+											));
+				
+				if(!(is_object($r) && get_class($r) == "PDOException")) $numberOfStudentsInserted++;
+			}
+			
+			// Return the number of students added to the system
+			return $numberOfStudentsInserted;
+		} else {
+			// Add a single student to the course profile
+			$r = $db->insert("cp_has_student", array(
+											"cp_id" => $this->idcourse_profile,
+											"idstudent" => $students
+										));
+			
+			// Make sure the insert was successful
+			if(!(is_object($r) && get_class($r) == "PDOException")) return 1;
+			else return 0;
+		}
+	}
 }

@@ -12,7 +12,6 @@ require_once("../models/Staff.php");
  *
  *	@author Team Webnaplo
  *	@date 20/11/2011
- * 	@outputBuffering enabled
  */
  class CourseProfileTest extends WebNaploTest {
 
@@ -71,7 +70,7 @@ require_once("../models/Staff.php");
 		// Test creation
 		$this->assertEquals($result, 1);
 
-		$course_profile_post = array("name" => "Test Course Profile Update", "course_id" => 2, "staff_id" => 1, "idcourse_profile" => $this->lastInsertId);
+		$course_profile_post = array("name" => "Test Course Profile Update", "course_id" => 1, "staff_id" => 1, "idcourse_profile" => $this->lastInsertId);
 		$result = CourseProfile::LoadAndUpdate($course_profile_post, $this->db);
 		// Test updation
 		$this->assertEquals($result, 1);
@@ -88,5 +87,39 @@ require_once("../models/Staff.php");
 	public function testDeleteByStaff() {
 		// We need to create a staff member, add its properties and create a set of course profiles for them and prove the test
 		$this->markTestIncomplete("We need to create a staff member, add its properties and create a set of course profiles for them and prove the test");
+	}
+	
+	/**
+	 *	Testing add students to the Course Profile
+	 *
+	 *	@test
+	 **/
+	public function addStudent() {
+		$course_profile_post = array("name" => "Test Course Profile", "course_id" => 1, "staff_id" => 1);
+		
+		$result = CourseProfile::LoadAndSave($course_profile_post, $this->db);
+		$this->lastInsertId = $this->db->lastInsertId();
+		// Test if the creation was successful
+		$this->assertEquals($result, 1);
+
+		// Array of student register numbers our which one is fake
+		$students = array(21203015, 21203009, 12345);
+		$numberOfStudentsInserted = 0;
+		// Array of registeration numbers to add
+		foreach($students as $student) {
+			$r = $this->db->insert("cp_has_student", array(
+											"cp_id" => $this->lastInsertId,
+											"idstudent" => $student
+										));
+			
+			if(!(is_object($r) && get_class($r) == "PDOException")) $numberOfStudentsInserted++;
+		}
+		
+		$this->assertNotEquals(count($students), $numberOfStudentsInserted, "Number of Students and inserted value should not match");
+		
+		// Remove the course profile
+		$result = CourseProfile::Delete($this->lastInsertId, $this->db);
+		// Test delting
+		$this->assertEquals($result, 1);
 	}
 }
