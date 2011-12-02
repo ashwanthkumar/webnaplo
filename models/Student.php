@@ -56,6 +56,33 @@ class Student {
 					"class_id" => $this->class_id
 			), "idstudent = :cid", array(":cid" => $this->idstudent));
 	}
+
+	/**
+	 *	Get more information about the student
+	 *	
+	 *	More information includes - 
+	 *		1. dname		-	Department Name
+	 *		2. iddept		-	Department ID
+	 *		3. pname		-	Programme Name
+	 *		4. idprogramme 	-	Programme ID
+	 *		5. cname		-	Class / Section Name
+	 *		6. idclass		-	Class / Section ID
+	 *
+	 *	@param	$db		PDOObject
+	 *
+	 *	@return	Array of properties as described above
+	 *			FALSE on error or if the student does not exist
+	 **/
+	public function getMore($db) {
+		$dept = $db->run("select d.name as dname, d.iddept as iddept, p.name as pname, p.idprogramme as idprogramme, c.idclass as idclass, c.name as cname from student s, dept d, class c, programme p where s.idstudent = :reg and s.class_id = c.idclass and d.iddept = p.dept_id and c.programme_id = p.idprogramme", array(":reg" => $this->idstudent));
+	
+		// Return FALSE on error
+		if((is_object($dept) && get_class($dept) == "PDOException")) return FALSE;
+		
+		// Check if the student exist and valid
+		if(count($dept) > 0) return $dept[0];
+		else return FALSE;
+	}
 	
 	/**
 	 *	Lodas the array value from the param to a $Student Object and updates it
@@ -63,7 +90,7 @@ class Student {
 	public static function LoadAndUpdate($student, $db) {
 		extract($student);
 
-		$student = new Student;
+		$student = Student::load($idstudent, $db);
 		if(isset($idstudent))			$student->idstudent = $idstudent;
 		if(isset($address))				$student->address = $address;
 		if(isset($current_semester))	$student->current_semester = $current_semester;
@@ -76,6 +103,40 @@ class Student {
 		if(isset($class_id)) 			$student->class_id = $class_id;
 		
 		return $student->update($db);
+	}
+	
+	/**
+	 *	Load an instance of the Student model from the database based on the register number
+	 *
+	 *	@param	$studentId	Register number of the student
+	 *	@param	$db			PDOObject
+	 *
+	 *	@return	Current Student instance on success
+	 *			FALSE on failure
+	 **/
+	public static function load($studentId, $db) {
+		$isStudentAvailable = $db->select("student", "idstudent = :reg", array(":reg" => $studentId));
+		
+		if(count($isStudentAvailable) > 0) {
+			// Student Available
+			extract($isStudentAvailable[0]);
+			$student = new Student;
+			
+			if(isset($idstudent))			$student->idstudent = $idstudent;
+			if(isset($address))				$student->address = $address;
+			if(isset($current_semester))	$student->current_semester = $current_semester;
+			if(isset($email))				$student->email = $email;
+			if(isset($is_blocked))			$student->is_blocked = $is_blocked;
+			if(isset($mobile))				$student->mobile = $mobile;
+			if(isset($name))				$student->name = $name;
+			if(isset($password))			$student->password = $password;
+			if(isset($year))				$student->year = $year;
+			if(isset($class_id)) 			$student->class_id = $class_id;
+			
+			return $student;
+		} else {
+			return FALSE;
+		}
 	}
 
 	public static function LoadAndSave($student, $db) {
@@ -158,12 +219,7 @@ class Student {
 		
 		return $db->run($query, array(":reg" => $reg_no));
 	}
-	
-	
-	public static function editProfile( $address, $phone, $mail){
-		// To modify the student profile
-	}
-	
+		
 	/**
 	 * Get the student profile block status
 	 **/
