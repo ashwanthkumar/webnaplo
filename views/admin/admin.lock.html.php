@@ -1,15 +1,22 @@
 <?php
 
+	// Get the current user in the context
 	$user = get_user();
 	$db = $GLOBALS['db'];
 	
-	$staffs = $db->select("staff", "1=1 order by staff_id asc");
-	$students = $db->select("student");
-	$locknunlock = $db->run("select cl.idclass as id, lu.assignment as assignment, lu.attendance as attendance, lu.cia_1 as c1, lu.cia_2 as c2, lu.cia_3 as c3, cl.name as name from lock_unlock lu, class cl where cl.idclass = lu.class_id");
+	// Get list of all staff
+	$staffs = Staff::search($db);
+	// Get list of all students
+	$students = Student::search($db);
+	
+	// Get the list of Course profiles with their lock status
+	$locknunlock = LockUnLock::getList($db);
 
 	content_for('body');
 	
-	// Re-initialize the LockNUnlock Status for all the classes
+	// Re-initialize the LockNUnlock Status for all the course profiles
+	// This is to be executed when setting up the system
+	// @todo Find a way to automate this task. Probably set this up as the Cron job?
 	// set_time_limit(0);
 	// LockUnLock::initLockUnLock($db);
 ?>
@@ -29,7 +36,7 @@
 					<thead>
 						<tr>
 							<th class="align_left center">SNO</th>
-							<th class="align_left center tools">Class</th>
+							<th class="align_left center tools">Course Profile</th>
 							<th class="align_left center">CIA - I</th>
 							<th class="align_left center">CIA - II</th>
 							<th class="align_left center">CIA - III</th>
