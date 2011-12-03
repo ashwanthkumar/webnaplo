@@ -188,4 +188,17 @@ class CourseProfile {
 			return $cprofile;
 		}
 	}
+	
+	/**
+	 *	Search the Model entities in the datastore
+	 *
+	 *	@param	$db			PDOObject
+	 *	@param	$condition	Search Condition 
+	 *	@param	$bind		Array of bound values used in $condition
+	 *
+	 *	@return	Array of Model entities matching the $condition
+	 **/
+	public static function search($db, $condition = '1=1', $bind = array()) {
+		return $db->select("course_profile", $condition, $bind);
+	}	
 }
