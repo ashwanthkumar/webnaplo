@@ -3,3 +3,4 @@ data/*
 export/*.pdf
 tests/data/*.sql
 lib/phpexcel/_content
+*.txt

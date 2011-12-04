@@ -51,6 +51,7 @@
 		"BUILD_DATE" => "Build Date",
 		"STATUS" => "Status",
 		"AND" => " and ",
+		"ADVANCED_IMPORT_SETTINGS" => "Import",
 		
 		// Login Page Strings
 		"LOGIN" => "Login",
