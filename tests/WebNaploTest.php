@@ -17,4 +17,14 @@ class WebNaploTest extends PHPUnit_Framework_TestCase {
 		
 		return $db;
 	}
+	
+	/**
+	 *	Get the timestamp of the $time in MySQL format
+	 *
+	 *	@param	$time	Any acceptable value to strtotime, that needs to be converted into MySQL timestamp format. 
+	 **/
+	public function timestamp($time) {
+		if(is_string($time)) $time = strtotime($time);
+		return date("Y-m-d H:i:s", $time);
+	}
 }
