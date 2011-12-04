@@ -22,16 +22,24 @@ class CourseProfile {
 	 *
 	 *	@param	$db	PDOObject
 	 *	
-	 *	@return	1 if successful, else PDOException object
+	 *	@return	1 if successful, else FALSE on error
 	 **/
 	public function save($db) {
-		return $db->insert("course_profile", array(
-				"idcourse_profile" => $this->idcourse_profile,
+		$r = $db->insert("course_profile", array(
 				"name" => $this->name,
 				"course_id" => $this->course_id,
 				"syllabus" => $this->syllabus,
 				"staff_id" => $this->staff_id
 			));
+			
+		if(is_object($r) && get_class($r) == "PDOException") return FALSE;
+			
+		$this->idcourse_profile = $db->lastInsertId();
+		$r = LockUnLock::addCourseProfile($this->idcourse_profile);
+
+		if(is_object($r) && get_class($r) == "PDOException") return FALSE;
+		
+		return $r;
 	}
 	
 	/**

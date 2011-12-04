@@ -146,4 +146,24 @@ class LockUnLock {
 	public static function getList($db) {
 		return $db->run("select cp.idcourse_profile as id, lu.assignment as assignment, lu.attendance as attendance, lu.cia_1 as c1, lu.cia_2 as c2, lu.cia_3 as c3, cp.name as name from lock_unlock lu, course_profile cp where cp.idcourse_profile = lu.cp_id");
 	}
+	
+	/**
+	 *	Add a course profile to the current lock and unlock status
+	 *
+	 *	@param	$cpid	Course Profile ID
+	 *	@param	$db		PDOObject
+	 *
+	 *	@return Same as {@link LockUnlock::save()}
+	 **/
+	public static function addCourseProfile($cpid) {
+			$l = new LockUnLock;
+			$l->assignment = 0;	
+			$l->attendance = 0;		
+			$l->cia_1 = 0;
+			$l->cia_2 = 0;
+			$l->cia_3 = 0;
+			$l->class_id = $cpid;
+
+			return $l->save($db);
+	}
 }
