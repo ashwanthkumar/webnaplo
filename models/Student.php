@@ -56,6 +56,33 @@ class Student {
 					"class_id" => $this->class_id
 			), "idstudent = :cid", array(":cid" => $this->idstudent));
 	}
+
+	/**
+	 *	Get more information about the student
+	 *	
+	 *	More information includes - 
+	 *		1. dname		-	Department Name
+	 *		2. iddept		-	Department ID
+	 *		3. pname		-	Programme Name
+	 *		4. idprogramme 	-	Programme ID
+	 *		5. cname		-	Class / Section Name
+	 *		6. idclass		-	Class / Section ID
+	 *
+	 *	@param	$db		PDOObject
+	 *
+	 *	@return	Array of properties as described above
+	 *			FALSE on error or if the student does not exist
+	 **/
+	public function getMore($db) {
+		$dept = $db->run("select d.name as dname, d.iddept as iddept, p.name as pname, p.idprogramme as idprogramme, c.idclass as idclass, c.name as cname from student s, dept d, class c, programme p where s.idstudent = :reg and s.class_id = c.idclass and d.iddept = p.dept_id and c.programme_id = p.idprogramme", array(":reg" => $this->idstudent));
+	
+		// Return FALSE on error
+		if((is_object($dept) && get_class($dept) == "PDOException")) return FALSE;
+		
+		// Check if the student exist and valid
+		if(count($dept) > 0) return $dept[0];
+		else return FALSE;
+	}
 	
 	/**
 	 *	Lodas the array value from the param to a $Student Object and updates it
@@ -63,7 +90,7 @@ class Student {
 	public static function LoadAndUpdate($student, $db) {
 		extract($student);
 
-		$student = new Student;
+		$student = Student::load($idstudent, $db);
 		if(isset($idstudent))			$student->idstudent = $idstudent;
 		if(isset($address))				$student->address = $address;
 		if(isset($current_semester))	$student->current_semester = $current_semester;
@@ -77,12 +104,44 @@ class Student {
 		
 		return $student->update($db);
 	}
+	
+	/**
+	 *	Load an instance of the Student model from the database based on the register number
+	 *
+	 *	@param	$studentId	Register number of the student
+	 *	@param	$db			PDOObject
+	 *
+	 *	@return	Current Student instance on success
+	 *			FALSE on failure
+	 **/
+	public static function load($studentId, $db) {
+		$isStudentAvailable = $db->select("student", "idstudent = :reg", array(":reg" => $studentId));
+		
+		if(count($isStudentAvailable) > 0) {
+			// Student Available
+			extract($isStudentAvailable[0]);
+			$student = new Student;
+			
+			if(isset($idstudent))			$student->idstudent = $idstudent;
+			if(isset($address))				$student->address = $address;
+			if(isset($current_semester))	$student->current_semester = $current_semester;
+			if(isset($email))				$student->email = $email;
+			if(isset($is_blocked))			$student->is_blocked = $is_blocked;
+			if(isset($mobile))				$student->mobile = $mobile;
+			if(isset($name))				$student->name = $name;
+			if(isset($password))			$student->password = $password;
+			if(isset($year))				$student->year = $year;
+			if(isset($class_id)) 			$student->class_id = $class_id;
+			
+			return $student;
+		} else {
+			return FALSE;
+		}
+	}
 
 	public static function LoadAndSave($student, $db) {
 		extract($student);
 		
-		print_r($student);
-
 		$student = new Student;
 		if(isset($class_id)) 			$student->class_id = $class_id;
 		if(isset($year))				$student->year = $year;
@@ -160,12 +219,7 @@ class Student {
 		
 		return $db->run($query, array(":reg" => $reg_no));
 	}
-	
-	
-	public static function editProfile( $address, $phone, $mail){
-		// To modify the student profile
-	}
-	
+		
 	/**
 	 * Get the student profile block status
 	 **/
@@ -202,6 +256,95 @@ class Student {
 	 **/
 	public static function Delete($id, $db) {
 		return $db->delete("student", "idstudent = :sid", array(":sid" => $id));
-	}	
-}
+	}
+	
+	/**
+	 *	Import the Student List from a XLS/XLSX/CSV/ODS file
+	 **/
+	public static function Import($filename, $class_id, $db) {
+		// This function requires us to include PHPExcel library which should be included before callng this function
+		// Read from any of the supported files directly
+		$objPHPExcel = PHPExcel_IOFactory::load($filename);
 
+		$rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
+		// Contains the list of ids which will be generated upon inserting into the database
+		$student_insert_ids = array();
+		$file_column_mapping = array('A' => 'name', 'B' => 'registernumber', 'C' => 'year', 'D' => 'semester', 'E' => 'mobile', 'F' => 'email', 'G' => 'address');
+		$batch_errors = array();
+		
+		// Read through all the rows of the file
+		foreach($rowIterator as $row) {
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(true);
+
+			//skip first row -- Since its the heading
+			if(1 === $row->getRowIndex()) {
+				foreach($cellIterator as $cell) {
+					if('name' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'name';
+					} else if('registernumber' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'registernumber';
+					} else if('year' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'year';
+					} else if('semester' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'semester';
+					} else if('mobile' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'mobile';
+					} else if('email' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'email';
+					} else if('address' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'address';
+					}
+				}
+				continue;
+			}
+
+			// Getting zero-based row index
+			$rowIndex = $row->getRowIndex() - 2;
+			$array_data[$rowIndex] = array('name' => '', 'registernumber' => '', 'year' => '', 'semester' => '', 'mobile' => '', 'email' => '', 'address' => '');
+			
+			// Get the data from the sheet
+			foreach($cellIterator as $cell) {
+				$prop = $file_column_mapping[$cell->getColumn()];
+				$array_data[$rowIndex][$prop] = $cell->getValue();
+			}
+			
+			// Insert the Student Data into DB
+			// Map the Excel File fields to Student Model fields
+			$student_post_data = array(
+									'class_id' => $class_id, // Got as an Input from the form
+									'year' => $array_data[$rowIndex]['year'],
+									'idstudent' => $array_data[$rowIndex]['registernumber'],
+									'name' => $array_data[$rowIndex]['name'],
+									'email' => $array_data[$rowIndex]['email'],
+									'address' => $array_data[$rowIndex]['address'],
+									'mobile' => $array_data[$rowIndex]['mobile'],
+									'current_semester' => $array_data[$rowIndex]['semester']
+								);
+			
+			$r = Student::LoadAndSave($student_post_data, $db);
+			
+			if(!is_object($r)) $student_insert_ids[] = $array_data[$rowIndex]['registernumber'];
+			else if(is_object($r) && get_class($r) == "PDOException") {
+				// Save the Error message associated with all the error register number
+				$reg = $array_data[$rowIndex]['registernumber'];
+				$batch_errors[$reg] = $r->getMessage();
+			}
+		}	// End of processing all the rows of the file
+		
+		return $batch_errors;
+	}
+
+	/**
+	 *	Search the Model entities in the datastore
+	 *
+	 *	@param	$db			PDOObject
+	 *	@param	$condition	Search Condition 
+	 *	@param	$bind		Array of bound values used in $condition
+	 *
+	 *	@return	Array of Model entities matching the $condition
+	 **/
+	public static function search($db, $condition = '1=1', $bind = array()) {
+		return $db->select("student", $condition, $bind);
+	}
+}

@@ -9,7 +9,8 @@ class db extends PDO {
 
 	public function __construct($dsn, $user="", $passwd="") {
 		$options = array(
-			PDO::ATTR_PERSISTENT => true, 
+			// Changed the Persistent connections from true to false to drop the "MySQL Server has gone away errors"
+			PDO::ATTR_PERSISTENT => false, 
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		);
 

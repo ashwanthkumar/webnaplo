@@ -482,7 +482,9 @@ ul#navigation a:hover, ul#navigation li a.active  { color:#fff; background-posit
 }
 
 .box_top h2			{ float:left; margin:0;padding:0; }
-.box_top h2:hover 	{ cursor: s-resize; }
+/* Fix added to remove Cursor effect during enabling toggling */
+.box_top h1			{ float:left; margin:0;padding:0; }
+.box_top h2.slider_toggle:hover 	{ cursor: s-resize; }
 
 .box_top .icon {
 	background-position:left 2px;

@@ -6,13 +6,12 @@
 	// Getting the PDO Handler
 	$db = $GLOBALS['db'];
 	
-	$staff = $db->select("staff", "idstaff = :sid", array(":sid" => $user->userid));
-	$staff = $staff[0];
+	$staff = Staff::load($user->userid, $db);
 
 	// View Page that displays the Pending Attendance
 	content_for('body');
 	
-	$pendingAttendance = Staff::getPendingAttendance($staff['staff_id'], $db); 
+	$pendingAttendance = $staff->getPendingAttendance($db); 
 ?>
 
 <!-- 75% Box Grid Container: Start -->
@@ -21,7 +20,7 @@
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		
-		<h1 class="icon frames">Pending Attendance for <?php echo $staff['name']; ?></h1>
+		<h1 class="icon frames">Pending Attendance for <?php echo $staff ->name; ?></h1>
 	</div>
 	<!-- Box Header: End -->
 	

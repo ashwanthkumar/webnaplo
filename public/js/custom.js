@@ -262,7 +262,7 @@ $("<span class='v'></span>").insertAfter("ul#navigation.dropdown ul.subnav");
 //-------------------------------------------------------------- */
 
 	// When top box is clicked, it slides up
-	$(".box_top h2").click(function(){
+	$(".box_top h2.slider_toggle").click(function(){
 		$(this).toggleClass("toggle_closed").parent().next().slideToggle("slow");
 		return false; //Prevent the browser jump to the link anchor
 	}); 

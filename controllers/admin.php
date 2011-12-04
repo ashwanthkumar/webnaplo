@@ -731,3 +731,92 @@ function admin_report_list() {
 function admin_export_list() {
 	return dataentry_export_list();
 }
+
+/**
+ *	Render the Import From Excel Page in the Admin
+ *
+ *	@method GET
+ *	@route 	/admin/advanced/import
+ **/
+function admin_import_render() {
+	layout('/admin/layout.html.php');
+	set('title', "Advanced - Import ");
+	
+	return render('/admin/admin.import.html.php');
+}
+
+/**
+ *	Import Student List from a Excel/CSV/OpenCalc File
+ *
+ *	@method POST
+ *	@route /admin/advanced/import/upload/students
+ **/
+function admin_import_students() {
+	$accept_mime = array('text/csv','application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	// See if the file was uploaded at all
+	if(isset($_FILES['studentlist']['name']) && strlen($_FILES['studentlist']['name']) > 0) {
+		$filename = $_FILES['studentlist']['tmp_name'];
+		
+		$mime = file_mime_content_type($_FILES['studentlist']['name']);
+		
+		if(in_array($mime, $accept_mime)) {
+			$class_id = $_POST['classid'];
+			$batch_errors = Student::Import($filename, $class_id, $GLOBALS['db']);
+			
+			// Complete the process with a proper error message
+			if(count($batch_errors) > 0) flash('error', $batch_errors);
+			else flash('success', 'All Students from the file has been imported successfully.');
+		} else {
+			flash('warning', 'Import failure. Please use only XLS/XLSX/CSV file. ');
+		}
+		// Remove the uploaded file now
+		unlink($filename);
+	} else {
+		flash('warning', 'Please upload a file to import contents from');
+	}
+	
+	return redirect('/admin/advanced/import');
+}
+
+/**
+ *	Import Staff List from a Excel/CSV/OpenCalc File
+ *
+ *	@method POST
+ *	@route /admin/advanced/import/staffs
+ **/
+function admin_import_staffs() {
+	$accept_mime = array('text/csv','application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	// See if the file was uploaded at all
+	if(isset($_FILES['stafflist']['name']) && strlen($_FILES['stafflist']['name']) > 0) {
+		$filename = $_FILES['stafflist']['tmp_name'];
+		
+		$mime = file_mime_content_type($_FILES['stafflist']['name']);
+		
+		if(in_array($mime, $accept_mime)) {
+			$deptid = $_POST['deptid'];
+			$batch_errors = Staff::Import($filename, $deptid, $GLOBALS['db']);
+			
+			// Complete the process with a proper error message
+			if(count($batch_errors) > 0) flash('error', $batch_errors);
+			else flash('success', 'All Staffs from the file has been imported successfully.');
+		} else {
+			flash('warning', 'Import failure. Please use only XLS/XLSX/CSV file. ');
+		}
+		// Remove the uploaded file now
+		unlink($filename);
+	} else {
+		flash('warning', 'Please upload a file to import contents from');
+	}
+	
+	return redirect('/admin/advanced/import');
+}
+
+/**
+ *	Import Department List from a Excel/CSV/OpenCalc File
+ *
+ *	@method POST
+ *	@route /admin/advanced/import/dept
+ **/
+function admin_import_dept() {
+	return h("TODO Handle Department upload");
+}

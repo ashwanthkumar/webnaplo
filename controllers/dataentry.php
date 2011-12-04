@@ -1,13 +1,17 @@
 <?php
 /**
- *	DataEntry Controller for performing various functions
+ *	DataEntry Controller for performing various functions by Dataentry user
  *
  *	@author Team WebNaplo
  *	@date 11/11/2011
+ *	@since 1.0
  **/
 
 /**
  * Data Entry Home Page
+ *
+ *	@method GET
+ *	@route /dataentry/home/
  **/
 function dataentry_home() {
 	layout('dataentry/layout.html.php');
@@ -19,6 +23,9 @@ function dataentry_home() {
 
 /**
  * Add Student View Page
+ *
+ *	@method GET
+ *	@route /dataentry/student/add/
  **/
 function dataentry_add_student_render() {
 	layout('dataentry/layout.html.php');
@@ -30,6 +37,9 @@ function dataentry_add_student_render() {
 
 /**
  * Add Student to the system
+ *
+ *	@method	POST
+ *	@route	/dataentry/student/add/
  **/
 function dataentry_add_student_post() {
 	$db = $GLOBALS['db'];
@@ -59,6 +69,9 @@ function dataentry_add_student_post() {
 
 /**
  * Add Department View Page
+ *
+ *	@method	GET
+ *	@route	/dataentry/department/add/
  **/
 function dataentry_add_department_render() {
 	layout('dataentry/layout.html.php');
@@ -68,6 +81,40 @@ function dataentry_add_department_render() {
     return render("dataentry/add.department.html.php");
 }
 
+/**
+ * Add Department to the system
+ *
+ *	@method 	POST
+ *	@route		/dataentry/department/add/
+ **/
+function dataentry_add_department_post() {
+	extract($_POST);
+	
+	if(strlen(trim($name)) < 1) {
+		flash('error', "Please enter valid Department name");
+	} else {
+	
+		$db = $GLOBALS['db'];
+
+		// Delete the department static function to delete the object
+		$department = Department::LoadAndSave($_POST, $db);
+		if(!$department) {
+			flash('error', "$name Department already exists");
+		} else {
+			flash('success', "Department $name has been successfully added");
+		}
+	}	
+	
+	// Redirect the user back 
+	return redirect('/dataentry/department/add');
+}
+
+/**
+ *	Method actings as an AJAX proxy during Student Addition
+ *
+ *	@method	GET
+ *	@route	/dataentry/student/add/proxy
+ **/
 function dataentry_add_student_proxy() {
 	$db = $GLOBALS['db'];
 	// Get the list of programmes for the given department
@@ -90,24 +137,10 @@ function dataentry_add_student_proxy() {
 }
 
 /**
- * Add Department to the system
- **/
-function dataentry_add_department_post() {
-	// $did = $_POST['dept_FK'];
-	extract($_POST);
-	
-	$db = $GLOBALS['db'];
-
-	// Delete the department static function to delete the object
-	Department::LoadAndSave($_POST, $db);
-	flash('success', "Department $name has been successfully added");
-	
-	// Redirect the user back 
-	redirect('/dataentry/department/add');
-}
-
-/**
  * Add programme View page
+ *
+ *	@method	GET
+ *	@route	/dataentry/programme/add/
  **/
 function dataentry_add_programme_render() {
 	layout('dataentry/layout.html.php');
@@ -119,6 +152,9 @@ function dataentry_add_programme_render() {
 
 /**
  * Add Programme to the system
+ *
+ *	@method	POST
+ *	@route	/dataentry/programme/add/
  **/
 function dataentry_add_programme_post() {
 	// $did = $_POST['dept_FK'];
@@ -146,6 +182,9 @@ function dataentry_add_programme_post() {
 
 /**
  * Add Section View page
+ *
+ *	@method	GET
+ *	@route	/dataentry/section/add/
  **/
 function dataentry_add_section_render() {
 	layout('dataentry/layout.html.php');
@@ -157,6 +196,9 @@ function dataentry_add_section_render() {
 
 /**
  * Add Section View page
+ *
+ *	@method	POST
+ *	@route	/dataentry/section/add/
  **/
 function dataentry_add_section_post() {
 	// $did = $_POST['dept_FK'];
@@ -184,6 +226,9 @@ function dataentry_add_section_post() {
 
 /**
  * Add Staff View Page
+ *
+ *	@method	GET
+ *	@route	/dataentry/staff/add/
  **/
 function dataentry_add_staff_render() {
 	layout('dataentry/layout.html.php');
@@ -195,6 +240,9 @@ function dataentry_add_staff_render() {
 
 /**
  * Add Staff to the system
+ *
+ *	@method	POST
+ *	@route	/dataentry/staff/add/
  **/
 function dataentry_add_staff_post() {
 	// $did = $_POST['dept_FK'];
@@ -221,6 +269,9 @@ function dataentry_add_staff_post() {
 
 /**
  * Add Course View Page
+ *
+ *	@method	GET
+ *	@route	/dataentry/course/add/
  **/
 function dataentry_add_course_render() {
 	layout('dataentry/layout.html.php');
@@ -232,6 +283,9 @@ function dataentry_add_course_render() {
 
 /**
  * Add Course to the system
+ *
+ *	@method	POST
+ *	@route	/dataentry/course/add/
  **/
 function dataentry_add_course_post() {
 	// $did = $_POST['dept_FK'];
@@ -258,7 +312,12 @@ function dataentry_add_course_post() {
 	return redirect('/dataentry/course/add');
 }
 
-// Change the password of the dataentry user
+/**
+ *	Change the password of the dataentry user
+ *
+ *	@method POST
+ *	@route	/dataentry/changepass/
+ **/
 function dataentry_changepass() {
 	if(isset($_POST['newPass'])) {
 		$newPass = $_POST['newPass'];
@@ -271,7 +330,12 @@ function dataentry_changepass() {
 	}
 }
 
-
+/**
+ *	List Staff Members of the system
+ *
+ *	@method	GET
+ *	@route	/dataentry/staff/list/
+ **/
 function dataentry_list_staff_render() {
 	return list_staff_render();
 }
@@ -285,6 +349,12 @@ function list_staff_render() {
 	return render("/dataentry/dataentry.list.staff.php");
 }
 
+/**
+ *	List All Programmes of the system
+ *
+ *	@method	GET
+ *	@route	/dataentry/programme/list/
+ **/
 function dataentry_list_programme_render() {
 	return list_programme_render();
 }
@@ -298,6 +368,12 @@ function list_programme_render() {
 	return render("/dataentry/dataentry.list.programme.php");
 }
 
+/**
+ *	List all Courses of the system
+ *
+ *	@method	GET
+ *	@route	/dataentry/course/list/
+ **/
 function dataentry_list_course_render() {
 	return list_course_render();
 }
@@ -311,11 +387,23 @@ function list_course_render() {
 	return render("/dataentry/dataentry.list.course.php");
 }
 
+/**
+ *	Used by wkhtmltopdf for generating PDFs in the system
+ *
+ *	@method	GET
+ *	@route	/dataentry/report/list/:type
+ **/
 function dataentry_report_list() {
 	$type = params('type');
 	return render("/dataentry/export/dataentry.$type.list.html.php");
 }
 
+/**
+ *	Used to initiate the export operation using wkhtmltopdf
+ *
+ *	@method	GET
+ *	@route	/dataentry/export/list/:type
+ **/
 function dataentry_export_list() {
 	$type = params('type');
 	

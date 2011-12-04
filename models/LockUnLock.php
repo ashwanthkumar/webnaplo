@@ -14,7 +14,7 @@ class LockUnLock {
 	 * Save the entity of the lock and unlock status of the present entity
 	 **/
 	public function save($db) {
-		return $db->insert("lock_unlock", array(
+		$r = $db->insert("lock_unlock", array(
 			"assignment" => $this->assignment,
 			"attendance" => $this->attendance,
 			"cia_1" => $this->cia_1,
@@ -22,6 +22,12 @@ class LockUnLock {
 			"cia_3" => $this->cia_3,
 			"class_id" => $this->class_id
 		));
+		
+		if(is_object($r) && get_class($r) == "PDOException") return $r;
+		
+		// Get the value of AUTO_INCREMENT value from the last insert and set it as the current objects ID
+		$this->idlock_unlock = $db->lastInsertId();
+		return 1;
 	}
 
 	/**
@@ -114,26 +120,56 @@ class LockUnLock {
 	}
 	
 	/**
-	 * Initialize the Lock and Unlock status for all the classes
+	 * Initialize the Lock and Unlock status for all the course profiles
 	 *
 	 *	LockUnLock::initLockUnLock()
 	 **/
 	public static function initLockUnLock($db) {
 		$db->run("delete from lock_unlock where 1 = 1");
 		
-		$classes = $db->select("class");
+		$course_profiles = CourseProfile::search($db);
 		
 		// Iterate over each class and init all their lock status
-		foreach($classes as $class) {
+		foreach($course_profiles as $cp) {
 			$l = new LockUnLock;
 			$l->assignment = 0;	
 			$l->attendance = 0;		
 			$l->cia_1 = 0;
 			$l->cia_2 = 0;
 			$l->cia_3 = 0;
-			$l->class_id = $class['idclass'];
+			$l->class_id = $cp['idcourse_profile'];
 
 			$l->save($db);
 		}
+	}
+	
+	/**
+	 *	Get the list of course profile with their lock and unlock status
+	 *
+	 *	@param	$db		PDOObject
+	 *	@return	Array of Course profiles with their lock and unlock statuc
+	 **/
+	public static function getList($db) {
+		return $db->run("select cp.idcourse_profile as id, lu.assignment as assignment, lu.attendance as attendance, lu.cia_1 as c1, lu.cia_2 as c2, lu.cia_3 as c3, cp.name as name from lock_unlock lu, course_profile cp where cp.idcourse_profile = lu.cp_id");
+	}
+	
+	/**
+	 *	Add a course profile to the current lock and unlock status
+	 *
+	 *	@param	$cpid	Course Profile ID
+	 *	@param	$db		PDOObject
+	 *
+	 *	@return Same as {@link LockUnlock::save()}
+	 **/
+	public static function addCourseProfile($cpid) {
+			$l = new LockUnLock;
+			$l->assignment = 0;	
+			$l->attendance = 0;		
+			$l->cia_1 = 0;
+			$l->cia_2 = 0;
+			$l->cia_3 = 0;
+			$l->class_id = $cpid;
+
+			return $l->save($db);
 	}
 }
