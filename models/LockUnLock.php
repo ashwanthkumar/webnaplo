@@ -14,7 +14,7 @@ class LockUnLock {
 	 * Save the entity of the lock and unlock status of the present entity
 	 **/
 	public function save($db) {
-		return $db->insert("lock_unlock", array(
+		$r = $db->insert("lock_unlock", array(
 			"assignment" => $this->assignment,
 			"attendance" => $this->attendance,
 			"cia_1" => $this->cia_1,
@@ -22,6 +22,12 @@ class LockUnLock {
 			"cia_3" => $this->cia_3,
 			"class_id" => $this->class_id
 		));
+		
+		if(is_object($r) && get_class($r) == "PDOException") return $r;
+		
+		// Get the value of AUTO_INCREMENT value from the last insert and set it as the current objects ID
+		$this->idlock_unlock = $db->lastInsertId();
+		return 1;
 	}
 
 	/**
