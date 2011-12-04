@@ -111,7 +111,10 @@ class Staff {
 	 *	@return	Valid Staff object if Staff ID is correct, else FALSE
 	 **/
 	public static function load($staffid, $db) {
-		$staffObject = $db->select("staff", "idstaff = :sid", array(":sid" => $staffid));
+		// Select the staff member based on the type of staff id
+		if(is_numeric($staffid)) $staffObject = $db->select("staff", "idstaff = :sid", array(":sid" => $staffid));
+		else $staffObject = $db->select("staff", "staff_id = :sid", array(":sid" => $staffid));
+		
 		if(count($staffObject) < 1) return false;
 		
 		// extract the staff properties as variables
