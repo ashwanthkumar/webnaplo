@@ -173,8 +173,7 @@ class Staff {
 		$course_profile = $db->run("select cp.course_id as course_id, cp.syllabus as syllabus, cp.name as cpname, c.course_name, c.course_code from course_profile cp, course c where cp.idcourse_profile = :cip and cp.course_id = c.idcourse and cp.staff_id = :sid", array(":cip" => $cpid, ":sid" => $this->idstaff));
 		
 		if(is_object($course_profile) && get_class($course_profile) == "PDOException") {
-			// redirect("/staff/course_profile/view");
-			halt($course_profile->getMessage());
+			return false;
 		}
 		
 		if(count($course_profile) < 1) return false;
@@ -185,7 +184,7 @@ class Staff {
 	 *	Get the pending attendance for a given staff member to be posted
 	 *
 	 *	@param	$staffid	Staff ID
-	 *	@param	$db			PDOObject Reference
+	 *	@param	$db			PDOObject
 	 *
 	 *	@return Pending attendance List
 	 **/
