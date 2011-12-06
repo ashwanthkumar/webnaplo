@@ -4,24 +4,19 @@
 
 	// Getting the PDO Handler
 	$db = $GLOBALS['db'];
-	
-	$stud = $db->select("staff", "idstaff = :sid", array(":sid" => $user->userid));
-	$stud = $stud[0];
+
+	$staff = Staff::load($user->userid, $db);
 	
 	// Edit Mode for re-using the template? 
 	$edit_mode = isset($edit_me) ? true : false;
 	if($edit_mode) {
-		$course_profile = $db->run("select cp.course_id as course_id, cp.syllabus as syllabus, cp.name as cpname, c.course_name, c.course_code from course_profile cp, course c where cp.idcourse_profile = :cip and cp.course_id = c.idcourse and cp.staff_id = :sid", array(":cip" => $edit_me, ":sid" => $user->userid));
+		$course_profile = $staff->getCourseProfile($edit_me, $db);
 		
-		
-		
-		if(is_object($course_profile) && get_class($course_profile) == "PDOException" or count($course_profile) < 1) {
-			// redirect("/staff/course_profile/view");
-			halt($course_profile->getMessage());
+		// Leave the page in case of an error
+		if(!$course_profile) {
+			flash('error', "There seems to be an error in editing the Course Profile");
+			return redirect("/staff/course_profile");
 		}
-		
-		// Probably $course_profile is a valid resource
-		$course_profile = $course_profile[0];
 	}
 
 	// Render Page Starts
@@ -88,7 +83,7 @@
 			<label class="nobold left nowidth">
 				<select name="course_id" id="course_id">
 				<?php
-					$courses = $db->select("course");
+					$courses = Course::search($db);
 					
 					foreach($courses as $d) {
 				?>

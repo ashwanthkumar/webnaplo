@@ -111,7 +111,10 @@ class Staff {
 	 *	@return	Valid Staff object if Staff ID is correct, else FALSE
 	 **/
 	public static function load($staffid, $db) {
-		$staffObject = $db->select("staff", "idstaff = :sid", array(":sid" => $staffid));
+		// Select the staff member based on the type of staff id
+		if(is_numeric($staffid)) $staffObject = $db->select("staff", "idstaff = :sid", array(":sid" => $staffid));
+		else $staffObject = $db->select("staff", "staff_id = :sid", array(":sid" => $staffid));
+		
 		if(count($staffObject) < 1) return false;
 		
 		// extract the staff properties as variables
@@ -154,10 +157,34 @@ class Staff {
 	}
 	
 	/**
+	 *	Get the course profile of the staff member. This method is using when Editing a course profile 
+	 *
+	 *	@param	$cpid	Course Profile ID
+	 *	@param	$db		PDOObject
+	 *
+	 *	@return	Array of following properties
+	 *			-> course_id
+	 *			-> syllabus
+	 *			-> name (CourseProfile Name)
+	 *			-> course_name
+	 *			-> course_code
+	 **/
+	public function getCourseProfile($cpid, $db) {
+		$course_profile = $db->run("select cp.course_id as course_id, cp.syllabus as syllabus, cp.name as cpname, c.course_name, c.course_code from course_profile cp, course c where cp.idcourse_profile = :cip and cp.course_id = c.idcourse and cp.staff_id = :sid", array(":cip" => $cpid, ":sid" => $this->idstaff));
+		
+		if(is_object($course_profile) && get_class($course_profile) == "PDOException") {
+			return false;
+		}
+		
+		if(count($course_profile) < 1) return false;
+		else return $course_profile[0];
+	}
+	
+	/**
 	 *	Get the pending attendance for a given staff member to be posted
 	 *
 	 *	@param	$staffid	Staff ID
-	 *	@param	$db			PDOObject Reference
+	 *	@param	$db			PDOObject
 	 *
 	 *	@return Pending attendance List
 	 **/
