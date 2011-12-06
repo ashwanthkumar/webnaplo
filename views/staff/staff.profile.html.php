@@ -3,12 +3,12 @@
 	content_for('body');
 ?>
 <!-- 100% Box Grid Container: Start -->
-<div class="grid_24">
+<div class="grid_18">
 
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		
-		<h1 class="icon frames">&nbsp;</h1>
+		<h1 class="icon frames">Staff Profile</h1>
 		
 	</div>
 	<!-- Box Header: End -->
@@ -17,9 +17,6 @@
 	<div class="box_content padding">
 		
 		<div class="field noline">
-			<h1>STAFF PROFILE</h1>
-		</div>
-<div class="field noline">
 			<label class="left">Designation</label>
 			
 			<label class="nobold left nowidth big">

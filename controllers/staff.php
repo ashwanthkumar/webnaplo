@@ -228,5 +228,8 @@ function staff_timetable_save() {
  *	@route	/staff/profile/view
  **/
 function staff_profile_render() {
-	return render('staff/staff.profile.html.php');
+	layout('staff/layout.html.php');
+	set('title', "Staff - View Profile");
+
+	return render('/staff/staff.profile.html.php');
 }
