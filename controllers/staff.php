@@ -220,3 +220,13 @@ function staff_timetable_save() {
 	
 	return redirect('staff/timetable/popup');
 }
+
+/**
+ *	Render the View Profile page for the Staff members
+ *
+ *	@method	GET
+ *	@route	/staff/profile/view
+ **/
+function staff_profile_render() {
+	return render('staff/staff.profile.html.php');
+}

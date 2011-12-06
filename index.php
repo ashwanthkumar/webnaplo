@@ -243,6 +243,7 @@ dispatch_get('/student/**', 'student_home_render');
 // ------------------------------------------
 // Staff View Controllers
 // ------------------------------------------
+dispatch_get('/staff/profile/view', 'staff_profile_render');
 dispatch_get('/staff/course_profile', 'staff_cp_view_render');
 dispatch_get('/staff/course_profile/add', 'staff_cp_add_render');
 dispatch_post('/staff/course_profile/create', 'staff_cp_create');
