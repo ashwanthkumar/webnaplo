@@ -9,6 +9,8 @@ USE `webnaplo` ;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Dept`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Dept` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Dept` (
   `iddept` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(64) NULL ,
@@ -19,6 +21,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Programme`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Programme` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Programme` (
   `idprogramme` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(128) NULL ,
@@ -36,6 +40,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Class`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Class` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Class` (
   `idclass` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(15) NULL ,
@@ -53,6 +59,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Student`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Student` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Student` (
   `idstudent` BIGINT NOT NULL ,
   `address` VARCHAR(45) NULL ,
@@ -78,6 +86,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Staff`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Staff` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Staff` (
   `idstaff` BIGINT NOT NULL AUTO_INCREMENT ,
   `address` TEXT NULL ,
@@ -103,6 +113,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Course`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Course` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Course` (
   `idcourse` BIGINT NOT NULL AUTO_INCREMENT ,
   `course_code` VARCHAR(32) NULL ,
@@ -110,11 +122,11 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Course` (
   `credits` INT NULL ,
   `programme_id` BIGINT NOT NULL ,
   PRIMARY KEY (`idcourse`) ,
-  INDEX `fk_course_programme1` (`programme_id` ASC) ,
-  CONSTRAINT `fk_course_programme1`
+  INDEX `fk_Course_Programme1` (`programme_id` ASC) ,
+  CONSTRAINT `fk_Course_Programme1`
     FOREIGN KEY (`programme_id` )
     REFERENCES `webnaplo`.`Programme` (`idprogramme` )
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -122,6 +134,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Course_profile`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Course_profile` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Course_profile` (
   `idcourse_profile` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(128) NULL ,
@@ -147,6 +161,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`cia_marks`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`cia_marks` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`cia_marks` (
   `idcia_marks` BIGINT NOT NULL AUTO_INCREMENT ,
   `assignment` INT NULL ,
@@ -174,6 +190,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Timetable`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Timetable` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Timetable` (
   `idtimetable` BIGINT NOT NULL AUTO_INCREMENT ,
   `days_of_week` INT NULL ,
@@ -192,6 +210,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Attendance`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Attendance` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Attendance` (
   `idattendance` BIGINT NOT NULL AUTO_INCREMENT ,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
@@ -218,6 +238,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`Lock_Unlock`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`Lock_Unlock` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`Lock_Unlock` (
   `idlock_unlock` INT NOT NULL AUTO_INCREMENT ,
   `assignment` INT NULL ,
@@ -231,7 +253,7 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Lock_Unlock` (
   CONSTRAINT `fk_Lock_Unlock_Course_profile1`
     FOREIGN KEY (`cp_id` )
     REFERENCES `webnaplo`.`Course_profile` (`idcourse_profile` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -239,6 +261,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`News`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`News` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`News` (
   `idNews` BIGINT NOT NULL AUTO_INCREMENT ,
   `news` TEXT NULL ,
@@ -250,6 +274,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`configuration`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`configuration` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`configuration` (
   `idconfiguration` INT NOT NULL AUTO_INCREMENT ,
   `key` VARCHAR(128) NULL ,
@@ -261,6 +287,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`ChangeDayOrder`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`ChangeDayOrder` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`ChangeDayOrder` (
   `idchangedayorder` BIGINT NOT NULL AUTO_INCREMENT ,
   `holiday_date` DATE NULL ,
@@ -273,6 +301,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`cp_has_student`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`cp_has_student` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`cp_has_student` (
   `cp_id` BIGINT NOT NULL ,
   `idstudent` BIGINT NOT NULL ,
@@ -295,6 +325,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `webnaplo`.`attendance_ignore`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `webnaplo`.`attendance_ignore` ;
+
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`attendance_ignore` (
   `idattendance_ignore` BIGINT NOT NULL AUTO_INCREMENT ,
   `date_attendance` DATE NULL ,
