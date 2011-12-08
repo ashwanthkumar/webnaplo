@@ -10,10 +10,15 @@ class Programme{
 	public $dept_id;
 	
 	public function save($db) {
-		return $db->insert("programme", array(
+		$r= $db->insert("programme", array(
 				"name" => $this->name,
 				"dept_id" => $this->dept_id
 			));
+		if(is_object($r) && get_class($r) == "PDOException") return $r;
+		
+		// Get the value of AUTO_INCREMENT value from the last insert and set it as the current objects ID
+		$this->idprogramme = $db->lastInsertId();
+		return 1;
 	}
 	
 	public function update($db) {

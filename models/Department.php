@@ -19,7 +19,11 @@ class Department {
 	 *	@return 1 If successful, else PDOException Object on failure
 	 **/
 	public function save($db) {
-		return $db->insert("dept", array("name" => $this->name));
+		$r= $db->insert("dept", array("name" => $this->name));
+		if(is_object($r) && get_class($r) == "PDOException") return $r;
+		
+		$this->iddept = $db->lastInsertId();
+		return $r;
 	}
 	
 	/**

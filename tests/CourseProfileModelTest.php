@@ -6,6 +6,7 @@ require_once("WebNaploTest.php");
 // Including the Model files
 require_once("../models/CourseProfile.php");
 require_once("../models/Staff.php");
+require_once("../models/LockUnlock.php");
 
 /**
  *	Test cases for unit testing the CourseProfile Model
@@ -13,7 +14,7 @@ require_once("../models/Staff.php");
  *	@author Team Webnaplo
  *	@date 20/11/2011
  */
- class CourseProfileTest extends WebNaploTest {
+ class CourseProfileModelTest extends WebNaploTest {
 
 	public $db;
 	private $lastInsertId;
@@ -32,13 +33,12 @@ require_once("../models/Staff.php");
 		$course_profile->staff_id = 1;
 		
 		$result = $course_profile->save($this->db);
-		$this->lastInsertId = $this->db->lastInsertId();
 		
 		// Test if the insert was successful
 		$this->assertEquals($result, 1);
 		
 		// Now remove the created object
-		$result = CourseProfile::Delete($this->lastInsertId, $this->db);
+		$result = CourseProfile::Delete($course_profile->idcourse_profile, $this->db);
 		
 		// Test if the delete was successful
 		$this->assertEquals($result, 1);
@@ -50,13 +50,12 @@ require_once("../models/Staff.php");
 	public function testLoadAndSave() {
 		$course_profile_post = array("name" => "Test Course Profile", "course_id" => 1, "staff_id" => 1);
 		
-		$result = CourseProfile::LoadAndSave($course_profile_post, $this->db);
-		$this->lastInsertId = $this->db->lastInsertId();
+		$result = CourseProfile::LoadAndSave($course_profile_post, $this->db, $course);
 		// Test if the creation was successful
 		$this->assertEquals($result, 1);
 		
 		// Now delete the created course profile and test it
-		$result = CourseProfile::Delete($this->lastInsertId, $this->db);
+		$result = CourseProfile::Delete($course->idcourse_profile, $this->db);
 		$this->assertEquals($result, 1);
 	}
 	
@@ -65,18 +64,18 @@ require_once("../models/Staff.php");
 	 **/
 	public function testLoadAndUpdate() {
 		$course_profile_post = array("name" => "Test Course Profile", "course_id" => 1, "staff_id" => 1);
-		$result = CourseProfile::LoadAndSave($course_profile_post, $this->db);
-		$this->lastInsertId = $this->db->lastInsertId();
+		$result = CourseProfile::LoadAndSave($course_profile_post, $this->db, $course);
+		
 		// Test creation
 		$this->assertEquals($result, 1);
 
-		$course_profile_post = array("name" => "Test Course Profile Update", "course_id" => 1, "staff_id" => 1, "idcourse_profile" => $this->lastInsertId);
-		$result = CourseProfile::LoadAndUpdate($course_profile_post, $this->db);
+		$course_profile_post = array("name" => "Test Course Profile Update", "course_id" => 1, "staff_id" => 1, "idcourse_profile" => $course->idcourse_profile);
+		$result = CourseProfile::LoadAndUpdate($course_profile_post, $this->db, $course);
 		// Test updation
 		$this->assertEquals($result, 1);
 		
 		// Now Delete it
-		$result = CourseProfile::Delete($this->lastInsertId, $this->db);
+		$result = CourseProfile::Delete($course->idcourse_profile, $this->db);
 		// Test delting
 		$this->assertEquals($result, 1);
 	}
@@ -94,25 +93,38 @@ require_once("../models/Staff.php");
 	 *
 	 *	@test
 	 **/
-	public function addStudent() {
+	public function testAddStudent() {
 		$course_profile_post = array("name" => "Test Course Profile", "course_id" => 1, "staff_id" => 1);
 		
-		$result = CourseProfile::LoadAndSave($course_profile_post, $this->db);
-		$this->lastInsertId = $this->db->lastInsertId();
+		$result = CourseProfile::LoadAndSave($course_profile_post, $this->db, $course);
 		// Test if the creation was successful
 		$this->assertEquals($result, 1);
 
-		// Array of student register numbers our which one is fake
+		// Array of student register numbers out of which one is fake
 		$students = array(21203015, 21203009, 12345);
 		
-		$cp = CourseProfile::load($this->lastInsertId, $this->db);
+		$cp = CourseProfile::load($course->idcourse_profile, $this->db);
 		$numberOfStudentsInserted = $cp->addStudent($students, $this->db);
 		
 		$this->assertNotEquals(count($students), $numberOfStudentsInserted, "Number of Students and inserted value should not match");
 		
 		// Remove the course profile
-		$result = CourseProfile::Delete($this->lastInsertId, $this->db);
+		$result = CourseProfile::Delete($course->idcourse_profile, $this->db);
 		// Test delting
 		$this->assertEquals($result, 1);
+	}
+	public function testUpdate()
+	{
+	}
+	
+	public function testLoad()
+	{
+	}
+	public function testSearch()
+	{
+	$courseProfileList = $this->db->select("course_profile");
+		$courseProfileSearchList = CourseProfile::search($this->db);
+		
+		$this->assertEquals(count($courseProfileList), count($courseProfileSearchList));
 	}
 }

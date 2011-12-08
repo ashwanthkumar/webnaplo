@@ -143,7 +143,7 @@ class Staff {
 	 *	@return		PDOExceptionObject 	If there is an Error
 	 **/
 	public function save($db) {
-		return $db->insert("staff", array (
+		$r= $db->insert("staff", array (
 			"name" => $this->name,
 			"designation" => $this->designation,
 			"dept_id" => $this->dept_id,
@@ -154,6 +154,10 @@ class Staff {
 			"is_blocked" => $this->is_blocked,
 			"password" => $this->password
 		));
+		if(is_object($r) && get_class($r) == "PDOException") return $r;
+		
+		$this->idstaff = $db->lastInsertId();
+		return $r;
 	}
 	
 	/**
