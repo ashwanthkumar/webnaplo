@@ -29,7 +29,6 @@
 	<!-- jQuery thats loaded before document ready to prevent flickering - Rest are found at the bottom -->
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery-1.4.1.min.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.cookie.js"></script>
-	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.i18n.properties-min.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.styleswitcher.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.visualize.js"></script>
@@ -107,15 +106,6 @@
 				<?php
 					}
 				?>
-				<!--
-					<ul class="subnav">
-			            <li><a href="<?php echo url_for('/admin/course/edit/'); ?>" class="icon pages">Course</a></li> 
-						<li><a href="<?php echo url_for('/admin/department/edit/'); ?>" class="icon laptop">Department</a></li>  
-			            <li><a href="<?php echo url_for('/admin/programme/edit/'); ?>" class="icon archive">Programme</a></li>  
-			            <li><a href="<?php echo url_for('/admin/staff/edit/'); ?>" class="icon graph">Staff</a></li>  
-			            <li><a href="<?php echo url_for('/admin/student/edit/'); ?>" class="icon edit">Student</a></li>  
-			       </ul>  
-			        
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
@@ -143,8 +133,7 @@
 						<li><a href="<?php echo url_for('/admin/staff/list/'); ?>" class="icon laptop"><?php echo get_text('STAFF_LIST'); ?></a></li>  
 			            <li><a href="<?php echo url_for('/admin/programme/list/'); ?>" class="icon archive"><?php echo get_text('PROGRAMME_LIST'); ?></a></li>  
 			            <li><a href="<?php echo url_for('/admin/course/list/'); ?>" class="icon pages"><?php echo get_text('COURSE_LIST'); ?></a></li> 
-			            <!-- <li><a href="<?php echo url_for('/admin/section/list/'); ?>" class="icon edit">Section List</a></li>  -->
-			            
+			            <!-- <li><a href="<?php echo url_for('/admin/section/list/'); ?>" class="icon edit">Section List</a></li>  -->			            
 			       </ul>  
 			        <!-- Navigation Dropdown Menu Item Content: End --> 
 			        
