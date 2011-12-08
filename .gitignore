@@ -4,3 +4,5 @@ export/*.pdf
 tests/data/*.sql
 lib/phpexcel/_content
 *.txt
+_design/*.bak
+
