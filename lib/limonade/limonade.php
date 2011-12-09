@@ -334,7 +334,10 @@ function run($env = null)
   option('controllers_dir',    file_path($root_dir, 'controllers'));
   option('lib_dir',            file_path($root_dir, 'lib'));
   option('error_views_dir',    option('limonade_views_dir'));
-  option('base_path',          $base_path);
+  
+  if($base_path === '/') option('base_path', '');
+  else option('base_path',          $base_path);
+  
   option('base_uri',           $base_uri); // set it manually if you use url_rewriting
   option('env',                ENV_PRODUCTION);
   option('debug',              true);
@@ -398,7 +401,7 @@ function run($env = null)
 
   # 6. Check request
   if($rm = request_method($env))
-  {
+  { 	
     if(request_is_head($env)) ob_start(); // then no output
 
     if(!request_method_is_allowed($rm))

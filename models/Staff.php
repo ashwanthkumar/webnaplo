@@ -81,7 +81,7 @@ class Staff {
 	 *	@return	FALSE if staff member already exist, 
 	 *	@see Staff->save() for other return values
 	 **/
-	public static function LoadAndSave($staff, $db) {
+	public static function LoadAndSave($staff, $db, &$staff_object = null) {
 		extract($staff);
 		
 		$staffCount = $db->select("staff", "staff_id = :sid", array(":sid" => $staff_id));
@@ -99,7 +99,11 @@ class Staff {
 		$staff->is_blocked = false;
 		$staff->password = "src";
 		
-		return $staff->save($db);
+		$r = $staff->save($db);
+		
+		$staff_object = $staff;
+		
+		$r;
 	}
 	
 	/**

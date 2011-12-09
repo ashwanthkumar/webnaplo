@@ -43,7 +43,7 @@ class Department {
 	 *
 	 *	@return 1 on success, PDOExcpetion Object on failure
 	 **/
-	public static function LoadAndSave($department, $db) {
+	public static function LoadAndSave($department, $db, &$dept_object = null) {
 		extract($department);
 		
 		$deptList = $db->select("dept", "name = :name", array(":name" => $name));
@@ -52,8 +52,13 @@ class Department {
 			$d = new Department;
 			if(isset($name)) $d->name = $name;
 		
-			return $d->save($db);
+			$r = $d->save($db);
+
+			$dept_object = $d;
+			
+			return $r;
 		} else {
+			$dept_object = null;
 			return false;
 		}
 	}

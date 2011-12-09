@@ -133,7 +133,7 @@ function before($route) {
 	$route_pattern = $route['pattern'];
 
 	// Callback functions for which user session check is to be skipped
-	$func_calls_no_user_session = array('user_login', 'user_login_authenticate', 'user_logout', 'add_student_proxy', 'dataentry_report_list', 'user_change_locale', 'user_javascript_i18n_render');
+	$func_calls_no_user_session = array('user_login', 'user_login_authenticate', 'user_logout', 'add_student_proxy', 'dataentry_report_list', 'user_change_locale', 'user_javascript_i18n_render', 'webnaplo_home');
 	if(!in_array($route['callback'], $func_calls_no_user_session)) {
 		// redirect('/');
 		if(!isset($_SESSION['user'])) {

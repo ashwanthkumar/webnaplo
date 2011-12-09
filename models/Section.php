@@ -89,14 +89,14 @@ class Section {
 	 *
 	 *	@return	same as {@link Section::update()}
 	 **/
-	public static function LoadAndUpdate($sec, $db) {
+	public static function LoadAndUpdate($sec, $db, &$class_object) {
 		extract($sec);
 
 		$section = Section::load($idclass, $db);
 		if(isset($name)) $section->name = $name;
 		if(isset($programme_id)) $section->programme_id = $programme_id;
 		
-		return $section->update($db);
+		$r = $section->update($db);
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Section {
 	 *
 	 *	@return	1 on success, false if the name and programme pair of section already exist, or PDOException on error
 	 **/
-	public static function LoadAndSave($sec, $db) {
+	public static function LoadAndSave($sec, $db, &$class_object) {
 		extract($sec);
 
 		$cls = $db->select("class", "name = :name and programme_id = :pid", array(":name" => $name, ":pid" => $programme_id));
@@ -118,7 +118,11 @@ class Section {
 		$section->name = $name;
 		$section->programme_id = $programme_id;
 		
-		return $section->save($db);
+		$r = $section->save($db);
+		
+		$class_object = $section;
+		
+		return $r;
 	}
 	
 	/**

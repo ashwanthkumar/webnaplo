@@ -7,11 +7,11 @@ CREATE SCHEMA IF NOT EXISTS `webnaplo` DEFAULT CHARACTER SET utf8 ;
 USE `webnaplo` ;
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Dept`
+-- Table `webnaplo`.`dept`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Dept` ;
+DROP TABLE IF EXISTS `webnaplo`.`dept` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Dept` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`dept` (
   `iddept` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(64) NULL ,
   PRIMARY KEY (`iddept`) )
@@ -19,11 +19,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Programme`
+-- Table `webnaplo`.`programme`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Programme` ;
+DROP TABLE IF EXISTS `webnaplo`.`programme` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Programme` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`programme` (
   `idprogramme` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(128) NULL ,
   `dept_id` BIGINT NOT NULL ,
@@ -31,18 +31,18 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Programme` (
   INDEX `fk_programme_dept1` (`dept_id` ASC) ,
   CONSTRAINT `fk_programme_dept1`
     FOREIGN KEY (`dept_id` )
-    REFERENCES `webnaplo`.`Dept` (`iddept` )
+    REFERENCES `webnaplo`.`dept` (`iddept` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Class`
+-- Table `webnaplo`.`class`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Class` ;
+DROP TABLE IF EXISTS `webnaplo`.`class` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Class` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`class` (
   `idclass` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(15) NULL ,
   `programme_id` BIGINT NOT NULL ,
@@ -50,18 +50,18 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Class` (
   INDEX `fk_class_programme1` (`programme_id` ASC) ,
   CONSTRAINT `fk_class_programme1`
     FOREIGN KEY (`programme_id` )
-    REFERENCES `webnaplo`.`Programme` (`idprogramme` )
+    REFERENCES `webnaplo`.`programme` (`idprogramme` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Student`
+-- Table `webnaplo`.`student`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Student` ;
+DROP TABLE IF EXISTS `webnaplo`.`student` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Student` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`student` (
   `idstudent` BIGINT NOT NULL ,
   `address` VARCHAR(45) NULL ,
   `current_semester` VARCHAR(10) NULL ,
@@ -77,18 +77,18 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Student` (
   INDEX `fk_student_class1` (`class_id` ASC) ,
   CONSTRAINT `fk_student_class1`
     FOREIGN KEY (`class_id` )
-    REFERENCES `webnaplo`.`Class` (`idclass` )
+    REFERENCES `webnaplo`.`class` (`idclass` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Staff`
+-- Table `webnaplo`.`staff`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Staff` ;
+DROP TABLE IF EXISTS `webnaplo`.`staff` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Staff` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`staff` (
   `idstaff` BIGINT NOT NULL AUTO_INCREMENT ,
   `address` TEXT NULL ,
   `designation` VARCHAR(128) NULL ,
@@ -104,18 +104,18 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Staff` (
   INDEX `fk_staff_dept1` (`dept_id` ASC) ,
   CONSTRAINT `fk_staff_dept1`
     FOREIGN KEY (`dept_id` )
-    REFERENCES `webnaplo`.`Dept` (`iddept` )
+    REFERENCES `webnaplo`.`dept` (`iddept` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Course`
+-- Table `webnaplo`.`course`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Course` ;
+DROP TABLE IF EXISTS `webnaplo`.`course` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Course` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`course` (
   `idcourse` BIGINT NOT NULL AUTO_INCREMENT ,
   `course_code` VARCHAR(32) NULL ,
   `course_name` VARCHAR(128) NULL ,
@@ -125,18 +125,18 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Course` (
   INDEX `fk_Course_Programme1` (`programme_id` ASC) ,
   CONSTRAINT `fk_Course_Programme1`
     FOREIGN KEY (`programme_id` )
-    REFERENCES `webnaplo`.`Programme` (`idprogramme` )
+    REFERENCES `webnaplo`.`programme` (`idprogramme` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Course_profile`
+-- Table `webnaplo`.`course_profile`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Course_profile` ;
+DROP TABLE IF EXISTS `webnaplo`.`course_profile` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Course_profile` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`course_profile` (
   `idcourse_profile` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(128) NULL ,
   `course_id` BIGINT NOT NULL ,
@@ -147,12 +147,12 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Course_profile` (
   INDEX `fk_cia_profile_course1` (`course_id` ASC) ,
   CONSTRAINT `fk_cia_profile_staff1`
     FOREIGN KEY (`staff_id` )
-    REFERENCES `webnaplo`.`Staff` (`idstaff` )
+    REFERENCES `webnaplo`.`staff` (`idstaff` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_cia_profile_course1`
     FOREIGN KEY (`course_id` )
-    REFERENCES `webnaplo`.`Course` (`idcourse` )
+    REFERENCES `webnaplo`.`course` (`idcourse` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -176,23 +176,23 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`cia_marks` (
   INDEX `fk_cia_marks_student1` (`student_id` ASC) ,
   CONSTRAINT `fk_cia_marks_cia_profile1`
     FOREIGN KEY (`cp_id` )
-    REFERENCES `webnaplo`.`Course_profile` (`idcourse_profile` )
+    REFERENCES `webnaplo`.`course_profile` (`idcourse_profile` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_cia_marks_student1`
     FOREIGN KEY (`student_id` )
-    REFERENCES `webnaplo`.`Student` (`idstudent` )
+    REFERENCES `webnaplo`.`student` (`idstudent` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Timetable`
+-- Table `webnaplo`.`timetable`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Timetable` ;
+DROP TABLE IF EXISTS `webnaplo`.`timetable` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Timetable` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`timetable` (
   `idtimetable` BIGINT NOT NULL AUTO_INCREMENT ,
   `days_of_week` INT NULL ,
   `hour_of_day` INT NULL ,
@@ -201,18 +201,18 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Timetable` (
   INDEX `fk_Timetable_Course_profile1` (`cp_id` ASC) ,
   CONSTRAINT `fk_Timetable_Course_profile1`
     FOREIGN KEY (`cp_id` )
-    REFERENCES `webnaplo`.`Course_profile` (`idcourse_profile` )
+    REFERENCES `webnaplo`.`course_profile` (`idcourse_profile` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Attendance`
+-- Table `webnaplo`.`attendance`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Attendance` ;
+DROP TABLE IF EXISTS `webnaplo`.`attendance` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Attendance` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`attendance` (
   `idattendance` BIGINT NOT NULL AUTO_INCREMENT ,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
   `date` TIMESTAMP NULL ,
@@ -224,23 +224,23 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Attendance` (
   INDEX `fk_Attendance_Timetable1` (`timetable_id` ASC) ,
   CONSTRAINT `fk_attendance_student1`
     FOREIGN KEY (`student_id` )
-    REFERENCES `webnaplo`.`Student` (`idstudent` )
+    REFERENCES `webnaplo`.`student` (`idstudent` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Attendance_Timetable1`
     FOREIGN KEY (`timetable_id` )
-    REFERENCES `webnaplo`.`Timetable` (`idtimetable` )
+    REFERENCES `webnaplo`.`timetable` (`idtimetable` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`Lock_Unlock`
+-- Table `webnaplo`.`lock_unlock`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`Lock_Unlock` ;
+DROP TABLE IF EXISTS `webnaplo`.`lock_unlock` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`Lock_Unlock` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`lock_unlock` (
   `idlock_unlock` INT NOT NULL AUTO_INCREMENT ,
   `assignment` INT NULL ,
   `attendance` INT NULL ,
@@ -252,18 +252,18 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`Lock_Unlock` (
   INDEX `fk_Lock_Unlock_Course_profile1` (`cp_id` ASC) ,
   CONSTRAINT `fk_Lock_Unlock_Course_profile1`
     FOREIGN KEY (`cp_id` )
-    REFERENCES `webnaplo`.`Course_profile` (`idcourse_profile` )
+    REFERENCES `webnaplo`.`course_profile` (`idcourse_profile` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`News`
+-- Table `webnaplo`.`news`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`News` ;
+DROP TABLE IF EXISTS `webnaplo`.`news` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`News` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`news` (
   `idNews` BIGINT NOT NULL AUTO_INCREMENT ,
   `news` TEXT NULL ,
   `date` TIMESTAMP NULL ,
@@ -285,11 +285,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webnaplo`.`ChangeDayOrder`
+-- Table `webnaplo`.`changedayorder`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `webnaplo`.`ChangeDayOrder` ;
+DROP TABLE IF EXISTS `webnaplo`.`changedayorder` ;
 
-CREATE  TABLE IF NOT EXISTS `webnaplo`.`ChangeDayOrder` (
+CREATE  TABLE IF NOT EXISTS `webnaplo`.`changedayorder` (
   `idchangedayorder` BIGINT NOT NULL AUTO_INCREMENT ,
   `holiday_date` DATE NULL ,
   `compensation_date` DATE NULL ,
@@ -311,12 +311,12 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`cp_has_student` (
   INDEX `fk_Course_profile_has_Student_Course_profile1` (`cp_id` ASC) ,
   CONSTRAINT `fk_Course_profile_has_Student_Course_profile1`
     FOREIGN KEY (`cp_id` )
-    REFERENCES `webnaplo`.`Course_profile` (`idcourse_profile` )
+    REFERENCES `webnaplo`.`course_profile` (`idcourse_profile` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Course_profile_has_Student_Student1`
     FOREIGN KEY (`idstudent` )
-    REFERENCES `webnaplo`.`Student` (`idstudent` )
+    REFERENCES `webnaplo`.`student` (`idstudent` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -336,11 +336,13 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`attendance_ignore` (
   INDEX `fk_attendance_ignore_Course_profile1` (`cp_id` ASC) ,
   CONSTRAINT `fk_attendance_ignore_Course_profile1`
     FOREIGN KEY (`cp_id` )
-    REFERENCES `webnaplo`.`Course_profile` (`idcourse_profile` )
+    REFERENCES `webnaplo`.`course_profile` (`idcourse_profile` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 COMMENT = 'Stores the date and hour when the period was ignored. These ' /* comment truncated */ ;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -354,7 +356,7 @@ USE `webnaplo`;
 INSERT INTO `webnaplo`.`configuration` (`idconfiguration`, `key`, `value`) VALUES (1, 'CONFIG_DATAENTRY_USER', 'dataentry');
 INSERT INTO `webnaplo`.`configuration` (`idconfiguration`, `key`, `value`) VALUES (2, 'CONFIG_DATAENTRY_PASSWORD', 'dataentry');
 INSERT INTO `webnaplo`.`configuration` (`idconfiguration`, `key`, `value`) VALUES (3, 'CONFIG_ADMIN_USER', 'webnaplo');
-INSERT INTO `webnaplo`.`configuration` (`idconfiguration`, `key`, `value`) VALUES (4, 'CONFIG_ADMIN_PASSWORD	', 'webnaplo');
+INSERT INTO `webnaplo`.`configuration` (`idconfiguration`, `key`, `value`) VALUES (4, 'CONFIG_ADMIN_PASSWORD', 'webnaplo');
 INSERT INTO `webnaplo`.`configuration` (`idconfiguration`, `key`, `value`) VALUES (5, 'CONFIG_SEM_START_DATE', '06/29/2011 00:00:00');
 INSERT INTO `webnaplo`.`configuration` (`idconfiguration`, `key`, `value`) VALUES (6, 'CONFIG_DEFAULT_STAFF_PASSWORD', '$@$tr@');
 INSERT INTO `webnaplo`.`configuration` (`idconfiguration`, `key`, `value`) VALUES (7, 'CONFIG_DEFAULT_STUDENT_PASSWORD', 'sastrasrc');

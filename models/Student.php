@@ -87,7 +87,7 @@ class Student {
 	/**
 	 *	Lodas the array value from the param to a $Student Object and updates it
 	 **/
-	public static function LoadAndUpdate($student, $db) {
+	public static function LoadAndUpdate($student, $db, &$student_object = null) {
 		extract($student);
 
 		$student = Student::load($idstudent, $db);
@@ -102,7 +102,11 @@ class Student {
 		if(isset($year))				$student->year = $year;
 		if(isset($class_id)) 			$student->class_id = $class_id;
 		
-		return $student->update($db);
+		$r = $student->update($db);
+		
+		$student_object = $student;
+		
+		return $r;
 	}
 	
 	/**
@@ -139,7 +143,7 @@ class Student {
 		}
 	}
 
-	public static function LoadAndSave($student, $db) {
+	public static function LoadAndSave($student, $db, &$student_object = null) {
 		extract($student);
 		
 		$student = new Student;
@@ -155,7 +159,10 @@ class Student {
 		$student->is_blocked = 0;
 		$student->password = "src";
 		
-		return $student->save($db);
+		$r = $student->save($db);
+		$student_object = $student;
+		
+		return $r;
 	}
 
 	/**

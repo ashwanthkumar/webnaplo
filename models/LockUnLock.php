@@ -54,7 +54,7 @@ class LockUnLock {
 	/**
 	 * Load and Update a lock and unlock status, when POSTING something 
 	 **/
-	public static function LoadAndUpdate($loc, $db) {
+	public static function LoadAndUpdate($loc, $db, &$lock_unlock_object = null) {
 		extract($loc);
 
 		$lock = new LockUnLock;
@@ -66,7 +66,11 @@ class LockUnLock {
 		$lock->cia_3 = $cia_3;
 		$lock->cp_id = $cp_id;
 		
-		return $lock->update($db);
+		$r = $lock->update($db);
+		
+		$lock_unlock_object = $lock;
+		
+		return $r;
 	}
 	
 	/**
@@ -161,7 +165,7 @@ class LockUnLock {
 	 *
 	 *	@return Same as {@link LockUnlock::save()}
 	 **/
-	public static function addCourseProfile($cpid, $db) {
+	public static function addCourseProfile($cpid, $db, &$lock_unlock_object = null) {
 			$l = new LockUnLock;
 			$l->assignment = 0;	
 			$l->attendance = 0;		
@@ -170,6 +174,11 @@ class LockUnLock {
 			$l->cia_3 = 0;
 			$l->cp_id = $cpid;
 
-			return $l->save($db);
+			$r = $l->save($db);
+			
+			$lock_unlock_object = $l;
+			
+			return $l;
 	}
 }
+
