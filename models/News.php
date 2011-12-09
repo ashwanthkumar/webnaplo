@@ -63,7 +63,7 @@ class News {
 	 *
 	 *	@return	1 on success or PDOException on failure
 	 **/
-	public static function LoadAndUpdate($new, $db) {
+	public static function LoadAndUpdate($new, $db, &$news_object = null) {
 		extract($new);
 
 		$n = new News;
@@ -73,6 +73,11 @@ class News {
 		if(isset($date)) $n->date = $date;
 		else $n->date = date("Y-m-d H:i:s", time());
 		
-		return $n->update($db);
+		$r = $n->update($db);
+		
+		$news_object = $n;
+		
+		return $n;
 	}
 }
+

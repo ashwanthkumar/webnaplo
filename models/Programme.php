@@ -28,7 +28,7 @@ class Programme{
 			), "idprogramme = :pid", array(":pid" => $this->idprogramme));
 	}
 
-	public static function LoadAndUpdate($pgm, $db) {
+	public static function LoadAndUpdate($pgm, $db, &$programme_object = null) {
 		extract($pgm);
 
 		$programme = new Programme;
@@ -36,10 +36,14 @@ class Programme{
 		$programme->name = $name;
 		$programme->dept_id = $dept_id;
 		
-		return $programme->update($db);		
+		$r = $programme->update($db);	
+		
+		$programme_object = $programme;
+		
+		return $r;
 	}
 
-	public static function LoadAndSave($pgm, $db) {
+	public static function LoadAndSave($pgm, $db, &$programme_object = null) {
 		extract($pgm);
 
 		$p = $db->select("programme", "name = :name and dept_id = :did", array(":name" => $name, ":did" => $dept_id));
@@ -49,10 +53,15 @@ class Programme{
 		$programme->name = $name;
 		$programme->dept_id = $dept_id;
 		
-		return $programme->save($db);		
+		$r = $programme->save($db);		
+		
+		$programme_object = $programme;
+		
+		return $r;
 	}
 	
 	public static function Delete($pid, $db) {
 		return $db->delete("programme", "idprogramme = :pid", array(":pid" => $pid));
 	}
 }
+

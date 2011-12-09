@@ -81,7 +81,7 @@ class Course{
 	 *
 	 *	@return	See {@link $this->update()} for return values
 	 **/
-	public static function LoadAndUpdate($post, $db) {
+	public static function LoadAndUpdate($post, $db, &$course_object_to_return = null) {
 		extract($post);
 
 		$course = Course::load($idcourse, $db);
@@ -90,7 +90,11 @@ class Course{
 		if(isset($coursename))	$course->coursename = $coursename;
 		if(isset($pgm_id))	$course->pgm_id = $pgm_id;
 		
-		return $course->update($db);
+		$r = $course->update($db);
+		
+		$course_object_to_return = $course;
+		
+		return $r;
 	}
 	
 	/**
@@ -101,7 +105,7 @@ class Course{
 	 *
 	 *	@return	See {@link $this->save()} for return values
 	 **/
-	public static function LoadAndSave($courseData, $db) {
+	public static function LoadAndSave($courseData, $db, &$course_object_to_return = null) {
 		extract($courseData);
 
 		$cs = $db->select("course", "course_code = :code and course_name = :name and credits = :credits and programme_id = :pgm", array(":code" => $coursecode, ":name" => $coursename, ":credits" => $credits, ":pgm" => $pgm_id));
@@ -114,7 +118,11 @@ class Course{
 		$course->coursename = $coursename;
 		$course->pgm_id = $pgm_id;
 		
-		return $course->save($db);
+		$r = $course->save($db);
+		
+		$course_object_to_return = $course;
+		
+		return $r;
 	}
 
 	/**

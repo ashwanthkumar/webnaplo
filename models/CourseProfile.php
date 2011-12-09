@@ -105,7 +105,7 @@ class CourseProfile {
 	 *	@return	1				If successful, else 
 	 *			PDOException	Object
 	 **/
-	public static function LoadAndUpdate($cp, $db, &$course_object) {
+	public static function LoadAndUpdate($cp, $db, &$course_object = null) {
 		extract($cp);
 
 		$cprofile = new CourseProfile;
@@ -129,7 +129,7 @@ class CourseProfile {
 	 *	
 	 *	@return	1 If successful, PDOException Object
 	 **/
-	public static function LoadAndSave($cp, $db, &$course_object) {
+	public static function LoadAndSave($cp, $db, &$course_object = null) {
 		extract($cp);
 
 		$cprofile = new CourseProfile;
