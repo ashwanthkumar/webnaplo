@@ -128,8 +128,11 @@ class LockUnLock {
 	 *
 	 *	LockUnLock::initLockUnLock()
 	 **/
-	public static function initLockUnLock($db) {
-		$db->run("delete from lock_unlock where 1 = 1");
+	public static function initLockUnLock($db, $totalReset = false) {
+		if($totalReset) {
+			// Delete any existing locks
+			$db->run("delete from lock_unlock where 1 = 1");
+		}
 		
 		$course_profiles = CourseProfile::search($db);
 		
