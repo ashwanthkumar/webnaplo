@@ -92,7 +92,7 @@
 							<td class="align_left"><?php echo $student['idstudent']; ?></td>
 							<td class="align_left center"><?php echo $student['name']; ?></td>
 							<td class="align_left center"><?php echo $student['year']; ?></td>
-							<td class="align_left center"><?php echo $student['current_Semester']; ?></td>
+							<td class="align_left center"><?php echo $student['current_semester']; ?></td>
 								<?php
 									if($student['is_blocked']) {
 								?>
