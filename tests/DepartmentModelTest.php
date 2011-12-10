@@ -25,7 +25,7 @@ class DepartmentModelTest extends WebNaploTest {
 	 *	@test
 	 *	@group negative
 	 **/
-	public function delete() {
+	public function testDelete() {
 		$this->assertEquals(0, Department::Delete(9999999999999,$this->db));
 	}
 	
@@ -35,7 +35,7 @@ class DepartmentModelTest extends WebNaploTest {
 	 *	@test
 	 *	@group positive
 	 **/
-	public function save() {
+	public function testSave() {
 		$dept = new Department;
 		$dept->name = "DepartmentRandom Name" . mt_rand();
 		
@@ -64,10 +64,16 @@ class DepartmentModelTest extends WebNaploTest {
 	 *	@test
 	 *	@group positive
 	 **/
-	public function search() {
+	public function testSearch() {
 		$deptList = $this->db->select("dept");
 		$deptSearchList = Department::search($this->db);
 		
 		$this->assertEquals(count($deptList), count($deptSearchList));
+	}
+	public function testUpdate()
+	{
+	}
+	public function testLoadAndSave()
+	{
 	}
 }

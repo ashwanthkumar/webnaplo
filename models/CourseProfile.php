@@ -35,9 +35,9 @@ class CourseProfile {
 		if(is_object($r) && get_class($r) == "PDOException") return FALSE;
 
 		$this->idcourse_profile = $db->lastInsertId();
-		$r = LockUnLock::addCourseProfile($this->idcourse_profile, $db);
+		$r1 = LockUnLock::addCourseProfile($this->idcourse_profile, $db);
 
-		if(is_object($r) && get_class($r) == "PDOException") return $r;
+		if(is_object($r1) && get_class($r1) == "PDOException") return $r1;
 
 		return $r;
 	}

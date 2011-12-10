@@ -26,7 +26,7 @@ class StudentModelTest extends WebNaploTest {
 	}
 	
 	// Test the students against insterting a new value using the Model::save()
-	public function testStudentSave() {
+	public function testSave() {
 		$student = new Student;
 		
 		$student->idstudent = mt_rand();
@@ -47,9 +47,54 @@ class StudentModelTest extends WebNaploTest {
 	}
 	
 	//  Testing if the Student Block is working
-	public function testStudentBlock() {
+	public function testBlock() {
 		$this->assertEquals(0, Student::block(909876543,$this->db));
 		$this->assertEquals(1, Student::unblock(200000052,$this->db));
 		$this->assertEquals(1, Student::block(200000052,$this->db));
 	}
+	
+	public function testUpdate()
+	{
+	}
+	public function testGetMore()
+	{
+	}
+	public function testLoadAndUpdate()
+	{
+	}
+	public function testLoad()
+	{
+	}
+	public function testLoadAndSave()
+	{
+	}
+	public function testGetCoursesList()
+	{
+	}
+	public function testGetAttendance()
+	{
+	}
+	public function testGetCIAMarks()
+	{
+	}
+	public function testGetTimetable()
+	{
+	}
+	public function testGetProfile()
+	{
+	}
+	public function testGetBlockStatus()
+	{
+	}
+	public function testUnblock()
+	{
+	}
+	public function testSearch()
+	{
+	$studentList = $this->db->select("student");
+		$studentSearchList = Student::search($this->db);
+		
+		$this->assertEquals(count($studentList), count($studentSearchList));
+	}
+	
 }
