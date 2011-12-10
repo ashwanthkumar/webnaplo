@@ -56,6 +56,7 @@
 					<ul class="subnav">  
 						<li><a href="<?php echo url_for('admin/advanced/'); ?>" class="icon settings"><?php echo get_text('ADVANCED_SETTINGS'); ?></a></li>
 						<li><a href="<?php echo url_for('admin/advanced/import'); ?>" class="icon settings2"><?php echo get_text('ADVANCED_IMPORT_SETTINGS'); ?></a></li>
+						<li><a href="<?php echo url_for('admin/advanced/changedayorder'); ?>" class="icon settings2"><?php echo get_text('ADVANCED_CHANGE_DAY_ORDER'); ?></a></li>
 			            <li><a href="<?php echo url_for('/user/logout/'); ?>" class="icon lock"><?php echo get_text('LOGOUT'); ?></a></li>  
 			        </ul>  
 			        <!-- User Dropdown Content: End -->

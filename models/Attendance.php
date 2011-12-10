@@ -91,7 +91,7 @@ class Attendance {
 	 *	@return Array of values from ChangeDayOrder table
 	 **/
 	public static function getChangeOrder($db) {
-		$day_orders = $db->select("changedayorder", "1 = 1", null, "holiday_date, compensation_date, day_order");
+		$day_orders = $db->select("changedayorder", "1 = 1 order by holiday_date desc", null);
 		$_day_orders = array();
 		
 		foreach($day_orders as $do) {

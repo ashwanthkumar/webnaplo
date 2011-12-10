@@ -820,3 +820,90 @@ function admin_import_staffs() {
 function admin_import_dept() {
 	return h("TODO Handle Department upload");
 }
+
+/**
+ *	Admin settings to add the ChangeDay Order dates
+ *
+ *	@method GET
+ *	@route	/admin/advanced/changedayorder
+ **/
+function admin_advanced_changedayorder() {
+	layout('/admin/layout.html.php');
+	set('title', "Advanced - Change Day Order ");
+
+	return render('/admin/admin.changedayorder.html.php');
+}
+
+/**
+ *	Delete the single ChangeDayOrder Information
+ *
+ *	@method	GET
+ *	@route	^/admin/changedayorder/(\d+)/delete
+ **/
+function admin_advanced_changedayorder_delete() {
+	$change_day_order_id = params(0);
+	
+	$db = $GLOBALS['db'];
+	
+	$delete_status = $db->delete('changedayorder', 'idchangedayorder = :id', array(':id' => $change_day_order_id));
+	
+	if(is_object($delete_status) && get_class($change_day_order_id) == "PDOException") {
+		flash('error', 'Some technical problem has occured. Please try again later.');
+		return redirect('/admin/advanced/changedayorder');
+	}
+	
+	// There seems to be no error, so go on happily
+	flash('success', 'Requested Day Order has been successfully changed');
+	return redirect('/admin/advanced/changedayorder');
+}
+
+/**
+ * Handles the Creation of new Change Day Order 
+ *
+ *	@method	POST
+ *	@route	/admin/changedayorder/add
+ **/
+function admin_advanced_changedayorder_add() {
+	$holiday_date = strtotime($_POST['holiday_date']);
+	$compensation_date = strtotime($_POST['compensation_date']);
+	$day_order = $_POST['day_order'];
+	
+	$db = $GLOBALS['db'];
+	
+	$check_status = $db->select("changedayorder", "holiday_date = :hol", array(":hol" => $holiday_date));
+	
+	if(count($check_status) < 1) {
+		$insert_stauts = $db->insert("changedayorder", array("holiday_date" => date('Y-m-d', $holiday_date), "compensation_date" => date('Y-m-d', $compensation_date), "day_order" => $day_order));
+		
+		if(is_object($insert_status) && get_class($insert_status) == "PDOException") {
+			flash('error', "Some technical error has occured. Please try again");
+		} else {
+		}
+			flash('success', 'Holiday - Compensation rule added successfully');
+	} else {
+		flash('error', "Another Holiday - Compensation Rule already exist");
+	}
+	
+	return redirect('/admin/advanced/changedayorder');
+}
+
+/**
+ *	Batch Delete of Change Day Order values
+ *
+ *	@method	POST
+ *	@route	/admin/changedayorder/delete
+ **/
+function admin_advanced_changedayorder_batch_delete() {
+	$change_day_orders = $_POST['change_day_order'];
+	
+	$db = $GLOBALS['db'];
+	
+	while($cday = current($change_day_orders)) {
+		$del_status = $db->delete('changedayorder', 'idchangedayorder = :id', array(':id' => key($change_day_orders)));
+		
+		next($change_day_orders);
+	}
+	flash('success', 'Requested Change Day Order Rules were deleted!');
+	return redirect('/admin/advanced/changedayorder');
+}
+

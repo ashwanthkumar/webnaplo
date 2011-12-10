@@ -274,8 +274,13 @@ dispatch_get('/staff/**', 'staff_home_render');
 // ------------------------------------------
 // Admin functions
 // ------------------------------------------
-dispatch_get('/admin/advanced/import', 'admin_import_render');
 dispatch_get('/admin/advanced/', 'admin_advanced_render');
+dispatch_get('/admin/advanced/import', 'admin_import_render');
+
+dispatch_get('/admin/advanced/changedayorder', 'admin_advanced_changedayorder');
+dispatch_get('^/admin/changedayorder/(\d+)/delete', 'admin_advanced_changedayorder_delete');
+dispatch_post('/admin/changedayorder/add', 'admin_advanced_changedayorder_add');
+dispatch_post('/admin/changedayorder/delete', 'admin_advanced_changedayorder_batch_delete');
 
 // Import File Handlers
 dispatch_post('/admin/advanced/import/upload/student', 'admin_import_students');
