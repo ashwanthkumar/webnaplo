@@ -108,7 +108,7 @@
 			$selected = isset($staff_tt_ids[$array_key_test]) && ($staff_tt_ids[$array_key_test] == $c['idcourse_profile']);
 			
 			if($selected) $selected = " selected = 'selected' "; else $selected = "";
-			$r .= '<option value="' . $c['idcourse_profile'] . '" '. $selected .'>' . $c['name'] . '</option>';
+			$r .= '<option value="' . $c['idcourse_profile'] . '" '. $selected .'>' . $c['course_code'] . '</option>';
 		}
 		$r .= '</select>';
 		

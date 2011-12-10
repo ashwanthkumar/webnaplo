@@ -9,8 +9,8 @@
 	<link href="<?php echo option('base_path'); ?>/public/css/screen.css" rel="stylesheet" media="screen" type="text/css" />
 	
 	<!-- CSS for Fluid and Fixed Widths - Double to prevent flickering on change -->
-	<link href="<?php echo option('base_path'); ?>/public/css/fixed.css" rel="stylesheet" media="screen" type="text/css" />
-	<link href="<?php echo option('base_path'); ?>/public/css/fixed.css" rel="stylesheet" media="screen" type="text/css" class="width" />
+	<link href="<?php echo option('base_path'); ?>/public/css/_fixed.css" rel="stylesheet" media="screen" type="text/css" />
+	<link href="<?php echo option('base_path'); ?>/public/css/_fixed.css" rel="stylesheet" media="screen" type="text/css" class="width" />
 	
 	<!-- IE Stylesheet ie7 - Added in 1.2 -->
 	<!--[if lt IE 8]> <html lang="en" class="ie7"> <![endif]-->

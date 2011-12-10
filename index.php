@@ -247,15 +247,24 @@ dispatch_get('/staff/profile/view', 'staff_profile_render');
 dispatch_get('/staff/course_profile', 'staff_cp_view_render');
 dispatch_get('/staff/course_profile/add', 'staff_cp_add_render');
 dispatch_post('/staff/course_profile/create', 'staff_cp_create');
+
 dispatch_get('/staff/timetable/', 'staff_timetable_render');
 dispatch_get('/staff/timetable/popup', 'staff_timetable_popup_render');
 dispatch_post('/staff/timetable/save', 'staff_timetable_save');
-dispatch_get('/staff/attendance/', 'staff_attendance_render');
+
 dispatch_get('/staff/cia/', 'staff_cia_render');
 
 dispatch_get('^/staff/course_profile/(\d+)/delete', 'staff_cp_delete');
 dispatch_get('^/staff/course_profile/(\d+)/edit', 'staff_cp_edit');
 dispatch_post('/staff/course_profile/edit', 'staff_cp_edit_post');
+dispatch_post('^/staff/course_profile/(\d+)/ajax/addstudent', 'staff_cp_student_add_ajax');
+dispatch_post('^/staff/course_profile/(\d+)/ajax/delstudent', 'staff_cp_student_del_ajax');
+
+dispatch_get('/staff/attendance/', 'staff_attendance_render');
+dispatch_get('^/staff/attendance/(\d+)/popup', 'staff_attendance_popup_render');
+dispatch_post('/staff/attendance/save', 'staff_attendance_save');
+
+dispatch_get('/staff/changeorder/ajax', 'staff_changeorder_ajax');
 
 dispatch_post('/staff/course_profile/batch/delete', 'staff_cp_batch_delete');
 // Matches all other fields in staff controller

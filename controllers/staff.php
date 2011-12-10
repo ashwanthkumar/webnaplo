@@ -139,6 +139,9 @@ function staff_cp_create() {
 	
 	if(is_object($r) && get_class($r) == "PDOException") {
 		halt("Error in CourseProfile::LoadAndSave", E_USER_ERROR);
+	} else if($r === false) {
+		flash("error", "A Course Profile already exist for the Course. No new Course Profiles were created.");
+		return redirect('/staff/course_profile/add/');
 	} else {
 		flash("success", "Course Profile $name has been successfully added");
 		return redirect('/staff/course_profile/');
@@ -196,7 +199,7 @@ function staff_timetable_save() {
 	$days = array(1 => "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
 	
 	// first delete the current timetable for the staff
-	Staff::clearTimetable($user->userid, $db);
+	Staff::SclearTimetable($user->userid, $db);
 	
 	while($tt = current($_POST)) {
 		// Add only if its not a free period
@@ -233,3 +236,124 @@ function staff_profile_render() {
 
 	return render('/staff/staff.profile.html.php');
 }
+
+/**
+ *	Add a student to a course profile. This method is implemented for AJAX calls.
+ *
+ *	@method	POST
+ *	@route	^/staff/course_profile/(\d+)/ajax/addstudent
+ **/
+function staff_cp_student_add_ajax() {
+	$cp_id = params(0);
+	$student_id = $_POST['studentid'];
+	
+	$stud_list = explode(",", $student_id);
+	
+	$cnt_stud_list = count($stud_list);
+	
+	$course_profile = CourseProfile::load($cp_id, $GLOBALS['db']);
+	$list_of_students_added = array();
+	
+	$r = $course_profile->addStudent($stud_list, $GLOBALS['db'], $list_of_students_added);
+	
+	// Return only if all the students were inserted
+	if($r == $cnt_stud_list || $r > 0) return json($list_of_students_added);
+	else return json("false");
+}
+
+/**
+ *	Delete a student from a course profile. This method is implemented for AJAX calls.
+ *
+ *	@method	POST
+ *	@route	^/staff/course_profile/(\d+)/ajax/delstudent
+ **/
+function staff_cp_student_del_ajax() {
+	$cp_id = params(0);
+	$student_id = $_POST['studentid'];
+	
+	$stud_list = explode(",", $student_id);
+	
+	$cnt_stud_list = count($stud_list);
+	
+	$course_profile = CourseProfile::load($cp_id, $GLOBALS['db']);
+	$r = $course_profile->removeStudent($stud_list, $GLOBALS['db']);
+	
+	// Return only if all the students were inserted
+	if($r == $cnt_stud_list) return json($stud_list);
+	else return json("false");
+}
+
+/**
+ *	Shows the attendace post window as a full page popup window
+ *
+ *	@method GET
+ *	@route	^/staff/attendance/(\d+)/popup
+ **/
+function staff_attendance_popup_render() {
+	// Get the Course Profile ID from the URL
+	$course_profile_id = params(0);
+
+	set('cpid', $course_profile_id);
+	layout('staff/empty.layout.html.php');
+	set('title', "Staff - Post Attendance");
+	
+	return render('/staff/staff.attendance.popup.html.php');
+}
+
+/**
+ *	Saves the Attendance for a particular day for a given course profile
+ *
+ *	@method	POST
+ *	@route 	/staff/attendance/save
+ **/
+function staff_attendance_save() {
+	$db = $GLOBALS['db'];
+	
+	$hour_of_day = $_POST['hour_of_day'];
+	
+	$date_of_attendance = strtotime($_POST['date_selector']);
+	$days_of_week = date('N	', $date_of_attendance);
+	
+	$course_profile = $_POST['course_profile'];
+	
+	$timetable_id = Attendance::getTimetableId($course_profile, $date_of_attendance, $hour_of_day, $days_of_week, $db);
+	if($timetable_id < 0) {
+		flash('error', 'There seems to be some technical error happened in the system. Please try again');
+		return redirect('/staff/attendance/' . $course_profile . '/popup');
+	} else {
+		$students = $_POST['student'];
+		// Clear any existing timetable values
+		$cleared_status = Attendance::clearExistingAttendance($timetable_id, date('Y-m-d',$date_of_attendance), $db);
+		while($student = current($students)) {
+			$date_attendance = date('Y-m-d',$date_of_attendance); 	// date_attendance value
+			$is_present = ($student == 'on') ? 1 : 0;				// is_present value
+			$student_id = key($students);							// student_id value
+			
+			echo "Adding $student_id as " . (($is_present == 1) ? 'present' : 'absent') . " for the date $date_attendance";
+			
+			$attendance_insert_status = Attendance::insert($date_attendance,$is_present, $student_id, $timetable_id, $db);
+			
+			print_r($attendance_insert_status);
+			
+			next($students);
+		}
+	}
+	
+	flash('success', 'Your Attendance for ' . $_POST['date_selector'] . ' has been posted successfully');
+	return redirect('/staff/attendance/' . $course_profile . '/popup');
+}
+
+/**
+ *	Returns the Change Day Order and used for AJAX requests
+ *
+ *	@method	GET
+ *	@route	/staff/changeorder/ajax
+ **/
+function staff_changeorder_ajax() {
+	$db = $GLOBALS['db'];
+	
+	$change = Attendance::getChangeOrder($db);
+	
+	return json($change);
+}
+
