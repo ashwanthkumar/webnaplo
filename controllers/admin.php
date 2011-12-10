@@ -870,7 +870,7 @@ function admin_advanced_changedayorder_add() {
 	
 	$db = $GLOBALS['db'];
 	
-	$check_status = $db->select("changedayorder", "holiday_date = :hol", array(":hol" => $holiday_date));
+	$check_status = $db->select("changedayorder", "holiday_date = :hol", array(":hol" => date('Y-m-d', $holiday_date)));
 	
 	if(count($check_status) < 1) {
 		$insert_stauts = $db->insert("changedayorder", array("holiday_date" => date('Y-m-d', $holiday_date), "compensation_date" => date('Y-m-d', $compensation_date), "day_order" => $day_order));
@@ -881,7 +881,7 @@ function admin_advanced_changedayorder_add() {
 		}
 			flash('success', 'Holiday - Compensation rule added successfully');
 	} else {
-		flash('error', "Another Holiday - Compensation Rule already exist");
+		flash('error', "Another Holiday - Compensation Rule already exist with the same Holiday. ");
 	}
 	
 	return redirect('/admin/advanced/changedayorder');
