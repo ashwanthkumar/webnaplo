@@ -25,7 +25,7 @@ class Staff {
 	 *	@return List of Course profiles for the staff id
 	 **/
 	public static function SgetCourseProfiles($staffid, $db) {
-		return $db->run("select cp.name as cpname, cp.idcourse_profile as idcourse_profile, c.course_name as cname from course_profile cp, course c where cp.course_id = c.idcourse and cp.staff_id = :sid", array(":sid" => $staffid));
+		return $db->run("select cp.name as cpname, cp.idcourse_profile as idcourse_profile, c.course_name as cname, c.course_code as course_code from course_profile cp, course c where cp.course_id = c.idcourse and cp.staff_id = :sid", array(":sid" => $staffid));
 	}
 	
 	/**
@@ -72,7 +72,7 @@ class Staff {
 	 *	Non-Static version of getTimetable()
 	 **/
 	public function getTimetable($db) {
-		return Staff::SgetTimetable($this->staff_id, $db);
+		return Staff::SgetTimetable($this->idstaff, $db);
 	}
 	
 	/**
@@ -178,7 +178,7 @@ class Staff {
 	 *			-> course_code
 	 **/
 	public function getCourseProfile($cpid, $db) {
-		$course_profile = $db->run("select cp.course_id as course_id, cp.syllabus as syllabus, cp.name as cpname, c.course_name, c.course_code from course_profile cp, course c where cp.idcourse_profile = :cip and cp.course_id = c.idcourse and cp.staff_id = :sid", array(":cip" => $cpid, ":sid" => $this->idstaff));
+		$course_profile = $db->run("select cp.course_id as course_id, cp.syllabus as syllabus, cp.name as cpname, c.course_name as coursename, c.course_code as coursecode from course_profile cp, course c where cp.idcourse_profile = :cip and cp.course_id = c.idcourse and cp.staff_id = :sid", array(":cip" => $cpid, ":sid" => $this->idstaff));
 		
 		if(is_object($course_profile) && get_class($course_profile) == "PDOException") {
 			return false;

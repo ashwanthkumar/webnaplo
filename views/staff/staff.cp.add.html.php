@@ -26,7 +26,6 @@
 <form method="post" action="<?php if(!$edit_mode) echo url_for('/staff/course_profile/create'); else echo url_for('/staff/course_profile/edit'); ?>">
 
 <div class="grid_18">
-</div>
 <?php
 	if(isset($flash['success'])) {
 ?>
@@ -60,11 +59,13 @@
 <?php
 		}
 ?>
+</div>
+
 <div class="grid_9">
 
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		<h1 class="icon frames">Create Course Profile </h1>
+		<h1 class="icon frames">Course Profile Management </h1>
 	</div>
 	<!-- Box Header: End -->
 	
@@ -130,14 +131,68 @@
 			if($edit_mode) {
 				// Display selection module only if the course is in edit mode
 		?>
-			<p>You should see a text box and Add button, followed by ordered list of students as Student Name (RegNo) with (X) next to it for deletion. Just make sure all this is done via AJAX and hence its live </p>
+			<script type="text/javascript">
+				var add_service_url = "<?php echo url_for('/staff/course_profile/' . $edit_me . '/ajax/addstudent'); ?>";
+				var del_service_url = "<?php echo url_for('/staff/course_profile/' . $edit_me . '/ajax/delstudent'); ?>";
+				
+				/**
+				 *	Add the Student to course Profile via AJAX
+				 **/
+				function addStudentToCourseProfile() {
+					var student_register_number = $('#students_id').val();
+					$.post(add_service_url, {'studentid' : student_register_number}, function(d) {
+						if(d != "false") {
+							// Iterate through all the students who were added
+							$.each(d, function(index, value) {
+								$("#students_of_courseprofile").append('<li data="' + value + '">' + value + ' (<a data="' + value + '" href="#" onclick="javascript:deleteStudent(' + value + ', $(this));">X</a>)</li>');
+							});
+							$('#students_id').val('');
+							// Sort the values of the student register number
+							$('ol#students_of_courseprofile>li').tsort('a[data]', {attr: 'data'});
+						} else {
+							// Invalid Student Register Number
+							alert("Invalid Student Register Number / Student Already added. ");
+						}
+					});
+				}
+
+				/**
+				 *	Delete Student via AJAX
+				 **/
+				function deleteStudent(sid, element) {
+					if(confirm('Do you want to remove the ' + sid + ' from your Course Profile?')) {
+						$.post(del_service_url, {'studentid' : sid }, function(d) {
+							if(d != "false") {
+								element.parent().remove();
+								$('ol#students_of_courseprofile>li').tsort();
+							} else {
+								alert('Invalid Operation. Try again later.');
+							}
+						});
+					}
+				}
+			</script>
+			<div class="field">
+				<p>Enter the Register numbers of the student who belong to your <strong><?php echo $course_profile['coursename']; ?></strong> class. </p>
+			</div>
+			<input type="text" name="students_id" id="students_id" class="small" />
+			<button type="button" onclick="javascript:addStudentToCourseProfile();">Add Student </button>
+
+			<ol id="students_of_courseprofile">
+			<?php
+				// Initially display the list of students attached to this course profile
+				$cp_object =  CourseProfile::load($edit_me, $db);
+				$stud_list = $cp_object->getStudents($db);
+				
+				foreach($stud_list as $student) echo '<li data="' . $student['idstudent'] . '">' . $student['idstudent'] . ' (<a data="'. $student['idstudent'] .'" href="#" onclick="javascript:deleteStudent(' . $student['idstudent'] . ', $(this));">X</a>)</li>';
+			?>
+			</ol>
 		<?php
 			} else {
 				// Show message to save the course profile
 		?>
 			<div class="field">
 				<p>Please SAVE the course profile before adding the students. </p> 
-				<p>Plan goes like this, we start off with creation of Course Profile and then add students to a particular course profile. </p>
 			</div>
 		<?php
 			}
@@ -150,3 +205,4 @@
 </form>
 <?php
 	end_content_for();
+

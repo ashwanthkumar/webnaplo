@@ -132,6 +132,13 @@ class CourseProfile {
 	public static function LoadAndSave($cp, $db, &$course_object = null) {
 		extract($cp);
 
+		// Check if the Staff has already created a Course Profile for the Course
+		$staff_cps = $db->select("course_profile", "course_id = :cid and staff_id = :sid", array(":cid" => $course_id, ":sid" => $staff_id));
+		if(count($staff_cps) > 0) {
+			// Course Profile already exist for the given course for the staff
+			return false;
+		}
+		
 		$cprofile = new CourseProfile;
 		$cprofile->name = $name;
 		$cprofile->course_id = $course_id;
@@ -152,7 +159,8 @@ class CourseProfile {
 	 *	@param	$student	Student(s) registernumber to add 
 	 *	@return	number of students successfully added
 	 **/
-	public function addStudent($students, $db) {
+	public function addStudent($students, $db, &$added_reg_nos = null) {
+		$added_reg_nos = array();
 		if(is_array($students)) {
 			$numberOfStudentsInserted = 0;
 			// Array of registeration numbers to add
@@ -162,7 +170,10 @@ class CourseProfile {
 												"idstudent" => $student
 											));
 
-				if(!(is_object($r) && get_class($r) == "PDOException")) $numberOfStudentsInserted++;
+				if(!(is_object($r) && get_class($r) == "PDOException")) {
+					$numberOfStudentsInserted++;
+					$added_reg_nos[] = $student;
+				}
 			}
 
 			// Return the number of students added to the system
@@ -175,11 +186,66 @@ class CourseProfile {
 										));
 
 			// Make sure the insert was successful
+			if(!(is_object($r) && get_class($r) == "PDOException")) {
+				$added_reg_nos[] = $students;
+				return 1;
+			}
+			else return 0;
+		}
+	}
+	
+	/**
+	 *	Remove the students from the current course profile
+	 *
+	 *	@param	$students	Student(s) registernumber to delete
+	 *	@return	Number of students deleted
+	 **/
+	public function removeStudent($students, $db) {
+		if(is_array($students)) {
+			$numberOfStudentsInserted = 0;
+			// Array of registeration numbers to add
+			foreach($students as $student) {
+				$r = $db->delete("cp_has_student", "cp_id = :cpid and idstudent = :sid",array(
+												":cpid" => $this->idcourse_profile,
+												":sid" => $student
+											));
+
+				if(!(is_object($r) && get_class($r) == "PDOException")) $numberOfStudentsInserted++;
+			}
+
+			// Return the number of students added to the system
+			return $numberOfStudentsInserted;
+		} else {
+			// Add a single student to the course profile
+				$r = $db->delete("cp_has_student", "cp_id = :cpid and idstudent = :sid",array(
+											":cpid" => $this->idcourse_profile,
+											":sid" => $students
+										));
+
+			// Make sure the insert was successful
 			if(!(is_object($r) && get_class($r) == "PDOException")) return 1;
 			else return 0;
 		}
 	}
-
+	
+	/**
+	 *	Get all the students attached with the current Course Profile
+	 *
+	 *	@param	$db		PDOObject
+	 *
+	 *	@return	Array of Students with idstudent, name, cpid
+	 **/
+	public function getStudents($db) {
+		$list = $db->run("select s.idstudent as idstudent, s.name as name, cp.idcourse_profile as cpid from student s, course_profile cp, cp_has_student chs where chs.idstudent = s.idstudent and chs.cp_id = cp.idcourse_profile and cp.idcourse_profile = :cpid order by s.idstudent", array(":cpid" => $this->idcourse_profile));
+		
+		/**
+		 *	@TODO May be we can get the register numbers and get the Student Object using the Student::load() and return array of Students objects.
+		 *	Wouldn't that be more interactive to show more details in the UI?
+		 **/
+		// Return only the students register number
+		return $list;
+	}
+	
 	/**
 	 *	Load the current instance of the object from the datastore
 	 *
