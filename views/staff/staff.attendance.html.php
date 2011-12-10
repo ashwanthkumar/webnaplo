@@ -45,7 +45,20 @@
 					<td class="align_left center"><?php echo $pa['cpname']; ?></td>
 					<td class="align_left center"><?php echo $pa['cname']; ?></td>
 					<td class="align_left tools center">
+					<?php
+						$lock_status = LockUnLock::getBlockStatus($pa['idcourse_profile'], $db);
+						$attendance_status = $lock_status[0]['attendance'];
+						
+						if($attendance_status == 0) {
+					?>
 						<a onclick="window.open('<?php echo url_for('/staff/attendance/' . $pa['idcourse_profile'] . '/popup'); ?>', 'attendance_popup','status=0,height=650,width=1000');return false;" class="edit tip" title="Post Attendance">post</a>
+					<?php
+						} else {
+					?>
+						Disabled
+					<?php
+						}
+					?>
 					</td>
 				</tr>
 			<?php
@@ -64,6 +77,7 @@
 			<ol>
 				<li>To Edit or Post Attendance, choose the date and re-enter the attendance.  </li>
 				<li>Old Attendance details are automatically updated. </li>
+				<li>If you have <b>"Disabled"</b> text instead of an icon for posting the attendance, your ability to post has been locked. Please contact the System Administrator to unlock the attendance for the account or course profile. </li>
 			</ol>
 		</div>
 	</div>

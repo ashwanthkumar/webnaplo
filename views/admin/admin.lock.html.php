@@ -106,7 +106,7 @@
 								?>
 							</td>
 							<td class="align_left center">
-								<?php if($lu['attendance'] = 0) {
+								<?php if($lu['attendance'] == 0) {
 								?>
 								<a href="<?php echo url_for("/admin/lock_unlock/5/" . $lu['id'] . "/lock"); ?>" class="edit tip" title="<?php echo get_text('LOCK'); ?>">lock</a>
 								<?php
