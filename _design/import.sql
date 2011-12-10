@@ -214,8 +214,7 @@ DROP TABLE IF EXISTS `webnaplo`.`attendance` ;
 
 CREATE  TABLE IF NOT EXISTS `webnaplo`.`attendance` (
   `idattendance` BIGINT NOT NULL AUTO_INCREMENT ,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
-  `date` TIMESTAMP NULL ,
+  `date_attendance` DATE NULL ,
   `is_present` TINYINT NULL ,
   `student_id` BIGINT NOT NULL ,
   `timetable_id` BIGINT NOT NULL ,
