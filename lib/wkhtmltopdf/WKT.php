@@ -7,7 +7,8 @@
  *	@date 10/11/2011
  **/
 class WTK {
-	private static $BIN_PATH = "/bin/wkhtmltopdf.exe";
+	private static $WIN_BIN_PATH = "/bin/wkhtmltopdf.exe";
+	private static $LINUX_BIN_PATH = "/bin/wkhtmltopdf-i386";
 
 	/**
 	 * Create a PDF from the URL and return the filename or download it directly
@@ -20,8 +21,10 @@ class WTK {
 		$timestamp = time();
 		$fileName = "export_pdf_$timestamp";
 		
-		
-		$cmd = (dirname(file_path(__FILE__))) . WTK::$BIN_PATH; 
+		if(PHP_OS == "Linux")
+			$cmd = (dirname(file_path(__FILE__))) . WTK::$LINUX_BIN_PATH; 
+		else
+			$cmd = (dirname(file_path(__FILE__))) . WTK::$WIN_BIN_PATH; 
 
 		$blah = shell_exec("$cmd $url $path/$fileName.pdf");
 		// print_r($blah);
