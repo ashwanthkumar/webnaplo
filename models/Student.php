@@ -85,6 +85,18 @@ class Student {
 	}
 	
 	/**
+	 *	Get the list of CIA marks based on the coruse profile id
+	 *
+	 *	@param	$db
+	 *
+	 *	@return	Array of list of CIA Marks
+	 **/ 
+	public function getMarks($db) {
+		$cia_marks = $db->run("select cm.assignment as assignment, cm.mark_1 as cia1, cm.mark_2 as cia2, cm.mark_3 as cia3,  c.course_name as coursename, c.course_code as coursecode from course c, course_profile cp, student s, cia_marks cm, cp_has_student chs where s.idstudent = :reg and cm.student_id = s.idstudent and chs.idstudent = s.idstudent and cp.idcourse_profile = chs.cp_id and c.idcourse = cp.course_id", array(":reg" => $this->idstudent));
+		return $cia_marks;
+	}
+	
+	/**
 	 *	Lodas the array value from the param to a $Student Object and updates it
 	 **/
 	public static function LoadAndUpdate($student, $db, &$student_object = null) {
@@ -166,7 +178,7 @@ class Student {
 	}
 
 	/**
-	 * Get the list of courses, for a given student 
+	 * Get the list of courses, from the course profile
 	 **/
 	public static function getCoursesList($reg_no, $db) {
 		$query = "select cs.course_code,cs.course_name,cs.credits from student s,class c,programme p,course cs where s.idstudent=:reg s.class_id=c.idclass and c.programme_id=p.idprogramme and cs.programme_id=p.idprogramme;";

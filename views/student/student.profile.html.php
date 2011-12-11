@@ -15,9 +15,8 @@
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		<div class="field noline">
-			<h1>Profile</h1>
+		<h1 class="icon frames">Student Profile</h1>
 		</div>
-		<h1 class="icon frames">&nbsp;</h1>
 		
 	</div>
 	<!-- Box Header: End -->
@@ -93,3 +92,4 @@
 <!-- 100% Box Grid Container: End -->
 <?php
 	end_content_for();
+
