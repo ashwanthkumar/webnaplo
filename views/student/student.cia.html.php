@@ -39,16 +39,18 @@
 			
 				// Loop through all the Course Profiles of Student and display their marks
 				$mark_data = $student->getMarks($db);
-				print_r($mark_data);
+				foreach($mark_data as $student_marks) {
+				// print_r($mark_data);
 			?>
 				<tr>
-					<td>Name of Course</td>
-					<td>50 (20)</td>
-					<td>50 (20)</td>
-					<td>50 (20)</td>
-					<td>10</td>
+					<td><?php echo $student_marks['coursename']; ?>(<?php echo $student_marks['coursecode']; ?>)</td>
+					<td><?php echo $student_marks['cia1']; ?> (<?php echo (($student_marks['cia1']) * 0.4); ?>)</td>
+					<td><?php echo $student_marks['cia2']; ?> (<?php echo (($student_marks['cia2']) * 0.4); ?>)</td>
+					<td><?php echo $student_marks['cia3']; ?> (<?php echo (($student_marks['cia3']) * 0.4); ?>)</td>
+					<td><?php echo $student_marks['assignment']; ?></td>
 				</tr>
 			<?php
+				}
 				// End of Looping through all the CIA marks
 			?>
 			</tbody>
