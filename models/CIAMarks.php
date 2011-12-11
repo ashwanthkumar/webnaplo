@@ -21,8 +21,8 @@ class CIAMarks {
 					"mark_1" => $this->mark_1,
 					"mark_2" => $this->mark_2,
 					"mark_3" => $this->mark_3,
-					"cp_id" => $this->course_profile_idcourse_profile,
-					"student_id" => $this->student_idstudent
+					"cp_id" => $this->cp_id,
+					"student_id" => $this->student_id
 				));
 				
 		if(is_object($cia_marks) && get_class($cia_marks) == "PDOException") return $cia_marks;
@@ -43,8 +43,8 @@ class CIAMarks {
 					"mark_1" => $this->mark_1,
 					"mark_2" => $this->mark_2,
 					"mark_3" => $this->mark_3,
-					"cp_id" => $this->course_profile_idcourse_profile,
-					"student_id" => $this->student_idstudent
+					"cp_id" => $this->cp_id,
+					"student_id" => $this->student_id
 			), "idcia_marks = :cid", array(":cid" => $this->idcia_marks));
 	}
 	
