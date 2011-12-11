@@ -39,6 +39,7 @@ function admin_lock_entity() {
 	$id = params(1);
 	
 	$r = LockUnLock::lock($type, $id, $GLOBALS['db']);
+	flash('success', 'Selected Item has been locked');	
 	
 	return redirect("admin/lock");
 }
@@ -53,9 +54,9 @@ function admin_unlock_entity() {
 	$type = params(0);
 	$id = params(1);
 	
-	print_r($type);
-	print_r($id);
 	$r = LockUnLock::unlock($type, $id, $GLOBALS['db']);
+	
+	flash('success', 'Selected Item has been unlocked');
 	
 	return redirect("admin/lock");
 }
@@ -112,6 +113,11 @@ function admin_staff_block_post() {
 function admin_student_block_post() {
 	$students = $_POST['student_profile'];
 	$db = $GLOBALS['db'];
+	
+	if(count($students) < 1) {
+		flash('error', 'Seems like you forgot to select the Students');
+		return redirect('admin/block_unblock');
+	}
 	
 	switch($_POST['operation']) {
 	case "block":

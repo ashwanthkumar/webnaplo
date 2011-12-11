@@ -51,7 +51,7 @@ function user_logout() {
  **/
 function user_login_authenticate() {
 	extract($_POST);
-
+	
 	// Getting the Dataentry Credentials
 	$dataentry_username = trim(Configuration::get(Configuration::$CONFIG_DATAENTRY_USER, $GLOBALS['db'], true));
 	$dataentry_password = trim(Configuration::get(Configuration::$CONFIG_DATAENTRY_PASSWORD, $GLOBALS['db'], true));
@@ -72,6 +72,7 @@ function user_login_authenticate() {
 			$_SESSION['user'] = $user;
 			return redirect('/dataentry/home');
 		} else {
+			trigger_error("Identified as Dataentry user but invalid password");
 			flash('error', "Invalid Username or Password combination");
 			return redirect('/user/login');
 		}	
@@ -144,6 +145,7 @@ function user_login_authenticate() {
 				}
 			} else {
 				$user->auth = false;
+				error_log("Identified $username as student but invalid password");
 				flash("error", "Invalid Username or Password combination");
 				return redirect('/user/login');
 			}

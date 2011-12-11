@@ -163,6 +163,11 @@ class CourseProfile {
 		$added_reg_nos = array();
 		if(is_array($students)) {
 			$numberOfStudentsInserted = 0;
+			
+			/**
+			 *	@TODO 	This method of batch inserting the data is not sercure and a good practice.
+			 *			Need to use Transactioons to maintain consistency in the datastore. 
+			 **/
 			// Array of registeration numbers to add
 			foreach($students as $student) {
 				$r = $db->insert("cp_has_student", array(
@@ -170,10 +175,27 @@ class CourseProfile {
 												"idstudent" => $student
 											));
 
-				if(!(is_object($r) && get_class($r) == "PDOException")) {
-					$numberOfStudentsInserted++;
-					$added_reg_nos[] = $student;
+				if(is_object($r) && get_class($r) == "PDOException") {
+					error_log($cia_marks_status->getMessage());
+					continue;	// Need to use transactions to revert the datastore
 				}
+				
+				// Now Create a record in cia_marks table
+				$cia_marks = new CIAMarks;
+				$cia_marks->assignment = NULL;
+				$cia_marks->mark_1 = NULL;
+				$cia_marks->mark_2 = NULL;
+				$cia_marks->mark_3 = NULL;
+				$cia_marks->cp_id = $this->course_profile;
+				$cia_marks->student_id = $student;
+				$cia_marks_status = $cia_marks->save($db);
+
+				if(is_object($cia_marks_status) && get_class($cia_marks_status) == "PDOException") {
+					error_log($cia_marks_status->getMessage());
+					continue;	// Need to use transactions to revert the datastore
+				}
+				$numberOfStudentsInserted++;
+				$added_reg_nos[] = $student;
 			}
 
 			// Return the number of students added to the system
@@ -186,11 +208,28 @@ class CourseProfile {
 										));
 
 			// Make sure the insert was successful
-			if(!(is_object($r) && get_class($r) == "PDOException")) {
-				$added_reg_nos[] = $students;
-				return 1;
+			if((is_object($r) && get_class($r) == "PDOException")) {
+				trigger_error($cia_marks_status->getMessage());
+				return 0;
 			}
-			else return 0;
+
+			// Now Create a record in cia_marks table
+			$cia_marks = new CIAMarks;
+			$cia_marks->assignment = NULL;
+			$cia_marks->mark_1 = NULL;
+			$cia_marks->mark_2 = NULL;
+			$cia_marks->mark_3 = NULL;
+			$cia_marks->cp_id = $this->course_profile;
+			$cia_marks->student_id = $student;
+			$cia_marks_status = $cia_marks->save($db);
+
+			if(is_object($cia_marks_status) && get_class($cia_marks_status) == "PDOException") {
+				trigger_error($cia_marks_status->getMessage());
+				return 0;	// Need to use transactions to revert the datastore
+			}
+			
+			$added_reg_nos[] = $students;
+			return 1;
 		}
 	}
 	

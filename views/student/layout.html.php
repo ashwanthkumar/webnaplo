@@ -1,3 +1,10 @@
+<?php
+
+	// Get the current student's active session
+	$user = get_user();
+	
+	$student = Student::load($user->userid, $GLOBALS['db']);
+?>
 <!DOCTYPE HTML>
 
 <head>
@@ -81,7 +88,7 @@
 			<ul id="user" class="dropdown">
 				<li class="topnav">
 					<!-- User Name -->
-					<a href="#" class="top icon user">Student</a>
+					<a href="#" class="top icon user"><?php echo $student->name; ?></a>
 					
 					<!-- User Dropdown Content: Start -->
 					<ul class="subnav">  

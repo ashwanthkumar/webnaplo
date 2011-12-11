@@ -144,11 +144,11 @@
 						if(d != "false") {
 							// Iterate through all the students who were added
 							$.each(d, function(index, value) {
-								$("#students_of_courseprofile").append('<li data="' + value + '">' + value + ' (<a data="' + value + '" href="#" onclick="javascript:deleteStudent(' + value + ', $(this));">X</a>)</li>');
+								$("#studentsofcourseprofile").append('<li data="' + value + '">' + value + ' (<a data="' + value + '" href="#" onclick="javascript:deleteStudent(' + value + ', $(this));">X</a>)</li>');
 							});
 							$('#students_id').val('');
 							// Sort the values of the student register number
-							$('ol#students_of_courseprofile>li').tsort('a[data]', {attr: 'data'});
+							$('ol#studentsofcourseprofile>li').tsort('a[data]', {attr: 'data'});
 						} else {
 							// Invalid Student Register Number
 							alert("Invalid Student Register Number / Student Already added. ");
@@ -164,7 +164,7 @@
 						$.post(del_service_url, {'studentid' : sid }, function(d) {
 							if(d != "false") {
 								element.parent().remove();
-								$('ol#students_of_courseprofile>li').tsort();
+								$('ol#studentsofcourseprofile>li').tsort();
 							} else {
 								alert('Invalid Operation. Try again later.');
 							}
@@ -178,7 +178,7 @@
 			<input type="text" name="students_id" id="students_id" class="small" />
 			<button type="button" onclick="javascript:addStudentToCourseProfile();">Add Student </button>
 
-			<ol id="students_of_courseprofile">
+			<ol id="studentsofcourseprofile">
 			<?php
 				// Initially display the list of students attached to this course profile
 				$cp_object =  CourseProfile::load($edit_me, $db);
