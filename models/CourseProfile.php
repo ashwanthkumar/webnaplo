@@ -249,21 +249,29 @@ class CourseProfile {
 												":sid" => $student
 											));
 
-				if(!(is_object($r) && get_class($r) == "PDOException")) $numberOfStudentsInserted++;
+				if((is_object($r) && get_class($r) == "PDOException")) continue;
+				
+				$delete_status = CIAMarks::Delete($student, $this->idcourse_profile, $db);
+				if((is_object($delete_status) && get_class($delete_status) == "PDOException")) continue;
+
+				$numberOfStudentsInserted++;
 			}
 
 			// Return the number of students added to the system
 			return $numberOfStudentsInserted;
 		} else {
 			// Add a single student to the course profile
-				$r = $db->delete("cp_has_student", "cp_id = :cpid and idstudent = :sid",array(
-											":cpid" => $this->idcourse_profile,
-											":sid" => $students
-										));
+			$r = $db->delete("cp_has_student", "cp_id = :cpid and idstudent = :sid",array(
+										":cpid" => $this->idcourse_profile,
+										":sid" => $students
+									));
+			if((is_object($r) && get_class($r) == "PDOException")) return 0;
 
+			$r = CIAMarks::Delete($students, $this->idcourse_profile, $db);
+			if((is_object($r) && get_class($r) == "PDOException")) return 0;
+			
 			// Make sure the insert was successful
-			if(!(is_object($r) && get_class($r) == "PDOException")) return 1;
-			else return 0;
+			return 1;
 		}
 	}
 	
