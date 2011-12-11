@@ -15,7 +15,7 @@
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		
-		<h1 class="icon frames">&nbsp;</h1>
+		<h1 class="icon frames"><?php echo get_text('STUDENT_CIA_MARKS'); ?></h1>
 		
 	</div>
 	<!-- Box Header: End -->
