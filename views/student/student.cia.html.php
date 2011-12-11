@@ -44,10 +44,34 @@
 			?>
 				<tr>
 					<td><?php echo $student_marks['coursename']; ?>(<?php echo $student_marks['coursecode']; ?>)</td>
-					<td><?php echo $student_marks['cia1']; ?> (<?php echo (($student_marks['cia1']) * 0.4); ?>)</td>
-					<td><?php echo $student_marks['cia2']; ?> (<?php echo (($student_marks['cia2']) * 0.4); ?>)</td>
-					<td><?php echo $student_marks['cia3']; ?> (<?php echo (($student_marks['cia3']) * 0.4); ?>)</td>
-					<td><?php echo $student_marks['assignment']; ?></td>
+					<td><?php 
+						if(!is_null($student_marks['cia1'])) {
+							echo $student_marks['cia1'] .  '(' . (($student_marks['cia1']) * 0.4)  . ')';
+						} else {
+							echo 'N/A';
+						}
+					?></td>
+					<td><?php 
+						if(!is_null($student_marks['cia2'])) {
+							echo $student_marks['cia2'] .  '(' . (($student_marks['cia2']) * 0.4)  . ')';
+						} else {
+							echo 'N/A';
+						}
+					?></td>
+					<td><?php 
+						if(!is_null($student_marks['cia3'])) {
+							echo $student_marks['cia3'] .  '(' . (($student_marks['cia3']) * 0.4)  . ')';
+						} else {
+							echo 'N/A';
+						}
+					?></td>
+					<td><?php 
+						if(!is_null($student_marks['assignment'])) {
+							echo $student_marks['assignment'] .  '(' . (($student_marks['assignment']) * 0.4)  . ')';
+						} else {
+							echo 'N/A';
+						}
+					?></td>
 				</tr>
 			<?php
 				}
