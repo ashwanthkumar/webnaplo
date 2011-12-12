@@ -136,7 +136,9 @@
 				var del_service_url = "<?php echo url_for('/staff/course_profile/' . $edit_me . '/ajax/delstudent'); ?>";
 				var my_url = window.location.href;
 				if(my_url.indexOf('#') > -1) {
-					my_url = my_url.substr(0, my_url.indexOf('#') - 1);
+					// Seems to work as of now. 
+					// @TODO Provide a better method of doing this
+					my_url = my_url.substr(0, my_url.indexOf('#'));
 				}
 				
 				/**
