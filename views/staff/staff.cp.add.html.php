@@ -135,6 +135,9 @@
 				var add_service_url = "<?php echo url_for('/staff/course_profile/' . $edit_me . '/ajax/addstudent'); ?>";
 				var del_service_url = "<?php echo url_for('/staff/course_profile/' . $edit_me . '/ajax/delstudent'); ?>";
 				var my_url = window.location.href;
+				if(my_url.indexOf('#') > -1) {
+					my_url = my_url.substr(0, my_url.indexOf('#') - 1);
+				}
 				
 				/**
 				 *	Add the Student to course Profile via AJAX
