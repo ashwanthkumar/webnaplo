@@ -134,6 +134,7 @@
 			<script type="text/javascript">
 				var add_service_url = "<?php echo url_for('/staff/course_profile/' . $edit_me . '/ajax/addstudent'); ?>";
 				var del_service_url = "<?php echo url_for('/staff/course_profile/' . $edit_me . '/ajax/delstudent'); ?>";
+				var my_url = window.location.href;
 				
 				/**
 				 *	Add the Student to course Profile via AJAX
@@ -144,7 +145,7 @@
 						if(d != "false") {
 							// Currently reload the page instead of fancy AJAX style adder. 
 							// Issue #21 is open for fixers who wish to contribute
-							window.location.href=window.location.href;
+							window.location.href = my_url;
 							/**
 							 *	Following code is commented out to be fixed at Issue #21, please fix the changes and send in a Pull Request
 							 *	if interested.
