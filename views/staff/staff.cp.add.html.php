@@ -142,13 +142,22 @@
 					var student_register_number = $('#students_id').val();
 					$.post(add_service_url, {'studentid' : student_register_number}, function(d) {
 						if(d != "false") {
-							// Iterate through all the students who were added
-							$.each(d, function(index, value) {
-								$("#studentsofcourseprofile").append('<li data="' + value + '">' + value + ' (<a data="' + value + '" href="#" onclick="javascript:deleteStudent(' + value + ', $(this));">X</a>)</li>');
-							});
-							$('#students_id').val('');
-							// Sort the values of the student register number
-							$('ol#studentsofcourseprofile>li').tsort('a[data]', {attr: 'data'});
+							// Currently reload the page instead of fancy AJAX style adder. 
+							// Issue #21 is open for fixers who wish to contribute
+							window.location.href=window.location.href;
+							/**
+							 *	Following code is commented out to be fixed at Issue #21, please fix the changes and send in a Pull Request
+							 *	if interested.
+							 **/
+							 /**
+								// Iterate through all the students who were added
+								$.each(d, function(index, value) {
+									$("#studentsofcourseprofile").append('<li data="' + value + '">' + value + ' (<a data="' + value + '" href="#" onclick="javascript:deleteStudent(' + value + ', $(this));">X</a>)</li>');
+								});
+								$('#students_id').val('');
+								// Sort the values of the student register number
+								$('ol#studentsofcourseprofile>li').tsort('a[data]', {attr: 'data'});
+							 **/
 						} else {
 							// Invalid Student Register Number
 							alert("Invalid Student Register Number / Student Already added. ");

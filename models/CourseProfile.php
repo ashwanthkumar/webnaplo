@@ -176,7 +176,7 @@ class CourseProfile {
 											));
 
 				if(is_object($r) && get_class($r) == "PDOException") {
-					error_log($cia_marks_status->getMessage());
+					error_log($r->getMessage());
 					continue;	// Need to use transactions to revert the datastore
 				}
 				
@@ -186,7 +186,7 @@ class CourseProfile {
 				$cia_marks->mark_1 = NULL;
 				$cia_marks->mark_2 = NULL;
 				$cia_marks->mark_3 = NULL;
-				$cia_marks->cp_id = $this->course_profile;
+				$cia_marks->cp_id = $this->idcourse_profile;
 				$cia_marks->student_id = $student;
 				$cia_marks_status = $cia_marks->save($db);
 
