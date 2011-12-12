@@ -194,7 +194,7 @@
 				$cp_object =  CourseProfile::load($edit_me, $db);
 				$stud_list = $cp_object->getStudents($db);
 				
-				foreach($stud_list as $student) echo '<li data="' . $student['idstudent'] . '">' . $student['idstudent'] . ' (<a data="'. $student['idstudent'] .'" href="#" onclick="javascript:deleteStudent(' . $student['idstudent'] . ', $(this));">X</a>)</li>';
+				foreach($stud_list as $student) echo '<li data="' . $student['idstudent'] . '">' . $student['idstudent'] . ' (<a data="'. $student['idstudent'] .'" href="javascript:;" onclick="javascript:deleteStudent(' . $student['idstudent'] . ', $(this));">X</a>)</li>';
 			?>
 			</ol>
 		<?php
