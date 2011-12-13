@@ -181,7 +181,7 @@ class Student {
 	 * Get the list of courses, from the course profile
 	 **/
 	public static function getCoursesList($reg_no, $db) {
-		$query = "select cs.course_code,cs.course_name,cs.credits from student s,class c,programme p,course cs where s.idstudent=:reg s.class_id=c.idclass and c.programme_id=p.idprogramme and cs.programme_id=p.idprogramme;";
+		$query = "select c.course_code as course_code, c.course_name as course_name, c.credits from course c, course_profile cp where cp.idcourse_profile in (select cp_id from cp_has_student where idstudent = :reg) and c.idcourse = cp.course_id";
 		
 		return $db->run($query, array(":reg" => $reg_no));
 		
@@ -223,11 +223,31 @@ class Student {
 		return $db->run($query, array(":reg" => $reg_no));
 	}
 	
-	// @todo Improvise the code
-	public static function getTimetable($reg_no, $db)  {
-		$query = "select c.course_name, c.course_code, t.days_of_week, t.hour_of_day from timetable t, course c, class cl, course_profile cp, student s where s.idstudent = :reg and s.class_id = cl.idclass and cp.class_id = cl.idclass and c.idcourse = cp.course_id and t.cp_id = cp.idcourse_profile ";
+	/**
+	 *	Get the timetable of the student in an array, following the following specification
+	 *
+	 *	$student_timetable_format[$index]['course_code'] - Contains the Course code
+	 *	$student_timetable_format[$index]['course_name'] - Contains the Course Name
+	 *
+	 *	$index is calculated by concating the ($day_of_week . '_' . $hour_of_day)
+	 *
+	 *	@returns Student timetable in an array
+	 **/
+	public function getTimetable($db)  {
 		
-		return $db->run($query, array(":reg" => $reg_no));
+		$query = "select CONCAT(t.days_of_week, '_', t.hour_of_day) as tt, c.course_code as course_code, c.course_name as course_name from timetable t, course c, course_profile cp where t.cp_id in (select cp_id from cp_has_student where idstudent = :reg) and cp.idcourse_profile = t.cp_id and c.idcourse = cp.course_id";
+		
+		$student_timetable = $db->run($query, array(":reg" => $this->idstudent));
+		$student_timetable_format = array();
+		
+		foreach($student_timetable as $tt) {
+			$tt_obj['course_code'] = $tt['course_code'];
+			$tt_obj['course_name'] = $tt['course_name'];
+			
+			$student_timetable_format[$tt['tt']] = $tt_obj;
+		}
+		
+		return $student_timetable_format;
 	}
 	
 	/**
