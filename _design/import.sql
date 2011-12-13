@@ -171,6 +171,7 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`cia_marks` (
   `mark_3` INT NULL ,
   `cp_id` BIGINT NOT NULL ,
   `student_id` BIGINT NOT NULL ,
+  `is_confirmed` SMALLINT NULL DEFAULT 0 ,
   PRIMARY KEY (`idcia_marks`) ,
   INDEX `fk_cia_marks_cia_profile1` (`cp_id` ASC) ,
   INDEX `fk_cia_marks_student1` (`student_id` ASC) ,
