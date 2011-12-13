@@ -121,6 +121,11 @@
 		</div>
 		
 		<div class="field noline">
+			<label class="left">Current Semester</label>
+			<label class="nobold left nowidth"><input type="text" class="required big validate digits" name="current_semester" id="current_semester" /></label>
+		</div>
+		
+		<div class="field noline">
 			<label class="left">Register No</label>
 			<label class="nobold left nowidth"><input type="text" class="required big validate digits" name="idstudent" id="regno" /></label>
 		</div>
