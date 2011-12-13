@@ -1,10 +1,10 @@
 <?php
 	
 	/**
-	 *	Required or Mandatory file in the ./i18n/<lang_code>/ directory where the actual locale information is added to the list
+	 *	Required or Mandatory file in the ./i18n/locale_<lang_code>.php directory where the actual locale information is added to the list
 	 *
 	 *	@i18n	en
-	 *	@author Team Webnaplo
+	 *	@author Ashwanth Kumar <ashwanth@ashwanthkumar.in>
 	 *	@date 12/11/2011
 	 **/
 	 
@@ -52,7 +52,65 @@
 		"STATUS" => "Status",
 		"AND" => " and ",
 		"ADVANCED_IMPORT_SETTINGS" => "Import",
+		"DELETE_PROGRAMME" => "Delete Programme",
+		"DELETE_COURSE" => "Delete Course",
+		"DELETE_DEPARMENT"=> "Delete Department",
+		"DELETE_SECTION" => "Delete Section",
+		"DELETE_STAFF" => "Delete Staff",
+		"DELETE_STUDENT" => "Delete Student",
+		"CHANGEDAYORDER_TITLE" => "Change Day Order",
+		"DELETE_SELECTED" => "Delete Selected",
+		"ADVANCED_CHANGE_DAY_ORDER" => "Change Day Orders",	
 		
+		// Dataentry
+		"ADD" => "Add",
+		"ADD_PROGRAMME" => "Add Programme",
+		"ADD_COURSE" =>"Add Course",
+		"COURSE_CODE" => "Course Code",
+		"COURSE_NAME" =>"Course Name",
+		"CREDITS" => "Credits",
+		"PROGRAMME_NAME" => "Programme Name",
+		"RESET" => "Reset",
+		"ADD_DEPARMENT"=>"Add Department",
+		"DEPARTMENT_NAME" => "Deparment Name",
+		"NAME" => "Name",
+		"ADD_STUDENT"=>"Add Student",
+		"REGISTRAION_NO" => "Registraion No",
+		"SECION_NAME" => "Secion Name",
+		"YEAR"=>"Year",
+		"ADD_STAFF"=> "Add Staff",
+		"DESIGNATION" => "Designation",
+		"STAFF_ID" => "Staff Id",
+		"EMAIL_ID" => "Email Id",
+		"MOBILE_NO"=>"Mobile No",
+		"ADDRESS" => "Address",
+		"ADD_SECTION" => "Add Section",
+		"QICK_STATS" => "Qick Stats",
+		"NEW_PASSWORD" => "New Password",
+		"UPDATE_PASSWORD" => "Update Password",
+
+		// Staff Module 
+		"COURSE_PROFILE" => "Course Profile",
+		"ATTENDENCE" => "Attendence",
+		"PENDING_ATTENDENCE" =>"Pending Attendence",
+		"CIA" =>"CIA",
+		"VIEW" =>"View",
+		"PROFILE"=> "Profile",
+		"STAFF_PROFILE" => "Saff Profile",
+		"CUMULATIVE_REPORT" => "Cumulative Report",
+
+		// Student Page
+		"FEEDBACK" => "Feedback",
+		"CALENDAR" => "Calender",
+		"TIMETABLE" => "Timetable",
+		"MONDAY" => "Monday",
+		"TUESDAY" => "Tuesday",
+		"WEDNESDAY" => "Wednesday",
+		"THURSDAY" => "Thursday",
+		"FRIDAY" => "Friday",
+		"TIMESLOTS" => "Time Slots",
+		"DAYS" => "Days", 
+
 		// Login Page Strings
 		"LOGIN" => "Login",
 		"USERNAME" => "Username",
