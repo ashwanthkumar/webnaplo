@@ -64,8 +64,8 @@
 
 		// Dataentry
 		"ADD" =>"சேர்க்க",
-		"ADD_COURSE"=>"பாடப்பிரிவை  சேர்க்க",       
 		"ADD_PROGRAMME"=>"பட்டப்பிரிவை சேர்க்க",
+		"ADD_COURSE"=>"பாடப்பிரிவை  சேர்க்க",       
 		"COURSE_CODE" => "பாடப்பிரிவு எண் ",
 		"COURSE_NAME" =>"பாடப்பிரிவு பெயர் ",
 		"CREDITS" => "மதிப்பீடு",
@@ -94,7 +94,7 @@
 		"COURSE_PROFILE" => "பாடப்பிரிவு குறிப்பு",
 		"ATTENDENCE" => "வருகைப் பதிவேடு ",
 		"PENDING_ATTENDENCE" =>"நிலுவையிலுள்ள நாட்கள்",
-		"CIA" =>"மதிப்பெண் பட்டியல்",
+		"CIA" =>"மதிப்பெண் பட்டியல்",	// @TODO Is this correct? Is it not CIA List? We want just CIA!
 		"VIEW" =>"பார்",
 		"PROFILE"=> "சிறப்புக் குறிப்பு",
 		"STAFF_PROFILE" => "பணியாளர் சிறப்புக் குறிப்பு  ",
@@ -111,6 +111,7 @@
 		"FRIDAY" => "வெள்ளிக்கிழமை",
 		"TIMESLOTS" => "காலகட்டம் ",
 		"DAYS" => "நாட்கள்", 
+		"STUDENT_CIA_MARKS" => "Student CIA Marks",
 		
 		// Login Page Strings
 		"LOGIN" => "நுழை ",

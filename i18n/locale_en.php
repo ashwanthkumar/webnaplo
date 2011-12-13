@@ -86,6 +86,7 @@
 		"ADDRESS" => "Address",
 		"ADD_SECTION" => "Add Section",
 		"QUICK_STATS" => "Quick Stats",
+		"CHANGE_PASSWORD" => "Change Password",
 		"NEW_PASSWORD" => "New Password",
 		"UPDATE_PASSWORD" => "Update Password",
 
@@ -110,6 +111,7 @@
 		"FRIDAY" => "Friday",
 		"TIMESLOTS" => "Time Slots",
 		"DAYS" => "Days", 
+		"STUDENT_CIA_MARKS" => "Student CIA Marks",
 
 		// Login Page Strings
 		"LOGIN" => "Login",
