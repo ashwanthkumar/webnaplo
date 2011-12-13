@@ -103,7 +103,7 @@
 			<!-- Width Switcher: Start -->
 			<ul id="width" class="dropdown right">
 				<li class="topnav">
-					<a href="http://www.sastra.edu/" class="top">Sponsored by SASTRA</a>
+					<a href="http://www.sastra.edu/" class="top"><?php echo get_text('SASTRA_UNIVERSITY'); ?></a>
 				</li>
 			</ul>
 			<!-- Width Switcher: End -->
@@ -114,16 +114,16 @@
 		<div id="header">
 				<!-- Navigation: Start -->
 			<ul id="navigation" class="dropdown">
-				<li><a class="dashboard <?php if(isset($home_active)) echo "active"; ?>" href="<?php echo url_for('/student/home'); ?>"> Home</a></li>
+				<li><a class="dashboard <?php if(isset($home_active)) echo "active"; ?>" href="<?php echo url_for('/student/home'); ?>"> <?php echo get_text('HOME'); ?></a></li>
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="topnav">
-					<a class="frames <?php if(isset($view_active)) echo "active"; ?>" href="#">View</a>
+					<a class="frames <?php if(isset($view_active)) echo "active"; ?>" href="#"><?php echo get_text('VIEW'); ?></a>
 					<!-- Navigation Dropdown Menu Item Content: Start -->
 					<ul class="subnav">
-						<li><a href="<?php echo url_for('/student/profile/view'); ?>" class="icon typography">Profile</a></li> 
-						<li><a href="<?php echo url_for('/student/cia/view'); ?>" class="icon blocks">CIA</a></li>  
-						<li><a href="<?php echo url_for('/student/attendance/view'); ?>" class="icon blocks">Attendance</a></li>  
+						<li><a href="<?php echo url_for('/student/profile/view'); ?>" class="icon typography"><?php echo get_text('PROFILE'); ?></a></li> 
+						<li><a href="<?php echo url_for('/student/cia/view'); ?>" class="icon blocks"><?php echo get_text('CIA'); ?></a></li>  
+						<li><a href="<?php echo url_for('/student/attendance/view'); ?>" class="icon blocks"><?php echo get_text('ATTENDENCE'); ?></a></li>  
 					</ul> 
 			        <!-- Navigation Dropdown Menu Item Content: End --> 
 				</li>
@@ -131,17 +131,17 @@
 
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li>
-					<a class="pages <?php if(isset($calendar_active)) echo "active"; ?>" href="<?php echo url_for('/student/calendar/view'); ?>">Calendar</a>
+					<a class="pages <?php if(isset($calendar_active)) echo "active"; ?>" href="<?php echo url_for('/student/calendar/view'); ?>"><?php echo get_text('CALENDAR'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li>
-					<a class="pages <?php if(isset($timetable_active)) echo "active"; ?>" href="<?php echo url_for('/student/timetable/view'); ?>">Timetable</a>
+					<a class="pages <?php if(isset($timetable_active)) echo "active"; ?>" href="<?php echo url_for('/student/timetable/view'); ?>"><?php echo get_text('TIMETABLE'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li>
-					<a class="pages <?php if(isset($feedback_active)) echo "active"; ?>" href="<?php echo url_for('/student/feedback/view'); ?>">Feed Back</a>
+					<a class="pages <?php if(isset($feedback_active)) echo "active"; ?>" href="<?php echo url_for('/student/feedback/view'); ?>"><?php echo get_text('FEEDBACK'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				
