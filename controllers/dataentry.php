@@ -296,7 +296,7 @@ function dataentry_add_course_post() {
 	print_r($r);
 	
 	if(is_bool($r) && $r === FALSE) {
-		flash('warning', "Course with $coursecode already exist. Please try with another name");
+		flash('warning', "Course with Course Code ($coursecode) already exist. Please try with another name");
 		return redirect('/dataentry/course/add');
 	}
 	
