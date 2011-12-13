@@ -85,7 +85,7 @@
 		"MOBILE_NO"=>"Mobile No",
 		"ADDRESS" => "Address",
 		"ADD_SECTION" => "Add Section",
-		"QICK_STATS" => "Qick Stats",
+		"QUICK_STATS" => "Quick Stats",
 		"NEW_PASSWORD" => "New Password",
 		"UPDATE_PASSWORD" => "Update Password",
 
