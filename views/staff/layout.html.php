@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 
-
 <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -105,7 +104,7 @@
 			<!-- Width Switcher: Start -->
 			<ul id="width" class="dropdown right">
 				<li class="topnav">
-					<a href="http://www.sastra.edu/" class="top">Sponsored by SASTRA</a>
+					<a href="http://www.sastra.edu/" class="top"><?php echo get_text('SASTRA_UNIVERSITY'); ?></a>
 				</li>
 			</ul>
 			<!-- Width Switcher: End -->
@@ -119,38 +118,35 @@
 			
 			<!-- Navigation: Start -->
 			<ul id="navigation" class="dropdown">
-				<li><a class="dashboard <?php if(isset($home_active)) echo "active"; ?>" href="<?php echo url_for('/staff/home'); ?>">Home</a></li>
+				<li><a class="dashboard <?php if(isset($home_active)) echo "active"; ?>" href="<?php echo url_for('/staff/home'); ?>"><?php echo get_text('HOME'); ?></a></li>
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="">
-					<a class="frames <?php if(isset($cp_active)) echo "active"; ?>" href="<?php echo url_for('/staff/course_profile/'); ?>">Course Profile</a>
+					<a class="frames <?php if(isset($cp_active)) echo "active"; ?>" href="<?php echo url_for('/staff/course_profile/'); ?>"><?php echo get_text('COURSE_PROFILE'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="">
-					<a class="pages <?php if(isset($at_active)) echo "active"; ?>" href="<?php echo url_for('/staff/attendance/'); ?>">Attendance</a>
-					
-					
-			        
+					<a class="pages <?php if(isset($at_active)) echo "active"; ?>" href="<?php echo url_for('/staff/attendance/'); ?>"><?php echo get_text('ATTENDANCE'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="">
-					<a class="pages <?php if(isset($cia_active)) echo "active"; ?>" href="<?php echo url_for('/staff/cia'); ?>">CIA</a>
+					<a class="pages <?php if(isset($cia_active)) echo "active"; ?>" href="<?php echo url_for('/staff/cia'); ?>"><?php echo get_text('CIA'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li class="topnav">
-					<a class="pages" href="<?php echo url_for('/staff/profile'); ?>">View</a>
+					<a class="pages" href="<?php echo url_for('/staff/profile'); ?>"><?php echo get_text('VIEW'); ?></a>
 					
 					<!-- Navigation Dropdown Menu Item Content: Start -->
 					<ul class="subnav">
-						<li><a href="<?php echo url_for('/staff/profile/view/'); ?>" class="icon laptop">Profile</a></li> 
+						<li><a href="<?php echo url_for('/staff/profile/view/'); ?>" class="icon laptop"><?php echo get_text('PROFILE'); ?></a></li> 
 						
-			            <li><a href="<?php echo url_for('/staff/cumulative_report/view'); ?>" class="icon archive">Cumulative Report</a></li>  
+			            <li><a href="<?php echo url_for('/staff/cumulative_report/view'); ?>" class="icon archive"><?php echo get_text('CUMULATIVE_REPORT'); ?></a></li>  
 			             
 			            
 			       </ul>  
@@ -179,7 +175,7 @@
 
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		<h1 class="icon coverflow">Staff </h1>
+		<h1 class="icon coverflow"><?php echo get_text('STAFF'); ?> </h1>
 	</div>
 	<!-- Box Header: End -->
 	
@@ -191,7 +187,7 @@
 				<li><a href="#" class="tip" title="Edit your Profile"><span class="icon user"></span> Edit Profile </a>
 				<li><a href="#" class="tip" title="Generate Integrated Report"><span class="icon graph"></span> Generate IR</a>
 				<li><a href="#" class="tip" title="Generate Lack Report"><span class="icon pages"></span> Generate LR</a>
-				<li><a class="tip" title="View Timetable" href="#" onclick="window.open('<?php echo url_for('/staff/timetable/popup'); ?>', 'timetable_popup','status=0,height=650,width=1000');"><span class="icon pages"></span>Timetable</a></li>
+				<li><a class="tip" title="View Timetable" href="#" onclick="window.open('<?php echo url_for('/staff/timetable/popup'); ?>', 'timetable_popup','status=0,height=650,width=1000');"><span class="icon pages"></span><?php echo get_text('TIMETABLE'); ?></a></li>
 			</ul>
 		<!-- Vertical Menu: End -->
 
