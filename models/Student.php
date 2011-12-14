@@ -92,7 +92,7 @@ class Student {
 	 *	@return	Array of list of CIA Marks
 	 **/ 
 	public function getMarks($db) {
-		$cia_marks = $db->run("select cm.assignment as assignment, cm.mark_1 as cia1, cm.mark_2 as cia2, cm.mark_3 as cia3,  c.course_name as coursename, c.course_code as coursecode from course c, course_profile cp, student s, cia_marks cm, cp_has_student chs where s.idstudent = :reg and chs.idstudent = s.idstudent and  cm.student_id = chs.idstudent and cm.cp_id = chs.cp_id and  chs.cp_id = cp.idcourse_profile and c.idcourse = cp.course_id", array(":reg" => $this->idstudent));
+		$cia_marks = $db->run("select cm.assignment as assignment, cm.mark_1 as cia1, cm.mark_2 as cia2, cm.mark_3 as cia3, c.course_name as coursename, c.course_code as coursecode, cp.idcourse_profile as cp_id, cp.enable_confirm as enable_confirm, cm.is_confirmed as is_confirmed from course c, course_profile cp, student s, cia_marks cm, cp_has_student chs where s.idstudent = :reg and chs.idstudent = s.idstudent and  cm.student_id = chs.idstudent and cm.cp_id = chs.cp_id and  chs.cp_id = cp.idcourse_profile and c.idcourse = cp.course_id", array(":reg" => $this->idstudent));
 		return $cia_marks;
 	}
 	
@@ -175,6 +175,23 @@ class Student {
 		$student_object = $student;
 		
 		return $r;
+	}
+	
+	
+	/**
+	 *	Student confirms the internals for the given course. Once confirmed they cannot change it again. 
+	 *
+	 *	@param	$student_id			Student ID (Register Number)
+	 *	@param	$course_profile		Course Profile ID
+	 **/
+	public function confirmInternals($course_profile, $db) {
+		// @TODO Need to check if the student is enabled to confirm it. Refer Issue #26
+		$cia_marks = $db->update("cia_marks", array("is_confirmed" => 1), "student_id = :reg and cp_id = :cpid", array(":reg" => $this->idstudent, ":cpid" => $course_profile));
+		
+		print_r($cia_marks);
+		
+		if(is_object($cia_marks) && get_class($cia_marks) == "PDOException") return FALSE;
+		else return $cia_marks;
 	}
 
 	/**
