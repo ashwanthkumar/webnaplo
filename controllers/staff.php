@@ -357,3 +357,134 @@ function staff_changeorder_ajax() {
 	return json($change);
 }
 
+/**
+ *	Renders the Staff Mark posting page for a particular course profile
+ *
+ *	@method	GET
+ *	@route	^/staff/attendance/(\d+)/popup/(.*)
+ **/
+function staff_mark_popup_render() {
+	// Get the Course Profile ID from the URL
+	$course_profile_id = params(0);
+
+	set('cpid', $course_profile_id);
+	layout('staff/empty.layout.html.php');
+	set('title', "Staff - Post Marks");
+	
+	return render("/staff/staff.cia.popup.html.php");
+}
+
+/**
+ *	Saves the CIA Marks to the datastore from the POPUP window
+ *
+ *	@method	POST
+ *	@route	/staff/ciamark/save
+ **/
+function staff_cia_save() {
+	$cp_id = $_POST['course_profile'];
+	$students = $_POST['student'];
+	
+	$db = $GLOBALS['db'];
+	
+	switch($_POST['cia_type']) {
+		case "cia_1":
+			while($student = current($students)) {
+				$db->update("cia_marks", array("mark_1" => $student) ,"student_id = :sid and cp_id = :cpid", array(":sid" => key($students), ":cpid" => $cp_id));
+				next($students);
+			}
+			flash('success', 'All the student marks for I CIA have been updated.');
+			break;
+		case "cia_2":
+			while($student = current($students)) {
+				$db->update("cia_marks", array("mark_2" => $student) ,"student_id = :sid and cp_id = :cpid", array(":sid" => key($students), ":cpid" => $cp_id));
+				next($students);
+			}
+			flash('success', 'All the student marks for II CIA have been updated.');
+			break;
+		case "cia_3":
+			while($student = current($students)) {
+				$db->update("cia_marks", array("mark_3" => $student) ,"student_id = :sid and cp_id = :cpid", array(":sid" => key($students), ":cpid" => $cp_id));
+				next($students);
+			}
+			flash('success', 'All the student marks for III CIA have been updated.');
+			break;
+		case "assignment":
+			while($student = current($students)) {
+				$db->update("cia_marks", array("assignment" => $student) ,"student_id = :sid and cp_id = :cpid", array(":sid" => key($students), ":cpid" => $cp_id));
+				next($students);
+			}
+			flash('success', 'All the students\' assignment marks have been updated');
+			break;
+		default:
+			flash('error', 'Invalid Mark Scheme selected');
+			break;
+	}
+	
+	return redirect("staff/marks/" . $cp_id . "/popup");
+}
+
+/**
+ *	Return a JSON representation of the CIA data
+ *
+ *	@method	POST
+ *	@route	/staff/ciamarks/load/ajax
+ **/
+function staff_cia_load_ajax() {
+	$cp_id = $_POST['cpid'];
+	$mark = $_POST['mark_type'];
+	
+	$db = $GLOBALS['db'];
+	
+	$markdata['status'] = false;
+	$markdata['marks'] = array();
+	$students = $db->select("cia_marks", "cp_id = :cpid", array(":cpid" => $cp_id));
+	
+	switch($mark) {
+		case "cia_1":
+			// Get all the students cia_1 mark under $cp_id
+			foreach($students as $student) {
+				$stud_id = $student['student_id'];
+				$markdata['marks'][$stud_id] = $student['mark_1'];
+			}
+			
+			$markdata['status'] = true;
+			return json($markdata);
+			break;
+		case "cia_2":
+			// Get all the students cia_2 mark under $cp_id
+			foreach($students as $student) {
+				$stud_id = $student['student_id'];
+				$markdata['marks'][$stud_id] = $student['mark_2'];
+			}
+			
+			$markdata['status'] = true;
+			return json($markdata);
+			break;
+		case "cia_3":
+			// Get all the students cia_3 mark under $cp_id
+			foreach($students as $student) {
+				$stud_id = $student['student_id'];
+				$markdata['marks'][$stud_id] = $student['mark_3'];
+			}
+			
+			$markdata['status'] = true;
+			return json($markdata);
+			break;
+		case "assignment":
+			// Get all the students assignment mark under $cp_id
+			foreach($students as $student) {
+				$stud_id = $student['student_id'];
+				$markdata['marks'][$stud_id] = $student['assignment'];
+			}
+			
+			$markdata['status'] = true;
+			return json($markdata);
+			break;
+		default:
+			$markdata['status'] = false;
+			$markdata['error'] = "Invalid Mark type provided";
+			break;
+	}
+	
+	return json($markdata);
+}

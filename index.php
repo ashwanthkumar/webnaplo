@@ -253,6 +253,9 @@ dispatch_get('/staff/timetable/popup', 'staff_timetable_popup_render');
 dispatch_post('/staff/timetable/save', 'staff_timetable_save');
 
 dispatch_get('/staff/cia/', 'staff_cia_render');
+dispatch_get('^/staff/marks/(\d+)/popup', 'staff_mark_popup_render');
+dispatch_post('/staff/ciamark/save', 'staff_cia_save');
+dispatch_post('/staff/ciamarks/load/ajax', 'staff_cia_load_ajax');
 
 dispatch_get('^/staff/course_profile/(\d+)/delete', 'staff_cp_delete');
 dispatch_get('^/staff/course_profile/(\d+)/edit', 'staff_cp_edit');

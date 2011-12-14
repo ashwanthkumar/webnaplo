@@ -122,6 +122,7 @@
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/syntaxHighlighter/shBrushCss.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/syntaxHighlighter/shBrushPhp.js"></script>
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/fileTree/jqueryFileTree.js"></script> <!-- Added in 1.2 -->
+	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/jquery.blockUI.js"></script>
 	
 	<!-- jQuery Customization -->
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/custom.js"></script>
