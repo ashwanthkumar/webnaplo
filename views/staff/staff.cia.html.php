@@ -82,9 +82,9 @@
 		<div class="">
 			<h3>General Instructions </h3>
 			<ol>
-				<li>To Edit or Post Attendance, choose the date and re-enter the attendance.  </li>
-				<li>Old Attendance details are automatically updated. </li>
-				<li>If you have <b>"Disabled"</b> text instead of an icon for posting the attendance, your ability to post has been locked. Please contact the System Administrator to unlock the attendance for the account or course profile. </li>
+				<li>To Post CIA / Assignment marks, select the corresponding mark type and enter the marks.  </li>
+				<li>To Edit CIA / Assignment marks, select the corresponding mark type and click "Load Marks" </li>
+				<li>If you have <b>"Disabled"</b> text instead of an icon for posting the marks, your ability to post has been locked. Please contact the System Administrator to unlock the respective course profile. </li>
 			</ol>
 		</div>
 	</div>
