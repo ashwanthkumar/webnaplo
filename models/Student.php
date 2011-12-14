@@ -181,19 +181,42 @@ class Student {
 	 * Get the list of courses, from the course profile
 	 **/
 	public static function getCoursesList($reg_no, $db) {
-		$query = "select c.course_code as course_code, c.course_name as course_name, c.credits from course c, course_profile cp where cp.idcourse_profile in (select cp_id from cp_has_student where idstudent = :reg) and c.idcourse = cp.course_id";
+		$query = "select c.course_code as course_code, c.course_name as course_name, c.credits as credits, cp.idcourse_profile as cpid from course c, course_profile cp where cp.idcourse_profile in (select cp_id from cp_has_student where idstudent = :reg) and c.idcourse = cp.course_id";
 		
 		return $db->run($query, array(":reg" => $reg_no));
 		
 	}
 	
 	/**
-	 * Get the Attendance for a given student
+	 * Get the Attendance for a given student in the array of following specification
+	 *
+	 *	$result = $student->getAttendance($db);
+	 *
+	 *	$result[$cp_id] - Array of attendance objects whose array index is specified by the course profile id
 	 **/
-	public static function getAttendance($reg_no, $db) {
-		$query = "select a.date, a.is_present, c.course_name, c.course_code from attendance a, timetable t, course_profile cp, course c where a.idstudent = :reg  and a.timetable_id = t.idtimetable and t.cp_id = cp.idcourse_profile and cp.course_id = c.idcourse order by a.date desc";
+	public function getAttendance($db) {
+		$query = "select a.date_attendance as date_attendance, a.is_present as is_present, a.student_id as student_id, t.cp_id as cp_id from attendance a, timetable t where a.timetable_id in (select idtimetable from timetable where cp_id in (select cp_id from cp_has_student where idstudent = :reg)) and t.idtimetable = a.timetable_id and a.student_id = :reg";
 		
-		return $db->run($query, array(":reg" => $reg_no));
+		$attendance_data = $db->run($query, array(":reg" => $this->idstudent));
+		
+		$attendance = array();
+		
+		// Loop through the values to group the results based on cp_id (Course Profile ID)
+		foreach($attendance_data as $att) {
+			$cp_id = $att['cp_id'];
+			
+			if(isset($attendance[$cp_id])) {
+				// The value already exist just push the new value
+				array_push($attendance[$cp_id], $att);
+			} else {
+				// The value does not exist create a new value
+				$array_to_push = $att;
+				$attendance[$cp_id] = array();
+				array_push($attendance[$cp_id], $array_to_push);
+			}
+		}
+		
+		return $attendance;
 	}
 
 	/**
