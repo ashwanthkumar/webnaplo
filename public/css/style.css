@@ -596,6 +596,7 @@ ul#navigation a:hover, ul#navigation li a.active  { color:#fff; background-posit
 .box_content ol     { margin: 20px 25px 30px 25px; padding: 0 0 0 0.2em; font-size:13px; }
 .box_content ul li, 
 .box_content ol li  { margin: 0.5em 0em; padding: 0 0 0 0.5em; }
+.box_content ol li.field  { margin:15px 0 10px 0; padding:0px 0 20px 0; list-style-type: decimal;}
 
 .box_content ul     { list-style-type: square; }
 .box_content ol     { list-style-type: decimal; }
@@ -1738,3 +1739,8 @@ ul#navigation a.box_outgoing, .icon.box_outgoing		{ background-image:url(../img/
 	-webkit-box-shadow:0 0 6px #ddd;
 }
 
+/* jQuery BlockUI Plugin CSS for Growl Style */
+div.growlUI { background: url(../img/check24.png) no-repeat 10px 10px }
+div.growlUI h1, div.growlUI h2 {
+	color: white; padding: 5px 5px 5px 75px; text-align: left
+}
