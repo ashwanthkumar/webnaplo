@@ -92,14 +92,19 @@
 
 		// Staff Module 
 		"COURSE_PROFILE" => "Course Profile",
-		"ATTENDENCE" => "Attendence",
+		"ATTENDANCE" => "Attendance",
 		"PENDING_ATTENDENCE" =>"Pending Attendence",
 		"CIA" =>"CIA",
 		"VIEW" =>"View",
 		"PROFILE"=> "Profile",
 		"STAFF_PROFILE" => "Saff Profile",
 		"CUMULATIVE_REPORT" => "Cumulative Report",
-
+		"MARK_TYPE" => "Mark Type",
+		"TOOLS" => "Tools",
+		"POST_MARKS" => "Post Marks",
+		"ASSIGNMENT" => "Assignment",
+		"STUDENT_CONFIRMATION" => "Student Confirmation",
+		
 		// Student Page
 		"FEEDBACK" => "Feedback",
 		"CALENDAR" => "Calender",

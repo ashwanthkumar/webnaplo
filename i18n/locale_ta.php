@@ -92,13 +92,18 @@
 
 		// Staff Module 
 		"COURSE_PROFILE" => "பாடப்பிரிவு குறிப்பு",
-		"ATTENDENCE" => "வருகைப் பதிவேடு ",
-		"PENDING_ATTENDENCE" =>"நிலுவையிலுள்ள நாட்கள்",
+		"ATTENDANCE" => "வருகைப் பதிவேடு ",
+		"PENDING_ATTENDENCE" => "நிலுவையிலுள்ள நாட்கள்",
 		"CIA" =>"மதிப்பெண் பட்டியல்",	// @TODO Is this correct? Is it not CIA List? We want just CIA!
 		"VIEW" =>"பார்",
 		"PROFILE"=> "சிறப்புக் குறிப்பு",
 		"STAFF_PROFILE" => "பணியாளர் சிறப்புக் குறிப்பு  ",
 		"CUMULATIVE_REPORT" => " ஒன்று சேர்ந்த அறிக்கை ",
+		"MARK_TYPE" => "Mark Type", 
+		"TOOLS" => "Tools",
+		"POST_MARKS" => "Post Marks",
+		"ASSIGNMENT" => "Assignment",
+		"STUDENT_CONFIRMATION" => "Student Confirmation",
 		
 		// Student Page
 		"FEEDBACK"=> "கருத்து",
