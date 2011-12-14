@@ -65,6 +65,9 @@ textarea:focus {
 .box_content input[type=text].small, 
 .box_content input[type=password].small { width: 100px; }
 
+.box_content input[type=text].verysmall, 
+.box_content input[type=password].verysmall { width: 30px; height:7px; }
+
 .box_content input[type=text].medium, 
 .box_content input[type=password].medium { width: 200px; }
 
