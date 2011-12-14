@@ -229,7 +229,10 @@ dispatch_post('/dataentry/**', 'dataentry_home');
 
 dispatch_post('/student/profile/update', 'student_profile_post');
 dispatch_get('/student/profile/**', 'student_profile_render');
+
+dispatch_get('^/student/cia/(\d+)/confirm', 'student_marks_confirm');
 dispatch_get('/student/cia/**', 'student_cia_render');
+
 dispatch_get('/student/attendance/**', 'student_attendance_render');
 dispatch_get('/student/calendar/**', 'student_calendar_render');
 dispatch_get('/student/timetable/**', 'student_timetable_render');

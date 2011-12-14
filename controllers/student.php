@@ -115,3 +115,25 @@ function student_feedback_render() {
 	
 	return render("student/student.feedback.html.php");
 }
+
+/**
+ *	Confirm the Marks by the students once they are enabled by the respective staff memebers.
+ *
+ *	@method	GET
+ *	@route	^/student/cia/(\d+)/confirm
+ **/
+function student_marks_confirm() {
+	$db = $GLOBALS['db'];
+	$cp_id = params(0);
+	
+	$user = get_user();
+	$student = Student::load($user->userid, $db);
+	
+	$confirm_status = $student->confirmInternals($cp_id, $db);
+	
+	if(!$confirm_status) flash('error', "There has been some technical problem. Please try again. ");
+	else flash('success', "You have successfully confirmed the internals for the course");
+	
+	return redirect("/student/cia/view");
+	// return h("$cp_id");
+}
