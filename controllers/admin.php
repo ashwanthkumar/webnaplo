@@ -365,9 +365,9 @@ function admin_update_dataentry_password() {
 
 /**
  * Delete Student View Page
- *	
- *	@method GET
- *	@route 
+ *
+ *	@method	GET
+ *	@route	/admin/student/delete
  **/
 function admin_delete_student_render() {
 	layout('admin/layout.html.php');
@@ -378,6 +378,9 @@ function admin_delete_student_render() {
 }
 /**
  * Delete the Student from the dataentry
+ *
+ *	@method	POST
+ *	@route	/admin/student/delete
  **/
 function admin_delete_student_post() {
 	$reg = $_POST['regno'];
@@ -402,11 +405,14 @@ function admin_delete_student_post() {
 	}
 	
 	// Redirect the user back 
-	redirect('/admin/student/delete');
+	return redirect('/admin/student/delete');
 }
 
 /**
  * Delete Staff view page
+ *
+ *	@method	GET
+ *	@route	/admin/staff/delete
  **/
 function admin_delete_staff_render() {
 	layout('admin/layout.html.php');
@@ -418,6 +424,9 @@ function admin_delete_staff_render() {
 
 /**
  * Delete Staff from the system
+ *
+ *	@method	POST
+ *	@route	/admin/staff/delete
  **/
 function admin_delete_staff_post() {
 	$staffid = $_POST['staffid'];
@@ -444,11 +453,14 @@ function admin_delete_staff_post() {
 	}
 	
 	// Redirect the user back 
-	redirect('/admin/staff/delete');
+	return redirect('/admin/staff/delete');
 }
 
 /**
  * Delete Programme View Page
+ *
+ *	@method	GET
+ *	@route	/admin/programme/delete
  **/
 function admin_delete_programme_render() {
 	layout('admin/layout.html.php');
@@ -460,6 +472,9 @@ function admin_delete_programme_render() {
 
 /**
  * Delete the programme from the system
+ *
+ *	@method	POST
+ *	@route	/admin/programme/delete
  **/
 function admin_delete_programme_post() {
 	$pgmid = $_POST['Programme_FK'];
@@ -486,11 +501,14 @@ function admin_delete_programme_post() {
 	}
 	
 	// Redirect the user back 
-	redirect('/admin/programme/delete');
+	return redirect('/admin/programme/delete');
 }
 
 /**
  * Delete Course View page
+ *
+ *	@method	GET
+ *	@route	/admin/course/delete
  **/
 function admin_delete_course_render() {
 	layout('admin/layout.html.php');
@@ -502,6 +520,9 @@ function admin_delete_course_render() {
 
 /**
  * Delete post from the system
+ *
+ *	@method	POST
+ *	@route	/admin/course/delete
  **/
 function admin_delete_course_post() {
 	$cid = $_POST['coursecode'];
@@ -526,11 +547,14 @@ function admin_delete_course_post() {
 	}
 	
 	// Redirect the user back 
-	redirect('/admin/course/delete');
+	return redirect('/admin/course/delete');
 }
 
 /**
  * Delete Department page
+ *
+ *	@method	GET
+ *	@route	/admin/department/delete
  **/
 function admin_delete_department_render() {
 	layout('admin/layout.html.php');
@@ -542,6 +566,9 @@ function admin_delete_department_render() {
 
 /**
  * Delete programme from the system
+ *
+ *	@method	POST
+ *	@route	/admin/department/delete
  **/
 function admin_delete_department_post() {
 	$did = $_POST['dept_FK'];
@@ -570,7 +597,7 @@ function admin_delete_department_post() {
 	}
 	
 	// Redirect the user back 
-	redirect('/admin/department/delete');
+	return redirect('/admin/department/delete');
 }
 
 /**
@@ -611,7 +638,7 @@ function admin_edit_course_post() {
 	}
 	
 	// Redirect the user back 
-	redirect("/admin/course/$idcourse/edit");
+	return redirect("/admin/course/$idcourse/edit");
 }
 
 /**
@@ -637,7 +664,7 @@ function admin_edit_department_post() {
 	flash('success', "department $departmentName has been successfully edited");
 	
 	// Redirect the user back 
-	redirect('/admin/department/edit');
+	return redirect('/admin/department/edit');
 }
 
 /**
