@@ -39,19 +39,13 @@
 
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		
-		<h1 class="icon frames">&nbsp;</h1>
-		
+		<h1 class="icon frames"><?php echo get_text('DELETE_COURSE'); ?></h1>
 	</div>
 	<!-- Box Header: End -->
 	
 	<!-- Box Content: Start -->
 	<div class="box_content padding">
-	<form method="POST" action="<?php echo url_for('/dataentry/course/delete'); ?>">
-		<div class="field noline">
-			<h1>DELETE COURSE</h1>
-		</div>
-
+	<form method="POST" action="<?php echo url_for('/admin/course/delete'); ?>">
 		<div class="field noline">
 			<label class="left">Course Code</label>
 			<label class="nobold left nowidth"><input type="text" class="required big validate" name="coursecode" id="coursecode" /></label>

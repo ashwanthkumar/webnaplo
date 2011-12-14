@@ -1,4 +1,5 @@
 <?php
+
 	content_for('body');
 ?>
 
@@ -39,27 +40,18 @@
 ?>
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		
-		<h1 class="icon frames">&nbsp;</h1>
-		
+		<h1 class="icon frames"><?php echo get_text('DELETE_STUDENT'); ?></h1>
 	</div>
 	<!-- Box Header: End -->
 
 	<!-- Box Content: Start -->
 	<div class="box_content padding">
-	<form method="POST" action="<?php echo url_for('/dataentry/student/delete'); ?>">	
-		<div class="field noline">
-			<h1>DELETE STUDENT</h1>
-		</div>
-
+	<form method="POST" action="<?php echo url_for('/admin/student/delete'); ?>">	
 		<div class="field noline">
 			<label class="left">Register No</label>
 			<label class="nobold left nowidth"><input type="text" class="required big validate" name="regno" id="regno" /></label>
 		</div>
 
-		
-		
-		
 		<div class="field noline">
 			<button type="submit">Delete </button>
 			<button type="reset"> Reset </button>

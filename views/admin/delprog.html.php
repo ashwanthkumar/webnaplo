@@ -41,22 +41,15 @@
 
 	<!-- Box Header: Start -->
 	<div class="box_top">
-		
-		<h1 class="icon frames">&nbsp;</h1>
-		
+		<h1 class="icon frames"><?php echo get_text('DELETE_PROGRAMME'); ?></h1>
 	</div>
 	<!-- Box Header: End -->
 	
 	<!-- Box Content: Start -->
 	<div class="box_content padding">
-		<form method="POST" action="<?php echo url_for('/dataentry/programme/delete'); ?>">
-		<div class="field noline">
-			<h1>DELETE PROGRAMME </h1>
-		</div>
-
-		
+		<form method="POST" action="<?php echo url_for('/admin/programme/delete'); ?>">
 		<div class="field">
-			<label class="left">Programe Name</label>
+			<label class="left">Programme Name</label>
 			<label class="nobold left nowidth">
 		<?php
 			$db = $GLOBALS['db'];
@@ -88,4 +81,3 @@
 <!-- 100% Box Grid Container: End -->
 <?php
 	end_content_for();
-?>

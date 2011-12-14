@@ -40,28 +40,23 @@
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		
-		<h1 class="icon frames">&nbsp;</h1>
+		<h1 class="icon frames"><?php echo get_text('DELETE_DEPARTMENT'); ?></h1>
 		
 	</div>
 	<!-- Box Header: End -->
 	
 	<!-- Box Content: Start -->
 	<div class="box_content padding">
-	<form method="POST" action="<?php echo url_for('/dataentry/department/delete'); ?>">	
-		<div class="field noline">
-			<h1>DELETE DEPARTMENT</h1>
-		</div>
-
-		
+	<form method="POST" action="<?php echo url_for('/admin/department/delete'); ?>">	
 		<div class="field">
 			<label class="left">Department Name</label>
-<?php
-	
-	// Initialize DB Store
-	$db = $GLOBALS['db'];
-	$dept = $db->select("dept");
-	
-?>
+			<?php
+				
+				// Initialize DB Store
+				$db = $GLOBALS['db'];
+				$dept = $db->select("dept");
+				
+			?>
 			<label class="nobold left nowidth">
 				<select name="dept_FK" id="select">
 				<?php 
@@ -88,3 +83,4 @@
 <!-- 100% Box Grid Container: End -->
 <?php
 	end_content_for();
+	
