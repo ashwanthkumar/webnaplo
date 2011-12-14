@@ -123,7 +123,7 @@
 					<ul class="subnav">
 						<li><a href="<?php echo url_for('/student/profile/view'); ?>" class="icon typography"><?php echo get_text('PROFILE'); ?></a></li> 
 						<li><a href="<?php echo url_for('/student/cia/view'); ?>" class="icon blocks"><?php echo get_text('CIA'); ?></a></li>  
-						<li><a href="<?php echo url_for('/student/attendance/view'); ?>" class="icon blocks"><?php echo get_text('ATTENDENCE'); ?></a></li>  
+						<li><a href="<?php echo url_for('/student/attendance/view'); ?>" class="icon blocks"><?php echo get_text('ATTENDANCE'); ?></a></li>  
 					</ul> 
 			        <!-- Navigation Dropdown Menu Item Content: End --> 
 				</li>

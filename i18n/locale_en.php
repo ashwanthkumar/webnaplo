@@ -117,6 +117,9 @@
 		"TIMESLOTS" => "Time Slots",
 		"DAYS" => "Days", 
 		"STUDENT_CIA_MARKS" => "Student CIA Marks",
+		"HOURS_PRESENT" => "Hours Present",
+		"HOURS_TOTAL" => "Total Hours",
+		"PERCENTAGE" => "Percentage",
 
 		// Login Page Strings
 		"LOGIN" => "Login",

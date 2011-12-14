@@ -117,6 +117,9 @@
 		"TIMESLOTS" => "காலகட்டம் ",
 		"DAYS" => "நாட்கள்", 
 		"STUDENT_CIA_MARKS" => "Student CIA Marks",
+		"HOURS_PRESENT" => "Hours Present",
+		"HOURS_TOTAL" => "Total Hours",
+		"PERCENTAGE" => "Percentage",
 		
 		// Login Page Strings
 		"LOGIN" => "நுழை ",
