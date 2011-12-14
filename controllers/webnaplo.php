@@ -110,6 +110,11 @@ function user_login_authenticate() {
 					$user->name = $staff['name'];
 					$user->userid = $staff['idstaff'];
 					
+					// Update the last_login date
+					$staff = Staff::load($user->userid, $db);
+					$staff->last_login = date('Y-m-d H:i:s');
+					$staff->update($db);
+					
 					$_SESSION['user'] = $user;
 					$_SESSION[$user->type] = $staff;
 					return redirect('/staff/home');
@@ -139,7 +144,7 @@ function user_login_authenticate() {
 					$user->userid = $student['idstudent'];
 
 					$_SESSION['user'] = $user;
-					$_SESSION[$user->type] = $student;
+					$_SESSION[$user->type] =  $student;
 					
 					return redirect('/student/home');
 				}

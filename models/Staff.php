@@ -15,6 +15,7 @@ class Staff {
 	public $password;
 	public $staff_id;
 	public $dept_iddept;
+	public $last_login;
 	
 	/**
 	 *	Returns the list of course profiles that the current staff takes
@@ -136,6 +137,7 @@ class Staff {
 		
 		$staff->is_blocked = $is_blocked;
 		$staff->password = $password;
+		$staff->last_login = $last_login;
 		
 		return $staff;
 	}
@@ -156,11 +158,37 @@ class Staff {
 			"mobile" => $this->mobile,
 			"address" => $this->address,
 			"is_blocked" => $this->is_blocked,
-			"password" => $this->password
+			"password" => $this->password,
+			"last_login" => $this->last_login
 		));
 		if(is_object($r) && get_class($r) == "PDOException") return $r;
 		
 		$this->idstaff = $db->lastInsertId();
+		return $r;
+	}
+	
+	/**
+	 *	Update the current instance of the Staff Model to the database
+	 *
+	 *	@return		 		1 			If operation is successful 
+	 *	@return		PDOExceptionObject 	If there is an Error
+	 **/
+	public function update($db) {
+		$r= $db->update("staff", array (
+			"name" => $this->name,
+			"designation" => $this->designation,
+			"dept_id" => $this->dept_id,
+			"staff_id" => $this->staff_id,
+			"email" => $this->email,
+			"mobile" => $this->mobile,
+			"address" => $this->address,
+			"is_blocked" => $this->is_blocked,
+			"password" => $this->password,
+			"last_login" => $this->last_login
+		), "idstaff = :sid" , array(":sid" => $this->idstaff));
+		
+		if(is_object($r) && get_class($r) == "PDOException") return $r;
+		
 		return $r;
 	}
 	
