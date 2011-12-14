@@ -135,5 +135,4 @@ function student_marks_confirm() {
 	else flash('success', "You have successfully confirmed the internals for the course");
 	
 	return redirect("/student/cia/view");
-	// return h("$cp_id");
 }
