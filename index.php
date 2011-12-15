@@ -256,6 +256,9 @@ dispatch_get('/staff/timetable/popup', 'staff_timetable_popup_render');
 dispatch_post('/staff/timetable/save', 'staff_timetable_save');
 
 dispatch_get('/staff/cia/', 'staff_cia_render');
+dispatch_post('/staff/cia/enable_confirmation/disable', 'staff_enable_student_confirmation_disable_ajax');
+dispatch_post('/staff/cia/enable_confirmation/enable', 'staff_enable_student_confirmation_enable_ajax');
+
 dispatch_get('^/staff/marks/(\d+)/popup', 'staff_mark_popup_render');
 dispatch_post('/staff/ciamark/save', 'staff_cia_save');
 dispatch_post('/staff/ciamarks/load/ajax', 'staff_cia_load_ajax');
