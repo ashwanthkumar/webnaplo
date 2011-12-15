@@ -14,7 +14,7 @@ class Staff {
 	public $name;
 	public $password;
 	public $staff_id;
-	public $dept_iddept;
+	public $dept_id;
 	public $last_login;
 	
 	/**

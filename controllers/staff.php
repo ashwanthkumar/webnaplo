@@ -238,6 +238,37 @@ function staff_profile_render() {
 }
 
 /**
+ *	Update the Staff Profile Information
+ *
+ *	@method	POST
+ *	@route	/staff/profile/save
+ **/
+function staff_profile_post() {
+	$db = $GLOBALS['db'];
+	
+	$user = get_user();
+	
+	$staff = Staff::load($user->userid, $db);
+	
+	extract($_POST);
+	
+	if(isset($password) && strlen($password) > 5) $staff->password = $password;
+	$staff->email = $email;
+	$staff->mobile = $mobile;
+	$staff->address = $address;
+	
+	$update_status = $staff->update($db);
+	
+	if(is_object($update_status) && get_class($update_status) == "PDOException") {
+		flash('error', "Some technical error has happened.");
+	} else {
+		flash('success', "Staff profile has been updated successfully.");
+	}
+	
+	return redirect('/staff/profile/view');
+}
+
+/**
  *	Add a student to a course profile. This method is implemented for AJAX calls.
  *
  *	@method	POST
