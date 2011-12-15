@@ -102,6 +102,34 @@ class Department {
 		// I should not come here
 		return false;
 	}
+
+	/**
+	 *	Utility function that gets the Name of the department from its Id.
+	 *
+	 *	@param	$dept_id	Department id 
+	 *	@param	$db			PDOObject Instance
+	 *
+	 *	@return DepartmentName 
+	 **/
+	public static function getName($dept_id, $db) {
+		$deptList = $db->select("dept", "iddept = :did", array(":did" => $dept_id));
+		
+		$deptCount = count($deptList); 
+		if($deptCount < 1) {
+			// No valid Department found
+			return false;
+		} else if($deptCount > 1) {
+			// More than one department with the same name
+			return false;
+		} else {
+			// Exact match found, return the ID
+			$d = $deptList[0];
+			return $d['name'];
+		}
+		
+		// I should not come here
+		return false;
+	}
 	
 	/**
 	 *	Search through all the entities of the model
