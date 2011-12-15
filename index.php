@@ -295,6 +295,7 @@ dispatch_post('/admin/changedayorder/delete', 'admin_advanced_changedayorder_bat
 dispatch_post('/admin/advanced/import/upload/student', 'admin_import_students');
 dispatch_post('/admin/advanced/import/upload/staff', 'admin_import_staffs');
 dispatch_post('/admin/advanced/import/upload/programme', 'admin_import_programmes');
+dispatch_post('/admin/advanced/import/upload/course', 'admin_import_courses');
 dispatch_post('/admin/advanced/import/upload/dept', 'admin_import_dept');
 
 // Reset Passwords
