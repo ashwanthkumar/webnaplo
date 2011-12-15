@@ -50,7 +50,19 @@
 					<td class="align_left center"><?php echo $pa['cpname']; ?></td>
 					<td class="align_left center"><?php echo $pa['cname']; ?></td>
 					<td class="align_left center">
-						Enable / Disable 
+					<?php
+						if($pa['enable_confirm'] == 1) {
+							// Enabled so show disable button
+					?>
+						<a href="#" onclick="disable_confirmation('<?php echo $pa['idcourse_profile']; ?>');" class="tip" title="Disable Student Confirmation"><span id="cp<?php echo $pa['idcourse_profile']; ?>" class="icon success dark">&nbsp;</span></a>
+					<?php
+						} else {
+							// Disabled so show enable button
+					?>
+						<a href="#" onclick="enable_confirmation('<?php echo $pa['idcourse_profile']; ?>');"  class="tip" title="Enable Student Confirmation"><span id="cp<?php echo $pa['idcourse_profile']; ?>" class="icon error dark">&nbsp;</span></a>
+					<?php
+						}
+					?>
 					</td>
 					<td class="align_left tools center">
 					<?php
@@ -92,6 +104,46 @@
 </div>
 <!-- 100% Box Grid Container: End -->
 
+<script type="text/javascript">
+	var _service_url = "<?php echo url_for('/staff/cia/enable_confirmation/'); ?>";
+	var _url = window.location.href;
+	function enable_confirmation(cpid) {
+		$.post(_service_url + '/enable', { 'cp_id' : cpid }, function(data) {
+			if(data.status === true) {
+				// window.location.href = _url;
+				var _span_id = "#cp" + cpid;
+				$(_span_id).removeClass("error");
+				$(_span_id).addClass("success");
+
+				$(_span_id).parent().unbind('onclick');
+				$(_span_id).parent().unbind('click');
+				$(_span_id).parent().poshytip('update', 'Disable Student Confirmation');
+				$(_span_id).parent().click(function() { disable_confirmation(cpid) });
+			} else if(data.status === false) {
+				alert(data.error);
+			}
+
+		});
+	}
+	
+	function disable_confirmation(cpid) {
+		$.post(_service_url + '/disable', { 'cp_id' : cpid }, function(data) {
+			if(data.status === true) {
+				// window.location.href = _url;
+				var _span_id = "#cp" + cpid;
+				$(_span_id).removeClass("success");
+				$(_span_id).addClass("error");
+				
+				$(_span_id).parent().unbind('onclick');
+				$(_span_id).parent().unbind('click');
+				$(_span_id).parent().poshytip('update', 'Enable Student Confirmation');
+				$(_span_id).parent().click(function() { enable_confirmation(cpid) });
+			} else if(data.status === false) {
+				alert(data.error);
+			}
+		});
+	}
+</script>
 <?php
 	end_content_for();
 	

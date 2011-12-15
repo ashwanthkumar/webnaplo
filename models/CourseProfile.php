@@ -16,6 +16,7 @@ class CourseProfile {
 	public $course_id;
 	public $staff_id;
 	public $syllabus;
+	public $enable_confirm;
 
 	/**
 	 *	Save the current instance of the object to the datastore
@@ -54,7 +55,8 @@ class CourseProfile {
 				"name" => $this->name,
 				"course_id" => $this->course_id,
 				"syllabus" => $this->syllabus,
-				"staff_id" => $this->staff_id
+				"staff_id" => $this->staff_id,
+				"enable_confirm" => $this->enable_confirm
 			), "idcourse_profile = :cid", array(":cid" => $this->idcourse_profile));
 	}
 
@@ -314,6 +316,7 @@ class CourseProfile {
 			$cprofile->course_id = $course_id;
 			$cprofile->staff_id = $staff_id;
 			$cprofile->syllabus = $syllabus;
+			$cprofile->enable_confirm = $enable_confirm;
 
 			return $cprofile;
 		}

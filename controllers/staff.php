@@ -488,3 +488,47 @@ function staff_cia_load_ajax() {
 	
 	return json($markdata);
 }
+
+/**
+ *	Disable Student Confirmation for the given course profile
+ *
+ *	@method	POST
+ *	@route	/staff/cia/enable_confirmation/disable
+ **/
+function staff_enable_student_confirmation_disable_ajax() {
+	$db = $GLOBALS['db'];
+	
+	$cp_id = $_POST['cp_id'];
+	
+	$cp = CourseProfile::load($cp_id, $db);
+	$cp->enable_confirm = 0;
+	$update_status = $cp->update($db);
+	
+	if(is_object($update_status) && get_class($update_status) == "PDOException") {
+		return json(array("status" => false, "error" => $update_status->getMessage()));
+	}
+	
+	return json(array("status" => true));
+}
+
+/**
+ *	Enable Student Confirmation for the given course profile
+ *
+ *	@method	POST
+ *	@route	^/staff/cia/enable_confirmation/enable
+ **/
+function staff_enable_student_confirmation_enable_ajax() {
+	$db = $GLOBALS['db'];
+	
+	$cp_id = $_POST['cp_id'];
+	
+	$cp = CourseProfile::load($cp_id, $db);
+	$cp->enable_confirm = 1;
+	$update_status = $cp->update($db);
+	
+	if(is_object($update_status) && get_class($update_status) == "PDOException") {
+		return json(array("status" => false, "error" => $update_status->getMessage()));
+	}
+	
+	return json(array("status" => true));
+}

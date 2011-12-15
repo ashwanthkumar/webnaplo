@@ -26,7 +26,7 @@ class Staff {
 	 *	@return List of Course profiles for the staff id
 	 **/
 	public static function SgetCourseProfiles($staffid, $db) {
-		return $db->run("select cp.name as cpname, cp.idcourse_profile as idcourse_profile, c.course_name as cname, c.course_code as course_code from course_profile cp, course c where cp.course_id = c.idcourse and cp.staff_id = :sid", array(":sid" => $staffid));
+		return $db->run("select cp.name as cpname, cp.enable_confirm as enable_confirm, cp.idcourse_profile as idcourse_profile, c.course_name as cname, c.course_code as course_code from course_profile cp, course c where cp.course_id = c.idcourse and cp.staff_id = :sid", array(":sid" => $staffid));
 	}
 	
 	/**
