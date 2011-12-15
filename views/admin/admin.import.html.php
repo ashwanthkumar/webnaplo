@@ -250,7 +250,7 @@
 						<h3 class="noline">File Specifications</h3>
 						<ol>
 							<li>Upload file must be of <em>xls/xlsx/csv </em> </li>
-							<li>Staff file format must of the following column headers 
+							<li>Programme file format must of the following column headers 
 								<br />
 								<ul>
 									<li>name</li>
@@ -262,7 +262,49 @@
 					</div>
 				</form>
 			</div>
-			<!-- End of Staff List -->
+			<!-- End of Programme List -->
+
+			<!-- Course Tab List -->
+			<div id="coursetab">
+				<form enctype="multipart/form-data" method="POST" action="<?php echo url_for('/admin/advanced/import/upload/course'); ?>">
+					<div class="field ">
+						<label for="stafflist">Choose the Course Import list </label>
+						<input type="file" name="courselist" id="courselist" class="big validate tip" title="Upload the Course list" />
+
+						<label for="deptid">Choose the Programme 
+							<select name="pgmid" id="pgmid">
+							<?php
+								$pgmList = Programme::search($db);
+								
+								foreach($pgmList as $pgm) {
+							?>
+								<option value="<?php echo $pgm['idprogramme']; ?>"><?php echo $pgm['name']; ?> </option>
+							<?php
+								}
+							?>
+							</select>
+						</label>
+					</div>
+					
+					<div class="field noline">
+						<h3 class="noline">File Specifications</h3>
+						<ol>
+							<li>Upload file must be of <em>xls/xlsx/csv </em> </li>
+							<li>Programme file format must of the following column headers 
+								<br />
+								<ul>
+									<li>code - Course Code</li>
+									<li>name - Course Name</li>
+									<li>credits - Course Credits</li>
+								</ul>
+							</li>
+						</ol>
+						
+						<button type="submit">Upload Programme List</button>
+					</div>
+				</form>
+			</div>
+			<!-- End of Programme List -->
 		</div>
 	</div>
 

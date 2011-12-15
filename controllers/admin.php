@@ -815,7 +815,7 @@ function admin_import_students() {
  *	Import Staff List from a Excel/CSV/OpenCalc File
  *
  *	@method POST
- *	@route /admin/advanced/import/staffs
+ *	@route /admin/advanced/import/upload/staffs
  **/
 function admin_import_staffs() {
 	$accept_mime = array('text/csv','application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -848,7 +848,7 @@ function admin_import_staffs() {
  *	Import Programme List from a Excel/CSV/OpenCalc File
  *
  *	@method POST
- *	@route /admin/advanced/import/programme
+ *	@route /admin/advanced/import/upload/programme
  **/
 function admin_import_programmes() {
 	$accept_mime = array('text/csv','application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -878,10 +878,43 @@ function admin_import_programmes() {
 }
 
 /**
+ *	Import Course List from a Excel/CSV/OpenCalc File
+ *
+ *	@method POST
+ *	@route /admin/advanced/import/upload/course
+ **/
+function admin_import_courses() {
+	$accept_mime = array('text/csv','application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	// See if the file was uploaded at all
+	if(isset($_FILES['courselist']['name']) && strlen($_FILES['courselist']['name']) > 0) {
+		$filename = $_FILES['courselist']['tmp_name'];
+		
+		$mime = file_mime_content_type($_FILES['courselist']['name']);
+		
+		if(in_array($mime, $accept_mime)) {
+			$pgmid = $_POST['pgmid'];
+			$batch_errors = Course::Import($filename, $pgmid, $GLOBALS['db']);
+			
+			// Complete the process with a proper error message
+			if(count($batch_errors) > 0) flash('error', $batch_errors);
+			else flash('success', 'All Courses from the file has been imported successfully.');
+		} else {
+			flash('warning', 'Import failure. Please use only XLS/XLSX/CSV file. ');
+		}
+		// Remove the uploaded file now
+		unlink($filename);
+	} else {
+		flash('warning', 'Please upload a file to import contents from.');
+	}
+	
+	return redirect('/admin/advanced/import');
+}
+
+/**
  *	Import Department List from a Excel/CSV/OpenCalc File
  *
  *	@method POST
- *	@route /admin/advanced/import/dept
+ *	@route /admin/advanced/import/upload/dept
  **/
 function admin_import_dept() {
 	return h("TODO Handle Department upload");

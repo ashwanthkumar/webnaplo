@@ -137,5 +137,76 @@ class Course{
 	public static function search($db, $condition = '1=1', $bind = array()) {
 		return $db->select("course", $condition, $bind);
 	}	
-	
+
+	/**
+	 *	Imports the Course List to the datastore. Supported file types are - 
+	 *				-->	XLSX
+	 *				-->	XLS
+	 *				-->	CSV
+	 *
+	 *	@linkedTestId	TODO
+	 *	
+	 *	@param	$filename	Filename (with full path) to read from
+	 *	@param	$pgm		Programme where the current Course list belongs
+	 *	@param	$db			PDOObject
+	 **/
+	public static function Import($filename, $pgm, $db) {
+		// Read from any of the supported files directly
+		$objPHPExcel = PHPExcel_IOFactory::load($filename);
+
+		$rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
+		// Contains the list of ids which will be generated upon inserting into the database
+		$course_insert_ids = array();
+		$file_column_mapping = array('A' => 'code', 'B' => 'name', 'C' => 'credits');
+		$batch_errors = array();
+		
+		foreach($rowIterator as $row) {
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(true);
+
+			//skip first row -- Since its the heading
+			if(1 === $row->getRowIndex()) {
+				foreach($cellIterator as $cell) {
+					if('name' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'name';
+					} else if('code' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'code';
+					} else if('credits' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'credits';
+					}
+				}
+				continue;
+			}
+
+			// Getting zero-based row index
+			$rowIndex = $row->getRowIndex() - 2;
+			$array_data[$rowIndex] = array('name' => '', 'code' => '', 'credits' => '');
+			
+			// Get the data from the sheet
+			foreach($cellIterator as $cell) {
+				$prop = $file_column_mapping[$cell->getColumn()];
+				$array_data[$rowIndex][$prop] = $cell->getValue();
+			}
+			
+			// Insert the Staff Data into DB
+			// Map the Excel File fields to Staff Model fields
+			$course_post_data = array(
+									'course_name' => $array_data[$rowIndex]['name'],
+									'course_code' => $array_data[$rowIndex]['code'], 
+									'programme_id' => $pgm, // Department value got from the form
+									'credits' => $array_data[$rowIndex]['credits']
+								);
+			
+			$r = Course::LoadAndSave($course_post_data, $db);
+			
+			if(!is_object($r) && $r != false) $course_insert_ids[] = $array_data[$rowIndex]['code'];
+			else {
+				$courseId = $array_data[$rowIndex]['code'];
+				if(is_object($r))	$batch_errors[$courseId] = $r->getMessage(); 
+				else $batch_errors[$courseId] = "Course already exist";
+			}
+		}
+		// Return the batch errors if any
+		return $batch_errors;
+	}
 }
