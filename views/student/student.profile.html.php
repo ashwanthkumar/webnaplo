@@ -11,6 +11,39 @@
 ?>
 <!-- 100% Box Grid Container: Start -->
 <div class="grid_24">
+<?php
+	if(isset($flash['success'])) {
+?>
+	<!-- Success Notice: Start -->
+	<div class="notice success">
+		<p><?php echo $flash['success']; ?>.</p>
+	</div>
+	<!-- Success Notice: End -->
+<?php
+	}
+
+	if(isset($flash['error'])) {
+?>
+	<!-- Error Notice: Start -->
+	<div class="notice error">
+		<p><?php echo $flash['error']; ?>.</p>
+	</div>
+	<!-- Error Notice: End -->
+
+<?php
+	}
+	
+	if(isset($flash['warning'])) {
+?>
+	<!-- Error Notice: Start -->
+	<div class="notice warning">
+		<p><?php echo $flash['warning']; ?>.</p>
+	</div>
+	<!-- Error Notice: End -->
+
+<?php
+		}
+?>
 
 	<!-- Box Header: Start -->
 	<div class="box_top">
