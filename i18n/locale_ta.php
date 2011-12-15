@@ -95,15 +95,18 @@
 		"ATTENDANCE" => "வருகைப் பதிவேடு ",
 		"PENDING_ATTENDENCE" => "நிலுவையிலுள்ள நாட்கள்",
 		"CIA" =>"மதிப்பெண் பட்டியல்",	// @TODO Is this correct? Is it not CIA List? We want just CIA!
+		"_CIA" =>"சிஐஎ",	
 		"VIEW" =>"பார்",
 		"PROFILE"=> "சிறப்புக் குறிப்பு",
 		"STAFF_PROFILE" => "பணியாளர் சிறப்புக் குறிப்பு  ",
 		"CUMULATIVE_REPORT" => " ஒன்று சேர்ந்த அறிக்கை ",
-		"MARK_TYPE" => "Mark Type", 
-		"TOOLS" => "Tools",
-		"POST_MARKS" => "Post Marks",
-		"ASSIGNMENT" => "Assignment",
-		"STUDENT_CONFIRMATION" => "Student Confirmation",
+		"MARK_TYPE" => "மதிப்பெண் வகை", 
+		"TOOLS" => "டூல்ஸ்",
+		"POST_MARKS" => "மதிப்பெண்களை  குறிப்பிடு ",
+		"ASSIGNMENT" => "பணி ",
+		"STUDENT_CONFIRMATION" => "மதிப்பெண்களை உறுதிசெய்",
+		"TOTAL" => "மொத்தம்",
+		"CONFIRM" => "உறுதிசெய்",
 		
 		// Student Page
 		"FEEDBACK"=> "கருத்து",
@@ -116,10 +119,10 @@
 		"FRIDAY" => "வெள்ளிக்கிழமை",
 		"TIMESLOTS" => "காலகட்டம் ",
 		"DAYS" => "நாட்கள்", 
-		"STUDENT_CIA_MARKS" => "Student CIA Marks",
-		"HOURS_PRESENT" => "Hours Present",
-		"HOURS_TOTAL" => "Total Hours",
-		"PERCENTAGE" => "Percentage",
+		"STUDENT_CIA_MARKS" => "மாணவர்களின் சிஐஎ மதிப்பெண்கள்",
+		"HOURS_PRESENT" => "வந்திருக்கிற நேரம் ",
+		"HOURS_TOTAL" => "மொத்த  நேரம்",
+		"PERCENTAGE" => "சதவீதம்",
 		
 		// Login Page Strings
 		"LOGIN" => "நுழை ",

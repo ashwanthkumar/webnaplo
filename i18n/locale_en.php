@@ -95,6 +95,7 @@
 		"ATTENDANCE" => "Attendance",
 		"PENDING_ATTENDENCE" =>"Pending Attendence",
 		"CIA" =>"CIA",
+		"_CIA" =>"CIA",
 		"VIEW" =>"View",
 		"PROFILE"=> "Profile",
 		"STAFF_PROFILE" => "Saff Profile",
@@ -104,6 +105,8 @@
 		"POST_MARKS" => "Post Marks",
 		"ASSIGNMENT" => "Assignment",
 		"STUDENT_CONFIRMATION" => "Student Confirmation",
+		"TOTAL" => "Total",
+		"CONFIRM" => "Confirm",
 		
 		// Student Page
 		"FEEDBACK" => "Feedback",
