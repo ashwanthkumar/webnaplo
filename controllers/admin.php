@@ -845,6 +845,39 @@ function admin_import_staffs() {
 }
 
 /**
+ *	Import Programme List from a Excel/CSV/OpenCalc File
+ *
+ *	@method POST
+ *	@route /admin/advanced/import/programme
+ **/
+function admin_import_programmes() {
+	$accept_mime = array('text/csv','application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	// See if the file was uploaded at all
+	if(isset($_FILES['programmelist']['name']) && strlen($_FILES['programmelist']['name']) > 0) {
+		$filename = $_FILES['programmelist']['tmp_name'];
+		
+		$mime = file_mime_content_type($_FILES['programmelist']['name']);
+		
+		if(in_array($mime, $accept_mime)) {
+			$deptid = $_POST['deptid'];
+			$batch_errors = Programme::Import($filename, $deptid, $GLOBALS['db']);
+			
+			// Complete the process with a proper error message
+			if(count($batch_errors) > 0) flash('error', $batch_errors);
+			else flash('success', 'All Programmes from the file has been imported successfully.');
+		} else {
+			flash('warning', 'Import failure. Please use only XLS/XLSX/CSV file. ');
+		}
+		// Remove the uploaded file now
+		unlink($filename);
+	} else {
+		flash('warning', 'Please upload a file to import contents from.');
+	}
+	
+	return redirect('/admin/advanced/import');
+}
+
+/**
  *	Import Department List from a Excel/CSV/OpenCalc File
  *
  *	@method POST

@@ -35,11 +35,13 @@
 		<?php
 			while($e = current($errors)) {
 		?>
-		<?php echo key($errors) . " was not imported."; ?>
+		<?php echo key($errors) . ", "; ?>
 		<?php
 				next($errors);
 			}
-		?>
+			
+			if(count($errors) > 1)  echo "were"; else echo "was";
+		?> not imported. 
 		</p>
 		<?php
 			}
@@ -217,6 +219,46 @@
 						</ol>
 						
 						<button type="submit">Upload Staff List</button>
+					</div>
+				</form>
+			</div>
+			<!-- End of Staff List -->
+
+			<!-- Programme Tab List -->
+			<div id="programmetab">
+				<form enctype="multipart/form-data" method="POST" action="<?php echo url_for('/admin/advanced/import/upload/programme'); ?>">
+					<div class="field ">
+						<label for="stafflist">Choose the Programme Import list </label>
+						<input type="file" name="programmelist" id="programmelist" class="big validate tip" title="Upload the Programme list" />
+
+						<label for="deptid">Choose the Department 
+							<select name="deptid" id="deptid">
+							<?php
+								$deptList = Department::search($db);
+								
+								foreach($deptList as $dept) {
+							?>
+								<option value="<?php echo $dept['iddept']; ?>"><?php echo $dept['name']; ?> </option>
+							<?php
+								}
+							?>
+							</select>
+						</label>
+					</div>
+					
+					<div class="field noline">
+						<h3 class="noline">File Specifications</h3>
+						<ol>
+							<li>Upload file must be of <em>xls/xlsx/csv </em> </li>
+							<li>Staff file format must of the following column headers 
+								<br />
+								<ul>
+									<li>name</li>
+								</ul>
+							</li>
+						</ol>
+						
+						<button type="submit">Upload Programme List</button>
 					</div>
 				</form>
 			</div>
