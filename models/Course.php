@@ -74,10 +74,10 @@ class Course{
 			extract($r[0]);
 			$course = new Course;
 			$course->idcourse = $idcourse;
-			$course->coursecode = $coursecode;
-			$course->coursename = $coursename;
+			$course->coursecode = $course_code;
+			$course->coursename = $course_name;
 			$course->credits = $credits;
-			$course->pgm_id = $pgm_id;
+			$course->pgm_id = $programme_id;
 			
 			return $course;
 		}

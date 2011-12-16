@@ -235,6 +235,79 @@ class Student {
 		
 		return $attendance;
 	}
+	
+	/**
+	 *	Get all the marks for the required Course Profile for the student
+	 *
+	 *	@param	$cpid	Course Profile ID
+	 *	@param	$db		PDOObject Instance
+	 **/
+	public function getCIAMarksForCourseProfile($cpid, $db) {
+		$marks = $db->run("select * from cia_marks where student_id = :student and cp_id = :cpid", array(":cpid" => $cpid, ":student" => $this->idstudent));
+		
+		//	@TODO Do a type checking here
+		return $marks[0];
+	}
+	
+	/**
+	 *	Calculate the Internals for the given Course Profile
+	 *
+	 *	@param	$cpid	Course Profile ID
+	 *	@param	$db		PDOObject
+	 **/
+	public function calcInternalsForCourseProfile($cpid, $db) {
+		$marks = $this->getCIAMarksForCourseProfile($cpid, $db);
+		
+		// Store the marks in the array
+		$marks_array = array($marks['mark_1'], $marks['mark_2'], $marks['mark_3']);
+		// Sort the marks in the array
+		rsort($marks_array, SORT_NUMERIC);
+		// Now the first 2 elements are the greates elements in the array
+		$internals = (($marks_array[0] + $marks_array[1]) * 0.4) + $marks['assignment'];
+		
+		return $internals;
+	}
+	
+	/**
+	 *	Get the Attendance Summary for a particular course profile
+	 *
+	 *	@param	$cpid		Course Profile ID
+	 *	@param	$db			PDOObject
+	 *
+	 *	@return	Array containing the following keys
+	 *			->	percentage	- Percentage of Attendance 
+	 *			->	total		- Total hours happened
+	 *			->	present		- Number of hours present
+	 **/
+	public function getAttendanceSummaryForCourseProfile($cpid, $db) {
+		$attendance = $this->getAttendance($db);
+		
+		$hours_present = 'N/A';
+		$total_count = 'N/A';
+		$percentage = 'N/A';
+		if(isset($attendance[$cpid])) {
+			$total_count = count($attendance[$cpid]);
+			
+			$hours_present = 0;
+			foreach($attendance[$cpid] as $hour_attendance) {
+				if($hour_attendance['is_present'] == 1) $hours_present++;
+			}
+			
+			$percentage = (round($hours_present / $total_count, 2) * 100);
+			
+			$attendance_summary['percentage'] = $percentage;
+			$attendance_summary['total'] = $total_count;
+			$attendance_summary['present'] = $hours_present;
+			
+			return $attendance_summary;
+		} else {
+			$attendance_summary['percentage'] = $percentage;
+			$attendance_summary['total'] = $total_count;
+			$attendance_summary['present'] = $hours_present;
+			
+			return $attendance_summary;
+		}
+	}
 
 	/**
 	 * Get the CIA Marks for a given student

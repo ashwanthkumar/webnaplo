@@ -563,3 +563,42 @@ function staff_enable_student_confirmation_enable_ajax() {
 	
 	return json(array("status" => true));
 }
+
+/**
+ *	Render the Cumulative View for Staff members for based on Course Profiles.
+ *
+ *	@method	GET
+ *	@route	staff/cumulative_report/view
+ **/
+function staff_creport_render() {
+	layout('staff/layout.html.php');
+	
+	set('title', "Cumulative Report");
+	
+	return render("staff/staff.cumulativeview.html.php");
+}
+
+/**
+ *	Download the PDF File thus created 
+ *
+ *	@method	GET
+ *	@route	/staff/cumulative_report/download/:cpid
+ **/
+function staff_creport_pdf_download() {
+	$cpid = params('cpid');
+	$print_url = "http://" . $_SERVER['SERVER_NAME'] . url_for('/staff/cumulative_report/view/' . $cpid); 
+	$pdf_path = WTK::exportPDF($print_url);
+	return render_file($pdf_path);
+}
+
+/**
+ *	Rendering page for PDF to print the Cumulative report
+ *
+ *	@method	GET
+ *	@route	/staff/cumulative_report/view/:cpid
+ **/
+function staff_creport_pdf_view() {
+	$cpid = params('cpid');
+	set('cpid', $cpid);
+	return render("/staff/report/staff.cumulative_report.html.php");
+}
