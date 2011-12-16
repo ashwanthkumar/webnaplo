@@ -38,21 +38,13 @@
 				$courses = Student::getCoursesList($student->idstudent, $db);
 				
 				foreach($courses as $course) {
-					$hours_present = 'N/A';
-					$total_count = 'N/A';
-					$percentage = 'N/A';
-					$row_class = '';
-					if(isset($attendance[$course['cpid']])) {
-						$total_count = count($attendance[$course['cpid']]);
+					$attendance_summary = $student->getAttendanceSummaryForCourseProfile($course['cpid'], $db);
 						
-						$hours_present = 0;
-						foreach($attendance[$course['cpid']] as $hour_attendance) {
-							if($hour_attendance['is_present'] == 1) $hours_present++;
-						}
-						
-						$percentage = (round($hours_present / $total_count, 2) * 100);
-						if($percentage < 75) $row_class='style="color: red;"'; // Mark the entire row as red to denote as warning
-					}
+					$hours_present = $attendance_summary['present'];
+					$total_count = $attendance_summary['total'];
+					$percentage = $attendance_summary['percentage'];
+					
+					if($percentage < 75) $row_class='style="color: red;"'; // Mark the entire row as red to denote as warning
 			?>
 				<tr class="error" <?php echo $row_class; ?> >
 					<td class="align_left center"><?php echo $course['course_name']; ?> </td>
