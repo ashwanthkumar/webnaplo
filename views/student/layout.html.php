@@ -131,7 +131,7 @@
 
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li>
-					<a class="pages <?php if(isset($calendar_active)) echo "active"; ?>" href="<?php echo url_for('/student/calendar/view'); ?>"><?php echo get_text('CALENDAR'); ?></a>
+					<a class="pages <?php if(isset($calendar_active)) echo "active"; ?>" href="<?php echo url_for('/public/calendar.pdf'); ?>"><?php echo get_text('CALENDAR'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
@@ -140,9 +140,13 @@
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
 				<!-- Navigation Dropdown Menu Item: Start -->
+				<!--
+					// @TODO Yet to implement this feature
+					// Refer Issue #11
 				<li>
 					<a class="pages <?php if(isset($feedback_active)) echo "active"; ?>" href="<?php echo url_for('/student/feedback/view'); ?>"><?php echo get_text('FEEDBACK'); ?></a>
 				</li>
+				-->
 				<!-- Navigation Dropdown Menu Item: End -->
 				
 			</ul>
