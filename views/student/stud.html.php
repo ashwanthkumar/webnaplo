@@ -17,11 +17,11 @@
 			$db = $GLOBALS['db'];
 			
 			// Get only the latest 10 news items from the datastore
-			$news = $db->run("select * from news order by date desc limit 0,10");
+			$news = $db->run("select * from news where type = 4 or type = 1  order by date desc limit 0,10");
 			
 			foreach($news as $n) {
 		?>
-			<li style="text-align: justify;" class="field line"><?php echo $n['news']; ?> - <?php echo date("H", time() - strtotime($n['date'])); ?> hours ago
+			<li style="text-align: justify;" class="field line"><?php echo $n['news']; ?> - <?php echo date("d-M", strtotime($n['date'])); ?> 
 		<?php
 			}
 		?>

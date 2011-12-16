@@ -32,7 +32,7 @@
 			
 			foreach($news as $n) {
 		?>
-			<li style="text-align: justify;" class="field line"><?php echo $n['news']; ?> - <?php echo date("H", time() - strtotime($n['date'])); ?> hours ago
+			<li style="text-align: justify;" class="field line"><?php echo $n['news']; ?> - <?php echo date("d-M", strtotime($n['date'])); ?> 
 		<?php
 			}
 		?>
