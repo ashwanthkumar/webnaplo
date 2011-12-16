@@ -44,7 +44,7 @@
 						@TODO Implement the Attendance Lag Report for the Course Profile
 						<img src="<?php echo url_for('public/icons/attendance/attendance_24.png'); ?>" class="push_1"/> 
 					-->
-					<a href="<?php echo url_for("/staff/cumulative_report/download/" . $cp['idcourse_profile']); ?>" class="tip" title="Download Cummulative Report as PDF"><img src="<?php echo url_for('public/icons/report/report_24.png'); ?>" class="push_1" /></a>
+					<a onclick='window.open("<?php echo url_for("/staff/cumulative_report/download/" . $cp['idcourse_profile']); ?>" ,"cumulativereport","status"); return;' href="#" class="tip" title="Download Cummulative Report as PDF"><img src="<?php echo url_for('public/icons/report/report_24.png'); ?>" class="push_1" /></a>
 					</td>
 				</tr>
 			<?php
