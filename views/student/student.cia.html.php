@@ -119,7 +119,7 @@
 							$internals = 0;
 							
 							$sort_array = array($cia_1,$cia_2, $cia_3);
-							sort($sort_array, SORT_NUMERIC);
+							rsort($sort_array, SORT_NUMERIC);
 							
 							// Sum of best 2 CIAs and add the Assigment mark to it
 							$internals = round ((($sort_array[0] + $sort_array[1]) * 0.4) + $assignment);
