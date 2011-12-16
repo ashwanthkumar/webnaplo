@@ -61,6 +61,14 @@
 		"CHANGEDAYORDER_TITLE" => "Change Day Order",
 		"DELETE_SELECTED" => "Delete Selected",
 		"ADVANCED_CHANGE_DAY_ORDER" => "Change Day Orders",	
+		"NEWS" => "News",
+		"NEWS_LIST" => "News List",
+		"ADD_NEWS" => "Add News Item",
+		"DATAENTRY" => "Dataentry",
+		"TYPE" => "Type",
+		"DATE" => "Date",
+		"TITLE" => "Title",
+		"COMMON" => "Common",
 		
 		// Dataentry
 		"ADD" => "Add",

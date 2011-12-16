@@ -61,7 +61,15 @@
 		"CHANGEDAYORDER_TITLE" => "மாற்ற  வேண்டிய நாள் ",
 		"DELETE_SELECTED" => "தேர்ந்தெடுக்கப்பட்டதை  நீக்கு",
 		"ADVANCED_CHANGE_DAY_ORDER" => "மாற்ற  வேண்டிய நாட்கள்",
-
+		"NEWS" => "News",
+		"NEWS_LIST" => "News List",
+		"ADD_NEWS" => "Add News Item",
+		"DATAENTRY" => "Dataentry",
+		"TYPE" => "Type",
+		"DATE" => "Date",
+		"TITLE" => "Title",
+		"COMMON" => "Common",
+		
 		// Dataentry
 		"ADD" =>"சேர்க்க",
 		"ADD_PROGRAMME"=>"பட்டப்பிரிவை சேர்க்க",
