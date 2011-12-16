@@ -917,7 +917,29 @@ function admin_import_courses() {
  *	@route /admin/advanced/import/upload/dept
  **/
 function admin_import_dept() {
-	return h("TODO Handle Department upload");
+	$accept_mime = array('text/csv','application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	// See if the file was uploaded at all
+	if(isset($_FILES['deptlist']['name']) && strlen($_FILES['deptlist']['name']) > 0) {
+		$filename = $_FILES['deptlist']['tmp_name'];
+		
+		$mime = file_mime_content_type($_FILES['deptlist']['name']);
+		
+		if(in_array($mime, $accept_mime)) {
+			$batch_errors = Department::Import($filename, $GLOBALS['db']);
+			
+			// Complete the process with a proper error message
+			if(count($batch_errors) > 0) flash('error', $batch_errors);
+			else flash('success', 'All Departments from the file has been imported successfully.');
+		} else {
+			flash('warning', 'Import failure. Please use only XLS/XLSX/CSV file. ');
+		}
+		// Remove the uploaded file now
+		unlink($filename);
+	} else {
+		flash('warning', 'Please upload a file to import contents from.');
+	}
+	
+	return redirect('/admin/advanced/import');
 }
 
 /**

@@ -143,5 +143,68 @@ class Department {
 	public static function search($db, $condition = '1=1', $bind = array()) {
 		return $db->select("dept", $condition, $bind);
 	}
-}
 
+	/**
+	 *	Imports the Department List to the datastore. Supported file types are - 
+	 *				-->	XLSX
+	 *				-->	XLS
+	 *				-->	CSV
+	 *
+	 *	@linkedTestId	TODO
+	 *	
+	 *	@param	$filename	Filename (with full path) to read from
+	 *	@param	$db			PDOObject
+	 **/
+	public static function Import($filename, $db) {
+		// Read from any of the supported files directly
+		$objPHPExcel = PHPExcel_IOFactory::load($filename);
+
+		$rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
+		// Contains the list of ids which will be generated upon inserting into the database
+		$dept_insert_ids = array();
+		$file_column_mapping = array('A' => 'name');
+		$batch_errors = array();
+		
+		foreach($rowIterator as $row) {
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(true);
+
+			//skip first row -- Since its the heading
+			if(1 === $row->getRowIndex()) {
+				foreach($cellIterator as $cell) {
+					if('name' == strtolower($cell->getValue())) {
+						$file_column_mapping[$cell->getColumn()] = 'name';
+					}
+				}
+				continue;
+			}
+
+			// Getting zero-based row index
+			$rowIndex = $row->getRowIndex() - 2;
+			$array_data[$rowIndex] = array('name' => '');
+			
+			// Get the data from the sheet
+			foreach($cellIterator as $cell) {
+				$prop = $file_column_mapping[$cell->getColumn()];
+				$array_data[$rowIndex][$prop] = $cell->getValue();
+			}
+			
+			// Insert the Department Data into DB
+			// Map the Excel File fields to Staff Model fields
+			$dept_load_array = array(
+									'name' => $array_data[$rowIndex]['name'],
+								);
+			
+			$r = Department::LoadAndSave($dept_load_array, $db);
+			
+			if(!is_object($r) && $r != false) $dept_insert_ids[] = strtoupper($array_data[$rowIndex]['name']);
+			else {
+				$deptId = $array_data[$rowIndex]['name'];
+				if(is_object($r)) $batch_errors[$deptId] = $r->getMessage(); 
+				else $batch_errors[$deptId] = $array_data[$rowIndex]['name'] . " already exist.";
+			}
+		}
+		// Return the batch errors if any
+		return $batch_errors;
+	}
+}
