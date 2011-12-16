@@ -268,6 +268,8 @@ CREATE  TABLE IF NOT EXISTS `webnaplo`.`news` (
   `idNews` BIGINT NOT NULL AUTO_INCREMENT ,
   `news` TEXT NULL ,
   `date` TIMESTAMP NULL ,
+  `title` VARCHAR(1024) NULL ,
+  `type` TINYINT NULL ,
   PRIMARY KEY (`idNews`) )
 ENGINE = InnoDB;
 
