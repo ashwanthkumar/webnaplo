@@ -87,6 +87,12 @@
 				
 				<!-- Navigation Dropdown Menu Item: Start -->
 				<li>
+					<a class=" <?php if(isset($news_active)) echo "active"; ?>" href="<?php echo url_for('admin/news/'); ?>"><?php echo get_text('NEWS'); ?></a>
+				</li>
+				<!-- Navigation Dropdown Menu Item: End -->
+
+				<!-- Navigation Dropdown Menu Item: Start -->
+				<li>
 					<a class=" <?php if(isset($block_active)) echo "active"; ?>" href="<?php echo url_for('admin/block_unblock/'); ?>"><?php echo get_text('BLOCK'); ?></a>
 				</li>
 				<!-- Navigation Dropdown Menu Item: End -->
