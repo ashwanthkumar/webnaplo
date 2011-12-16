@@ -1028,3 +1028,93 @@ function admin_advanced_changedayorder_batch_delete() {
 	return redirect('/admin/advanced/changedayorder');
 }
 
+/**
+ *	Render the News page
+ *
+ *	@method	GET
+ *	@route /admin/news/
+ **/
+function admin_news_render() {
+	layout('admin/layout.html.php');
+	set('title', get_text('ADMIN') . " " . get_text('NEWS'));
+	set('news_active', 'true');
+	
+	return render("admin/admin.list.news.html.php");
+}
+
+/**
+ *	Batch Delete the news articles in the system
+ *
+ *	@method	POST
+ *	@route	/staff/news/batch/delete
+ **/
+function admin_news_batch_delete_post() {
+	$db = $GLOBALS['db'];
+	
+	$newsElement = $_POST['news'];
+	
+	while($nid = current($newsElement)) {
+		News::Delete(key($newsElement), $db);
+		
+		next($newsElement);
+	}
+	
+	return redirect("/admin/news");
+}
+
+/**
+ *	Delete the news element
+ *
+ *	@method	GET
+ *	@route	^/admin/news/(\d+)/delete
+ **/
+function admin_news_delete() {
+	$nid = params(0);
+	$db = $GLOBALS['db'];
+	
+	$r = News::Delete($nid, $db);
+	
+	if(is_object($r) && get_class($r) == "PDOException") {
+		flash('error', "Error deleting the news item. ");
+	} else {
+		flash('success', "News Item successfully deleted.");
+	}
+	
+	return redirect("/admin/news");
+}
+
+/**
+ *	Render the Add News page
+ *
+ *	@method	GET
+ *	@route	/admin/news/add
+ **/
+function admin_news_add_render() {
+	layout('admin/layout.html.php');
+	set('title', get_text('ADMIN') . " " . get_text('NEWS'));
+	set('news_active', 'true');
+	
+	return render("admin/admin.add.news.html.php");
+}
+
+/**
+ *	Create a News Item
+ *
+ *	@method	POST
+ *	@route	/admin/news/add
+ **/
+function admin_news_add_post() {
+	$db = $GLOBALS['db'];
+
+	$news = new News;
+	$news->news = $_POST['news'];
+	$news->date = date('Y-m-d', strtotime($_POST['date']));
+	$news->title = $_POST['title'];
+	$news->type = $_POST['type'];
+	$r = $news->save($db);
+	
+	if(is_object($r) && get_class($r) == "PDOException") flash('error', "Due to some technical error, we cannot process your request now. Please try again. ");
+	else flash("success", "News item titled " . $news->title . " has been successfully added");
+	
+	return redirect("/admin/news");
+}

@@ -11,6 +11,8 @@ class News {
 	public $idNews;
 	public $news;
 	public $date;
+	public $title;
+	public $type;
 
 	/**
 	 *	Saves the object in the datastore with the current instance values
@@ -22,6 +24,8 @@ class News {
 	public function save($db) {
 		$r = $db->insert("news", array(
 			"news" => $this->news,
+			"title" => $this->title,
+			"type" => $this->type,
 			"date" => $this->date
 		));
 		
@@ -41,8 +45,51 @@ class News {
 	public function update($db) {
 		return $db->update("news", array(
 			"news" => $this->news,
+			"title" => $this->title,
+			"type" => $this->type,
 			"date" => $this->date
 			), "idNews = :nid", array(":nid" => $this->idNews));
+	}
+	
+	/**
+	 *	Load the News module into the system
+	 *
+	 *	@param	$nid	News ID
+	 *	@param	$db		PDOObject
+	 *
+	 *	@return	News Object based on the $nid, false if not found
+	 **/
+	public static function load($nid, $db) {
+		$n = $db->select("news", "idNews = :nid", array(":nid" => $nid));
+		
+		if(count($n) > 0) {
+			extract($n[0]);
+			
+			$_news = new News;
+			$_news->idNews = $idNews;
+			$_news->title = $title;
+			$_news->type = $type;
+			$_news->date = $date;
+			$_news->news = $news;
+			
+			return $_news;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 *	Get the type of the News item
+	 *
+	 *	@param	$type	News targeted for which student?
+	 **/
+	public static function getType($type) {
+		switch($type) {
+			case 1:	return "Common";
+			case 2:	return "Dataentry";
+			case 3:	return "Staff";
+			case 4:	return "Student";
+		}
 	}
 	
 	/**
@@ -79,5 +126,17 @@ class News {
 		
 		return $n;
 	}
+	
+	/**
+	 *	Search the Model entities in the datastore
+	 *
+	 *	@param	$db			PDOObject
+	 *	@param	$condition	Search Condition 
+	 *	@param	$bind		Array of bound values used in $condition
+	 *
+	 *	@return	Array of Model entities matching the $condition
+	 **/
+	public static function search($db, $condition = '1=1', $bind = array()) {
+		return $db->select("news", $condition, $bind);
+	}
 }
-
