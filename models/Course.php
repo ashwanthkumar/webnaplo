@@ -70,7 +70,7 @@ class Course{
 		if(is_object($r) && get_class($r) == "PDOException") return $r;
 		
 		if(count($r) < 1) return FALSE;
-		else return {
+		else {
 			extract($r[0]);
 			$course = new Course;
 			$course->idcourse = $idcourse;
