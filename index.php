@@ -324,6 +324,13 @@ dispatch_get('^/admin/lock_unlock/(\d+)/(\d+)/unlock', 'admin_unlock_entity');
 // Block and UnBlock Page
 dispatch_get('/admin/block_unblock/', 'admin_block_unblock_render');
 
+// News Page
+dispatch_get('/admin/news/', 'admin_news_render');
+dispatch_get('/admin/news/add', 'admin_news_add_render');
+dispatch_post('/admin/news/add', 'admin_news_add_post');
+dispatch_post('/admin/news/batch/delete', 'admin_news_batch_delete_post');
+dispatch_get('^/admin/news/(\d+)/delete', 'admin_news_delete');
+
 // Staff Blocking and Unblocking process
 dispatch_post('/admin/staff/block', 'admin_staff_block_post');
 dispatch_get('^/admin/staff/(\d+)/block', 'admin_staff_block');
