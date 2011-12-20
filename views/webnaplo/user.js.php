@@ -25,8 +25,8 @@ jQuery.i18n.properties({
 // Login Form validation
 $("#loginForm").validate({
 	messages: {
-		username: jQuery.i18n.prop('webnaplo.i18n.errors.required_field'),
-		password: jQuery.i18n.prop('webnaplo.i18n.errors.required_field')
+		username: 'This field is required',
+		password: 'This field is required'
 	}
 });
 
