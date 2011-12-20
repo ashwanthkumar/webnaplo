@@ -201,5 +201,5 @@
 		if(isset($javascript_libs)) echo $javascript_libs;
 	?>
 </body>
-
+<!--[if lte IE 6]><script src="<?php echo url_for('/public/js/ie6/warning.js'); ?>"></script><script>window.onload=function(){e("<?php echo url_for('/public/js/ie6/'); ?>")}</script><![endif]-->
 </html>

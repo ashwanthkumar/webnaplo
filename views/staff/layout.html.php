@@ -265,5 +265,5 @@
 	<script type="text/javascript" src="<?php echo option('base_path'); ?>/public/js/custom.js"></script>
 
 </body>
-
+<!--[if lte IE 6]><script src="<?php echo url_for('/public/js/ie6/warning.js'); ?>"></script><script>window.onload=function(){e("<?php echo url_for('/public/js/ie6/'); ?>")}</script><![endif]-->
 </html>
