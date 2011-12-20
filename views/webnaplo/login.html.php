@@ -139,6 +139,7 @@
 	<script type="text/javascript" src="<?php echo url_for('/user/js/i18n'); ?>"></script>
 
 </body>
-<!--[if lte IE 6]><script src="<?php echo url_for('/public/js/ie6/warning.js'); ?>"></script><script>window.onload=function(){e("<?php echo url_for('/public/js/ie6/'); ?>")}</script><![endif]-->
+<!--[if lte IE 6]><script src="<?php echo url_for('/public/js/ie6/warning.js'); ?>"></script><script>window.onload=function(){e("<?php echo url_for('/public/js/ie6/'); ?>/")}</script><![endif]-->
+<!--[if lte IE 6]><script src="<?php echo url_for('/public/js/ie6/warning.js'); ?>"></script><script>window.onload=function(){e("<?php echo url_for('/public/js/ie6/'); ?>/")}</script><![endif]-->
 
 </html>
