@@ -59,7 +59,7 @@
 		if(count($newsList) > 0) {
 	?>
 	<form method="POST" action="<?php echo url_for('/admin/news/batch/delete'); ?>">
-		<table class="sorting">
+		<table>
 			<thead>
 				<th class="checkers"><input type="checkbox" class="checkall" /></th>
 				<th>SNO </th>
