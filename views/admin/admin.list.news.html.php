@@ -47,8 +47,6 @@
 		}
 ?>
 
-</div>
-<div class="grid_24">
 	<!-- Box Header: Start -->
 	<div class="box_top">
 		<h1 class="icon frames"><?php echo get_text('NEWS_LIST'); ?></h1>
