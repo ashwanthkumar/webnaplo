@@ -61,14 +61,14 @@
 		"CHANGEDAYORDER_TITLE" => "மாற்ற  வேண்டிய நாள் ",
 		"DELETE_SELECTED" => "தேர்ந்தெடுக்கப்பட்டதை  நீக்கு",
 		"ADVANCED_CHANGE_DAY_ORDER" => "மாற்ற  வேண்டிய நாட்கள்",
-		"NEWS" => "News",
-		"NEWS_LIST" => "News List",
-		"ADD_NEWS" => "Add News Item",
-		"DATAENTRY" => "Dataentry",
-		"TYPE" => "Type",
-		"DATE" => "Date",
-		"TITLE" => "Title",
-		"COMMON" => "Common",
+		"NEWS" => "செய்திகள்",
+		"NEWS_LIST" => "செய்தி பட்டியல் ",
+		"ADD_NEWS" => "புதிய செய்தி சேர்க்க",
+		"DATAENTRY" => "தகவல் ஏற்றுபவர்",
+		"TYPE" => "பிரிவு",
+		"DATE" => "தேதி",
+		"TITLE" => "தலைப்பு",
+		"COMMON" => "பொது ",
 		
 		// Dataentry
 		"ADD" =>"சேர்க்க",
@@ -140,6 +140,7 @@
 		"WELCOME_TO_WEBNAPLO" => "வெப்நாப்லோ உங்களை வரவேற்கிறது",
 		"ENTER_USERNAME" => "பயனீட்டாளர் பெயர் எழுது  ",
 		"ENTER_PASSWORD" => "மறைச்சொல் எழுது  ",
+		"REQUIRED_FIELD" => "இது தேவையானது ",
 	);
 	
 
