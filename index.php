@@ -17,7 +17,7 @@ session_start();
  *	Setting the Configuration for the system
  **/
 function configure() {
-	option('env', ENV_DEVELOPMENT);
+	option('env', ENV_PRODUCTION);
 	// Setting the locale settings
 	option('default_locale', 'en');	// Default locale is always english
 	
