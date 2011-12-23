@@ -1,9 +1,9 @@
 <?php
 class System {
 
-	public static $version = "1.1"; 
-	public static $code_name = "Full Moon Release"; 
-	public static $build = 1320894000; 
+	public static $version = "1.2"; 
+	public static $code_name = "Lunar Eclipse";
+	public static $build = 1324666800; 
 		
 	public static function getWokingDaysTillNow($db) {
 		$semStartDate = Configuration::get(Configuration::$CONFIG_SEM_START_DATE, $db);
