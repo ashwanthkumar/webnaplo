@@ -76,7 +76,7 @@
 <!-- Start of universal page form for the attendance -->
 <div class="grid_12">
 	<div class="box_top" style="padding-top: -100px;">
-		<h1 class="icon frames center">First Half of Students in <?php echo $course_profile->name; ?></h1>
+		<h1 class="center"><input type='checkbox' class='checkme' id='col1checkme' checked="checked"/>First Half of Students in <?php echo $course_profile->name; ?></h1>
 	</div>
 
 	<div class="box_content padding">
@@ -87,7 +87,7 @@
 		for(; $studCounter < $first_limit; $studCounter++) {
 			echo "<li>" . $student_list[$studCounter]['name'] . " (" . $student_list[$studCounter]['idstudent'] . ")";
 			echo "<input type='hidden' name='student[" . $student_list[$studCounter]['idstudent'] . "]' value='false' />";
-			echo "<input type='checkbox' class='attendance' name='student[" . $student_list[$studCounter]['idstudent'] . "]' checked='checked' /></li>";
+			echo "<input type='checkbox' class='attendance col1' name='student[" . $student_list[$studCounter]['idstudent'] . "]' checked='checked' /></li>";
 		}
 	?>
 	</ol>
@@ -98,7 +98,7 @@
 <!-- Begin - Second Half of Students -->
 <div class="grid_12">
 	<div class="box_top" style="padding-top: -100px;">
-		<h1 class="icon frames center">Second Half of Students in <?php echo $course_profile->name; ?></h1>
+		<h1 class="center"><input type='checkbox' class='checkme' id='col2checkme' checked="checked"/>Second Half of Students in <?php echo $course_profile->name; ?></h1>
 	</div>
 
 	<div class="box_content padding">
@@ -108,7 +108,7 @@
 		for(; $studCounter < $stud; $studCounter++) {
 			echo "<li>" . $student_list[$studCounter]['name'] . " (" . $student_list[$studCounter]['idstudent'] . ")";
 			echo "<input type='hidden' name='student[" . $student_list[$studCounter]['idstudent'] . "]' value='false' />";
-			echo "<input type='checkbox' class='attendance' name='student[" . $student_list[$studCounter]['idstudent'] . "]' checked='checked' /></li>";	
+			echo "<input type='checkbox' class='attendance col2' name='student[" . $student_list[$studCounter]['idstudent'] . "]' checked='checked' /></li>";	
 		}
 	?>
 	</ol>

@@ -689,7 +689,7 @@ $(".wysiwyg").wysiwyg();
 //
 //-------------------------------------------------------------- */
 
-$(".box_content select, select, .box_content input:checkbox, .box_content input:radio, .box_content input:file, .box_content button, button, input:reset, input:submit").uniform();
+$(".box_content select, select, .box_content input:checkbox, input:checkbox, .box_content input:radio, .box_content input:file, .box_content button, button, input:reset, input:submit").uniform();
 
 //-------------------------------------------------------------- */
 // Check all checkboxes
@@ -697,6 +697,17 @@ $(".box_content select, select, .box_content input:checkbox, .box_content input:
 
 	$('.checkall').click(function () {
 		var checkall =$(this).parents('.box_content:eq(0)').find(':checkbox').attr('checked', this.checked);
+		$.uniform.update(checkall);
+	});
+
+	// Following 2 event handlers are used in staff.attendance.popup.html.php for Checking all and Uncheck all 
+	$('#col2checkme').click(function () {
+		var checkall =$(document).find(':checkbox.col2').attr('checked', this.checked);
+		$.uniform.update(checkall);
+	});
+
+	$('#col1checkme').click(function () {
+		var checkall =$(document).find(':checkbox.col1').attr('checked', this.checked);
 		$.uniform.update(checkall);
 	});
 
