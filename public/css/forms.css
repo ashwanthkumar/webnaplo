@@ -2,7 +2,7 @@
 /* Labels, Fieldset and Legend
 -------------------------------------------------------------- */
 
-label       { font-weight: bold; display:block; font-size:1.3em; margin:10px; color:#676D6F; }
+label       { font-weight: bold; display:block; font-size:1.3em; margin:10px; color:#000; }
 fieldset    { padding:0 1.4em 1.4em 1.4em; margin: 0 0 1.5em 0; border: 1px solid #ccc; }
 legend      { font-weight: bold; font-size:1.2em; margin-top:-0.2em; margin-bottom:1em; }
 

@@ -4,7 +4,7 @@
 
 body {
   font-size: 62.5%;
-  color: #656B6D;
+  color: #000;
   /* font-family: "Century Gothic", Verdana, Helvetica, sans-serif; */
   font-family: Helvetica, "Century Gothic", Arial, sans-serif;
   
@@ -103,7 +103,7 @@ dd          { margin-left: 1.5em;}
 /* Tables
 -------------------------------------------------------------- */
 
-table       	{ width:100%; font-size:1.2em; color:#7b858a; border-bottom:1px solid #f7f7f7; }
+table       	{ width:100%; font-size:1.2em; color:#000; border-bottom:1px solid #f7f7f7; }
 th          	{ font-weight: bold; }
 thead tr    	{ background:url(../img/bg_table_top.png) repeat-x #d0d0d0; color:#515151; font-size:10px; font-family: verdana; }
 th,td,caption 	{ padding: 15px 40px; border-bottom:1px solid #c9c9c9; }
