@@ -72,7 +72,7 @@
 			<?php
 				if(!$is_all_locked) {
 			?>
-			<button type="button" onclick="loadData();">Load Marks</button>
+			<button type="button" onclick="loadData();">View Marks</button>
 			<button type="button" onclick="validate();">Post Marks</button>
 			<button type="button" onclick="if(confirm('Do you wish to close?')) window.close();">Close</button>
 			<script type="text/javascript">
