@@ -201,9 +201,9 @@ class Course{
 			// Insert the Staff Data into DB
 			// Map the Excel File fields to Staff Model fields
 			$course_post_data = array(
-									'course_name' => $array_data[$rowIndex]['name'],
-									'course_code' => $array_data[$rowIndex]['code'], 
-									'programme_id' => $pgm, // Department value got from the form
+									'coursename' => $array_data[$rowIndex]['name'],
+									'coursecode' => $array_data[$rowIndex]['code'], 
+									'pgm_id' => $pgm, // Department value got from the form
 									'credits' => $array_data[$rowIndex]['credits']
 								);
 			
